@@ -1,29 +1,4 @@
-# 🏠 Real Estate Trading Platform
-
-A fullstack web application built for managing real estate properties, user accounts, and customer transactions. Designed with a scalable backend and a responsive user interface, the platform supports role-based access and advanced property search across 16 customizable fields.
-
-## 🚀 Features
-
-### ✅ Authentication & Authorization
-
-- User login & registration
-- Role-based access control (Manager, Staff, User)
-
-### 🧑‍💼 Account Management
-
-- Create, edit, delete, and search user accounts
-- Permission-based operation control
-
-### 🏢 Property Management
-
-- Add, update, delete properties
-- Search by 16 fields (name, price, area, district,...)
-- Assign properties to staff
-
-### 👥 Customer & Transaction Handling
-
-- Assign customers to staff
-- Manage transaction flows between customers and agents
+# 🏠 Smart Motion System
 
 ### 🌐 Responsive UI
 
