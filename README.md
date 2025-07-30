@@ -33,7 +33,7 @@
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/quangdat2511/real-estate-marketplace.git
+git clone https://github.com/quangdat2511/smart-motion-system.git
 ```
 
 ### 2. Open the project in IntelliJ IDEA
