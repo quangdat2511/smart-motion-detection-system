@@ -1,19 +1,15 @@
 package com.javaweb.api.admin;
 
 import com.javaweb.exception.ValidateDataException;
-import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.dto.UserDTO;
 import com.javaweb.model.response.ResponseDTO;
-import com.javaweb.service.CustomerService;
 import com.javaweb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;

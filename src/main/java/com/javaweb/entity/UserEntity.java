@@ -42,10 +42,4 @@ public class UserEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false))
     @JsonManagedReference
     private List<RoleEntity> roles = new ArrayList<>();
-    @ManyToMany(mappedBy = "staffs")
-    @JsonBackReference
-    private List<BuildingEntity> buildingEntities;
-    @ManyToMany(mappedBy =  "staffs")
-    @JsonBackReference
-    private List<CustomerEntity> customerEntities;
 }
