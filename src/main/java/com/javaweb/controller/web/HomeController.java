@@ -22,37 +22,10 @@ public class HomeController {
     private UserService userService;
 
     @RequestMapping(value = "/trang-chu", method = RequestMethod.GET)
-	public ModelAndView homePage(BuildingSearchRequest buildingSearchRequest, HttpServletRequest request) {
+	public ModelAndView homePage() {
 		ModelAndView mav = new ModelAndView("web/home");
-        mav.addObject("modelSearch", buildingSearchRequest);
-        mav.addObject("districts", DistrictCode.type());
 		return mav;
 	}
-
-    @GetMapping(value="/gioi-thieu")
-    public ModelAndView introducceBuiding(){
-        ModelAndView mav = new ModelAndView("web/introduce");
-        return mav;
-    }
-
-    @GetMapping(value="/san-pham")
-    public ModelAndView buidingList(){
-        ModelAndView mav = new ModelAndView("/web/list");
-        return mav;
-    }
-
-    @GetMapping(value="/tin-tuc")
-    public ModelAndView news(){
-        ModelAndView mav = new ModelAndView("/web/news");
-        return mav;
-    }
-
-    @GetMapping(value="/lien-he")
-    public ModelAndView contact(){
-        ModelAndView mav = new ModelAndView("/web/contact");
-        return mav;
-    }
-
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login() {
 		ModelAndView mav = new ModelAndView("login");

@@ -72,7 +72,7 @@
                                 <input type="text" id="lcdText" class="form-control" placeholder="Nhập nội dung hiển thị">
                             </div>
                             <div class="text-center">
-                                <button id="btnSendLCD" class="btn btn-primary">Gửi lên LCD</button>
+                                <button id="btndisplayMessageOnLcd" class="btn btn-primary">Gửi lên LCD</button>
                             </div>
                         </div>
                     </div>
@@ -104,45 +104,55 @@
 
 <!-- Xử lý AJAX -->
 <script>
-    function sendOutput(endpoint, data) {
+    function sendOutputForLedOrBuzzer(endpoint) {
         $.ajax({
             url: endpoint,
             type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (res) {
-                alert("Thao tác thành công!");
+            success: function(response) {
+                alert(response); // vì đây là text/plain
             },
-            error: function () {
-                alert("Đã xảy ra lỗi.");
+            error: function(xhr) {
+                alert(xhr.responseText); // lấy nội dung lỗi dạng text
             }
         });
     }
 
     $('#btnLedOn').click(function () {
-        sendOutput('ledControl', { led: 'on' });
+        sendOutputForLedOrBuzzer("/api/led/on");
     });
 
     $('#btnLedOff').click(function () {
-        sendOutput('ledControl', { led: 'off' });
+        sendOutputForLedOrBuzzer("/api/led/off");
     });
 
     $('#btnBuzzerOn').click(function () {
-        sendOutput('buzzerControl', { buzzer: 'on' });
+        sendOutputForLedOrBuzzer("/api/buzzer/on");
     });
 
     $('#btnBuzzerOff').click(function () {
-        sendOutput('buzzerControl', { buzzer: 'off' });
+        sendOutputForLedOrBuzzer("/api/buzzer/off");
     });
 
-    $('#btnSendLCD').click(function () {
+    $('#btndisplayMessageOnLcd').click(function () {
         const text = $('#lcdText').val();
         if (!text) {
             alert('Vui lòng nhập nội dung hiển thị.');
-        } else {
-            sendOutput('lcdControl', { lcdText: text });
+        }
+        else {
+            $.ajax({
+                url: '/api/lcd',
+                type: 'POST',
+                data: { message: text }, //
+                success: function(response) {
+                    alert(response); // vì đây là text/plain
+                },
+                error: function(xhr) {
+                    alert(xhr.responseText); // lấy nội dung lỗi dạng text
+                }
+            });
         }
     });
+
     $('#sendChatBtn').click(function () {
         const userMsg = $('#chatInput').val();
         if (userMsg.trim() === "") return;

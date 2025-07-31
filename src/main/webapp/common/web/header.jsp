@@ -32,47 +32,48 @@
 			<div class="col-12 col-md-3">
 				<div class="logo">
 					<a href="">
-						<img src="https://bizweb.dktcdn.net/100/328/362/themes/894751/assets/logo.png?1676257083798"
-							 alt="">
+						<img src="https://funix.edu.vn/wp-content/uploads/2023/06/internet-of-thing-iot-4.jpg"
+							 alt=""
+							 width="100" height="50">
 					</a>
 				</div>
 			</div>
-			<div class="col-12 col-md-6">
-				<div class="item-menu">
-					<div class="nav nav1">
-						<div class="nav-item p-2">
-							<a class="nav-item-link" href="/trang-chu">
-								<span style="color: var(--primary-color);">Trang chủ</span>
-							</a>
-						</div>
-						<div class="nav-item p-2">
-							<a href='<c:url value='/gioi-thieu'/>'>
-								<%--<span>Giới thiệu</span>--%>
-								<span style="color: var(--primary-color);">Giới thiệu</span>
-							</a>
-						</div>
-						<div class="nav-item p-2">
-							<%--<a class="nav-item-link" href="./Duan.html">--%>
-							<a href='<c:url value='/san-pham'/>'>
-								<%--<span>Sản phẩm</span>--%>
-								<span style="color: var(--primary-color);">Sản phẩm</span>
-							</a>
-						</div>
-						<div class="nav-item p-2">
-							<a href='<c:url value='/tin-tuc'/>'>
-								<%--<span>Tin tức</span>--%>
-								<span style="color: var(--primary-color);">Tin tức</span>
-							</a>
-						</div>
-						<div class="nav-item p-2">
-							<a href='<c:url value='/lien-he'/>'>
-								<%--<span>Liên hệ</span>--%>
-									<span style="color: var(--primary-color);">Liên hệ</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
+<%--			<div class="col-12 col-md-6">--%>
+<%--				<div class="item-menu">--%>
+<%--					<div class="nav nav1">--%>
+<%--						<div class="nav-item p-2">--%>
+<%--							<a class="nav-item-link" href="/trang-chu">--%>
+<%--								<span style="color: var(--primary-color);">Trang chủ</span>--%>
+<%--							</a>--%>
+<%--						</div>--%>
+<%--						<div class="nav-item p-2">--%>
+<%--							<a href='<c:url value='/gioi-thieu'/>'>--%>
+<%--								&lt;%&ndash;<span>Giới thiệu</span>&ndash;%&gt;--%>
+<%--								<span style="color: var(--primary-color);">Giới thiệu</span>--%>
+<%--							</a>--%>
+<%--						</div>--%>
+<%--						<div class="nav-item p-2">--%>
+<%--							&lt;%&ndash;<a class="nav-item-link" href="./Duan.html">&ndash;%&gt;--%>
+<%--							<a href='<c:url value='/san-pham'/>'>--%>
+<%--								&lt;%&ndash;<span>Sản phẩm</span>&ndash;%&gt;--%>
+<%--								<span style="color: var(--primary-color);">Sản phẩm</span>--%>
+<%--							</a>--%>
+<%--						</div>--%>
+<%--						<div class="nav-item p-2">--%>
+<%--							<a href='<c:url value='/tin-tuc'/>'>--%>
+<%--								&lt;%&ndash;<span>Tin tức</span>&ndash;%&gt;--%>
+<%--								<span style="color: var(--primary-color);">Tin tức</span>--%>
+<%--							</a>--%>
+<%--						</div>--%>
+<%--						<div class="nav-item p-2">--%>
+<%--							<a href='<c:url value='/lien-he'/>'>--%>
+<%--								&lt;%&ndash;<span>Liên hệ</span>&ndash;%&gt;--%>
+<%--									<span style="color: var(--primary-color);">Liên hệ</span>--%>
+<%--							</a>--%>
+<%--						</div>--%>
+<%--					</div>--%>
+<%--				</div>--%>
+<%--			</div>--%>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
 					<%--<li class="nav-item active"><a class="nav-link" href="/trang-chu#">Trang chủ--%>
