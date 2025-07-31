@@ -21,14 +21,12 @@ public class AbstractDTO<T> implements Serializable {
     private Date modifiedDate;
     private String modifiedBy;
     // Số lượng item trong 1 page
-    private int maxPageItems = 2;
+    private int maxPageItems = 10;
     private int page = 1;
     private List<T> listResult = new ArrayList<>();
     private int totalItems = 0;
     private String tableId = "tableList";
     private Integer limit;
     private Integer totalPage;
-    // tổng tât cả item
-    private Integer totalItem;
     private String searchValue;
 }

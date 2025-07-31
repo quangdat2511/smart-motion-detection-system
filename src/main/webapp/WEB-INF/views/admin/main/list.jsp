@@ -21,15 +21,20 @@
 </div>
 
 <!-- Hiển thị chuyển động -->
-<div class="row">
+<div class="container" style="margin-top: 10px;">
     <h2 class="text-center">Khu vực hiển thị input</h2>
-    <div class="col-sm-6 col-sm-offset-2">
-        <div class="panel panel-default">
-            <div class="panel-heading text-center" style="font-weight: bold;">
-                Thời gian: <fmt:formatDate value="<%= new java.util.Date() %>" pattern="dd/MM/yyyy HH:mm:ss"/>
-            </div>
-            <div class="panel-body text-center">
-                <img src="img/image1.jpg" alt="Motion Image" class="img-responsive" style="margin: auto; max-height: 300px;">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center" style="font-weight: bold;">
+                    Thời gian: <fmt:formatDate value="<%= new java.util.Date() %>" pattern="dd/MM/yyyy HH:mm:ss"/>
+                </div>
+                <div class="panel-body text-center">
+                    <img src="${pageContext.request.contextPath}/img/image1.jpg"
+                         alt="Motion Image"
+                         class="img-responsive"
+                         style="margin: auto; max-height: 200px; max-width: 50%; width: 50%;">
+                </div>
             </div>
         </div>
     </div>
@@ -37,7 +42,7 @@
 
 <!-- Khu vực điều khiển OUTPUT -->
 <!-- Khu vực điều khiển OUTPUT + Chatbot -->
-<div class="container" style="margin-top: 150px;">
+<div class="container" style="margin-top: 10px;">
     <h2 class="text-center">Khu vực thao tác với Output</h2>
     <div class="row">
         <!-- Cột: Điều khiển Output -->

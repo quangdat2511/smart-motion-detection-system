@@ -1,7 +1,6 @@
 package com.javaweb.controller.admin;
 
 import com.javaweb.constant.SystemConstant;
-import com.javaweb.model.request.CustomerSearchRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class MainController {
     @GetMapping("/admin/main-list")
-    public ModelAndView getAllCustomers(@ModelAttribute(SystemConstant.MODEL) CustomerSearchRequest customerSearchRequest, HttpServletRequest request) {
+    public ModelAndView getMain() {
         ModelAndView modelAndView = new ModelAndView("admin/main/list");
         return modelAndView;
     }

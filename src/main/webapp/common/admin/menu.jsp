@@ -69,7 +69,7 @@
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="">
-                    <a href='/admin/action-list'>
+                    <a href='/admin/motion-list'>
                         <i class="menu-icon fa fa-caret-right"></i>
                         Danh sách các chuyển động
                     </a>
