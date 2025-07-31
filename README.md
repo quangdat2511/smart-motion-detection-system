@@ -73,12 +73,12 @@ git clone https://github.com/quangdat2511/smart-motion-system.git
 
 1. Go to **Run > Edit Configurations...**
 2. Click the `+` icon → select **Tomcat Server > Local**
-3. In the **Server** tab, click **Configure...** and set the path to your local **Tomcat 8.5.34** installation
-4. Switch to the **Deployment** tab
-5. Click the `+` button → choose `spring-boot:war exploded` (recommended)
-6. Click on Application context and leave it empty
-7. Make sure the HTTP port is set to `8080`
-8. Click **OK** to save the configuration
+3. In the **Server** tab, click **Configure...** and set the path to your local **Tomcat 8.5.34** installation, click **VM options:** and paste -Dfile.encoding=UTF-8
+5. Switch to the **Deployment** tab
+6. Click the `+` button → choose `spring-boot:war exploded` (recommended)
+7. Click on Application context and leave it empty
+8. Make sure the HTTP port is set to `8080`
+9. Click **OK** to save the configuration
 
 > If you don't have Tomcat installed, download version 8.5.34 from: [https://tomcat.apache.org/download-80.cgi](https://tomcat.apache.org/download-80.cgi)
 
