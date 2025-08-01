@@ -9,4 +9,6 @@ import java.util.List;
 public interface MotionService {
     List<MotionSearchResponse> findAll(MotionDTO motionDTO);
     int countTotalItems();
+    String getLatestMotionStatus();
+    void setLatestMotionStatus(String status);
 }

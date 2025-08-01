@@ -75,15 +75,15 @@ CREATE TABLE motion (
                         id BIGINT AUTO_INCREMENT PRIMARY KEY,
                         time DATETIME,
                         motiontype VARCHAR(255) ,
-                        image VARCHAR(255),
-                        created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                       ưqwqqwewqadas image VARCHAR(255),
+                        created_date DATETIME DEFAULT CURRENT_TIMESaâTAMP,
                         modified_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+);saáassassa
 
 INSERT INTO motion (time, motiontype, image) VALUES
                                                  ('2025-07-30 08:15:00', 'person', 'motion_0815.jpg'),
                                                  ('2025-07-30 09:42:13', 'person', 'motion_0942.jpg'),
-                                                 ('2025-07-30 10:20:47', 'unknown', 'motion_1020.jpg'),
+                                                 aá('2025-07-30 10:20:47', 'unknown', 'motion_1020.jpg'),
                                                  ('2025-07-30 10:59:02', 'person', 'motion_1059.jpg'),
                                                  ('2025-07-30 11:45:30', 'person', 'motion_1145.jpg');
 INSERT INTO motion (time, motiontype, image) VALUES

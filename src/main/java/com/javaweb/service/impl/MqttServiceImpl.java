@@ -1,22 +1,26 @@
 package com.javaweb.service.impl;
 
+import com.javaweb.service.MotionService;
 import com.javaweb.service.MqttService;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MqttServiceImpl implements MqttService {
+    @Autowired
+    private MotionService motionService;
 
     private final String BROKER = "tcp://broker.hivemq.com:1883";
     private final String CLIENT_ID = "JavaClient-" + System.currentTimeMillis();
-    private final String SUB_TOPIC = "/23127341/temperature";
+    private final String MOTION_TOPIC = "/23127341/motion";
     private final String LED_TOPIC = "/23127341/led";
     private final String BUZZER_TOPIC = "/23127341/buzzer";
     private final String LCD_TOPIC = "/23127341/lcd";
 
     private MqttClient client;
-    
+
     public MqttServiceImpl() {
         try {
             client = new MqttClient(BROKER, CLIENT_ID, new MemoryPersistence());
@@ -29,8 +33,24 @@ public class MqttServiceImpl implements MqttService {
 
                 @Override
                 public void messageArrived(String topic, MqttMessage message) {
-                    System.out.println("📥 Nhận được từ [" + topic + "]: " + message.toString());
+                    String msg = message.toString();
+                    System.out.println("📥 Nhận được từ [" + topic + "]: " + msg);
+
+                    if (topic.equals(MOTION_TOPIC)) {
+                        if ("1".equals(msg)) {
+                            System.out.println("🚨 Có chuyển động!");
+                            motionService.setLatestMotionStatus("Có chuyển động");
+                        }
+                        else if ("0".equals(msg)) {
+                            System.out.println("✅ Không có chuyển động.");
+                            motionService.setLatestMotionStatus("Không có chuyển động");
+                        }
+                        else {
+                            System.out.println("⚠️ Dữ liệu không hợp lệ: " + msg);
+                        }
+                    }
                 }
+
 
                 @Override
                 public void deliveryComplete(IMqttDeliveryToken token) {
@@ -45,28 +65,48 @@ public class MqttServiceImpl implements MqttService {
             client.connect(options);
             System.out.println("✅ Đã kết nối tới MQTT Broker!");
 
-            client.subscribe(SUB_TOPIC);
-            System.out.println("🔔 Đang lắng nghe topic: " + SUB_TOPIC);
+            // 🧹 Xóa các retained message cũ ngay khi kết nối
+            clearRetainedMessage(LED_TOPIC);
+            clearRetainedMessage(BUZZER_TOPIC);
+            clearRetainedMessage(LCD_TOPIC);
+
+            client.subscribe(MOTION_TOPIC);
+            System.out.println("🔔 Đang lắng nghe topic: " + MOTION_TOPIC);
 
         } catch (MqttException e) {
             e.printStackTrace();
         }
     }
+
     private void publishMessage(String message, String topic) {
         try {
             MqttMessage mqttMessage = new MqttMessage(message.getBytes());
             mqttMessage.setQos(0);
-            mqttMessage.setRetained(true);
+            mqttMessage.setRetained(false); // Không lưu lại message
             client.publish(topic, mqttMessage);
-            System.out.println("🚀 Đã gửi: " + message + " tới topic " + topic);
+            System.out.println("🚀 Đang gửi: " + message + " tới topic " + topic);
         } catch (MqttException e) {
             e.printStackTrace();
         }
     }
+
+    private void clearRetainedMessage(String topic) {
+        try {
+            MqttMessage mqttMessage = new MqttMessage("".getBytes());
+            mqttMessage.setQos(0);
+            mqttMessage.setRetained(true); // Message rỗng + retained = clear
+            client.publish(topic, mqttMessage);
+            System.out.println("🧹 Đã xóa retained message của topic: " + topic);
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void publishLedMessage(String message) {
         publishMessage(message, LED_TOPIC);
     }
+
     @Override
     public void publishBuzzerMessage(String message) {
         publishMessage(message, BUZZER_TOPIC);

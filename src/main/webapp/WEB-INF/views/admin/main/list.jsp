@@ -30,6 +30,9 @@
                     Thời gian: <fmt:formatDate value="<%= new java.util.Date() %>" pattern="dd/MM/yyyy HH:mm:ss"/>
                 </div>
                 <div class="panel-body text-center">
+                    <h4 style="color: ${motionDTO.latestMotionStatus == 'Có chuyển động' ? 'red' : 'green'};">
+                        ${motionDTO.latestMotionStatus}
+                    </h4>
                     <img src="${pageContext.request.contextPath}/img/image1.jpg"
                          alt="Motion Image"
                          class="img-responsive"
@@ -40,7 +43,6 @@
     </div>
 </div>
 
-<!-- Khu vực điều khiển OUTPUT -->
 <!-- Khu vực điều khiển OUTPUT + Chatbot -->
 <div class="container" style="margin-top: 10px;">
     <h2 class="text-center">Khu vực thao tác với Output</h2>
@@ -74,7 +76,7 @@
                         <div class="panel-heading text-center">Gửi nội dung lên LCD</div>
                         <div class="panel-body">
                             <div class="form-group">
-                                <input type="text" id="lcdText" class="form-control" placeholder="Nhập nội dung hiển thị">
+                                <input type="text" id="lcdText" class="form-control" placeholder="Nhập nội dung hiển thị(tối đa 32 kí tự)" maxlength="32">
                             </div>
                             <div class="text-center">
                                 <button id="btndisplayMessageOnLcd" class="btn btn-primary">Gửi lên LCD</button>

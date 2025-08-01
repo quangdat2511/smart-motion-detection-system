@@ -18,6 +18,6 @@ public class BuzzerAPI {
             return ResponseEntity.badRequest().body("❌ Giá trị 'message' phải là 'on' hoặc 'off'");
         }
         mqttService.publishBuzzerMessage(message.toLowerCase());
-        return ResponseEntity.ok("✅ LED đã " + (message.equalsIgnoreCase("on") ? "bật" : "tắt"));
+        return ResponseEntity.ok("✅ Buzzer đã " + (message.equalsIgnoreCase("on") ? "bật" : "tắt"));
     }
 }
