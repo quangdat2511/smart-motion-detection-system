@@ -18,6 +18,7 @@ public class MqttServiceImpl implements MqttService {
     private final String LED_TOPIC = "/23127341/led";
     private final String BUZZER_TOPIC = "/23127341/buzzer";
     private final String LCD_TOPIC = "/23127341/lcd";
+    private final String SERVO_TOPIC = "/23127341/servo";
 
     private MqttClient client;
 
@@ -69,7 +70,7 @@ public class MqttServiceImpl implements MqttService {
             clearRetainedMessage(LED_TOPIC);
             clearRetainedMessage(BUZZER_TOPIC);
             clearRetainedMessage(LCD_TOPIC);
-
+            clearRetainedMessage(SERVO_TOPIC);
             client.subscribe(MOTION_TOPIC);
             System.out.println("🔔 Đang lắng nghe topic: " + MOTION_TOPIC);
 
@@ -116,4 +117,8 @@ public class MqttServiceImpl implements MqttService {
     public void publishLcdMessage(String message) {
         publishMessage(message, LCD_TOPIC);
     }
+
+    @Override
+    public void publishServoMessage(String message) {publishMessage(message, SERVO_TOPIC);
+        }
 }

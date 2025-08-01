@@ -7,5 +7,4 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MotionDTO extends AbstractDTO<MotionSearchResponse>{
-    private String latestMotionStatus;
 }

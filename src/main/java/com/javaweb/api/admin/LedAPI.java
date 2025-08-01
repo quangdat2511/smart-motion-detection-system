@@ -11,7 +11,7 @@ public class LedAPI {
     @Autowired
     private MqttService mqttService;
 
-    @PostMapping("/{message}")
+    @PutMapping("/{message}")
     public ResponseEntity<?> turnOnOrOffLed(@PathVariable String message) {
         if (!message.equalsIgnoreCase("on") && !message.equalsIgnoreCase("off")) {
             return ResponseEntity.badRequest().body("❌ Giá trị 'message' phải là 'on' hoặc 'off'");

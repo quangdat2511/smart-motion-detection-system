@@ -12,7 +12,7 @@ public class BuzzerAPI {
     @Autowired
     private MqttService mqttService;
 
-    @PostMapping("/{message}")
+    @PutMapping("/{message}")
     public ResponseEntity<?> turnOnOrOffBuzzer(@PathVariable String message) {
         if (!message.equalsIgnoreCase("on") && !message.equalsIgnoreCase("off")) {
             return ResponseEntity.badRequest().body("❌ Giá trị 'message' phải là 'on' hoặc 'off'");

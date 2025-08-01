@@ -1,189 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
-<html>
 <head>
-    <title>Chuyển động gần nhất và thao tác với output</title>
+    <meta charset="UTF-8">
+    <title>Lịch sử chuyển động & Điều khiển Output</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .panel-heading {
+            font-weight: bold;
+        }
+        .panel-body input, .panel-body button {
+            margin-top: 5px;
+        }
+        img {
+            max-height: 200px;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <div class="page-header text-center">
+        <h1>Lịch sử chuyển động <small>hiển thị trạng thái và hình ảnh</small></h1>
+    </div>
 
-<div class="page-header">
-    <h1>
-        Lịch sử chuyển động
-        <small>
-            <i class="ace-icon fa fa-angle-double-right"></i>
-            hiển thị chuyển động và hình ảnh
-        </small>
-    </h1>
-</div>
+    <!-- Hiển thị chuyển động -->
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">
+            Thời gian: <fmt:formatDate value="<%= new java.util.Date() %>" pattern="dd/MM/yyyy HH:mm:ss"/>
+        </div>
+        <div class="panel-body text-center">
+            <h4 id="motionStatusText" style="color: green;">Đang tải trạng thái...</h4>
+            <img src="${pageContext.request.contextPath}/img/image1.jpg" alt="Motion Image" class="img-responsive center-block">
+        </div>
+    </div>
 
-<!-- Hiển thị chuyển động -->
-<div class="container" style="margin-top: 10px;">
-    <h2 class="text-center">Khu vực hiển thị input</h2>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading text-center" style="font-weight: bold;">
-                    Thời gian: <fmt:formatDate value="<%= new java.util.Date() %>" pattern="dd/MM/yyyy HH:mm:ss"/>
+    <!-- Khu vực điều khiển OUTPUT -->
+    <div class="row text-center">
+        <!-- LED -->
+        <div class="col-sm-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">LED</div>
+                <div class="panel-body">
+                    <button class="btn btn-success btn-block" id="btnLedOn">Bật</button>
+                    <button class="btn btn-danger btn-block" id="btnLedOff">Tắt</button>
                 </div>
-                <div class="panel-body text-center">
-                    <h4 style="color: ${motionDTO.latestMotionStatus == 'Có chuyển động' ? 'red' : 'green'};">
-                        ${motionDTO.latestMotionStatus}
-                    </h4>
-                    <img src="${pageContext.request.contextPath}/img/image1.jpg"
-                         alt="Motion Image"
-                         class="img-responsive"
-                         style="margin: auto; max-height: 200px; max-width: 50%; width: 50%;">
+            </div>
+        </div>
+
+        <!-- Buzzer -->
+        <div class="col-sm-3">
+            <div class="panel panel-warning">
+                <div class="panel-heading">Buzzer</div>
+                <div class="panel-body">
+                    <button class="btn btn-success btn-block" id="btnBuzzerOn">Bật</button>
+                    <button class="btn btn-danger btn-block" id="btnBuzzerOff">Tắt</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- LCD -->
+        <div class="col-sm-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">LCD</div>
+                <div class="panel-body">
+                    <input type="text" id="lcdText" class="form-control" placeholder="Tối đa 32 ký tự" maxlength="32">
+                    <button class="btn btn-primary btn-block" id="btnDisplayMessageOnLcd">Gửi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Servo -->
+        <div class="col-sm-3">
+            <div class="panel panel-danger">
+                <div class="panel-heading">Servo</div>
+                <div class="panel-body">
+                    <input type="number" id="servoAngle" class="form-control" placeholder="Góc 0-180" min="0" max="180">
+                    <button class="btn btn-danger btn-block" id="btnSetServoAngle">Quay</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Khu vực điều khiển OUTPUT + Chatbot -->
-<div class="container" style="margin-top: 10px;">
-    <h2 class="text-center">Khu vực thao tác với Output</h2>
-    <div class="row">
-        <!-- Cột: Điều khiển Output -->
-        <div class="col-sm-12">
-            <div class="row">
-                <!-- LED Control -->
-                <div class="col-sm-3">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading text-center">Điều khiển LED</div>
-                        <div class="panel-body text-center">
-                            <button class="btn btn-success" id="btnLedOn">Bật LED</button>
-                            <button class="btn btn-danger" id="btnLedOff">Tắt LED</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Buzzer Control -->
-                <div class="col-sm-3">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading text-center">Điều khiển Buzzer</div>
-                        <div class="panel-body text-center">
-                            <button class="btn btn-success" id="btnBuzzerOn">Bật Buzzer</button>
-                            <button class="btn btn-danger" id="btnBuzzerOff">Tắt Buzzer</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- LCD Control -->
-                <div class="col-sm-3">
-                    <div class="panel panel-info">
-                        <div class="panel-heading text-center">Gửi nội dung lên LCD</div>
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <input type="text" id="lcdText" class="form-control" placeholder="Nhập nội dung hiển thị(tối đa 32 kí tự)" maxlength="32">
-                            </div>
-                            <div class="text-center">
-                                <button id="btndisplayMessageOnLcd" class="btn btn-primary">Gửi lên LCD</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Cột: Chatbot -->
-                <div class="col-sm-3">
-                    <div class="panel panel-success">
-                        <div class="panel-heading text-center">Chatbot hỗ trợ</div>
-                        <div class="panel-body" style="height: 300px; overflow-y: auto;">
-                            <div id="chatArea" style="height: 220px; border: 1px solid #ccc; padding: 10px; overflow-y: auto; background: #f9f9f9;">
-                                <p><strong>Bot:</strong> Xin chào! Bạn cần hỗ trợ gì?</p>
-                            </div>
-                            <div class="input-group">
-                                <input type="text" id="chatInput" class="form-control" placeholder="Nhập tin nhắn...">
-                                <span class="input-group-btn">
-                            <button class="btn btn-success" id="sendChatBtn">Gửi</button>
-                        </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-</div>
-
-
-<!-- Xử lý AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function sendOutputForLedOrBuzzer(endpoint) {
+    function sendOutput(endpoint, method = 'PUT', data = null) {
         $.ajax({
             url: endpoint,
-            type: 'POST',
-            success: function(response) {
-                alert(response); // vì đây là text/plain
+            type: method,
+            data: data,
+            success: function (response) {
+                alert(response);
             },
-            error: function(xhr) {
-                alert(xhr.responseText); // lấy nội dung lỗi dạng text
+            error: function (xhr) {
+                alert(xhr.responseText);
             }
         });
     }
 
-    $('#btnLedOn').click(function () {
-        sendOutputForLedOrBuzzer("/api/led/on");
-    });
+    $('#btnLedOn').click(() => sendOutput('/api/led/on'));
+    $('#btnLedOff').click(() => sendOutput('/api/led/off'));
+    $('#btnBuzzerOn').click(() => sendOutput('/api/buzzer/on'));
+    $('#btnBuzzerOff').click(() => sendOutput('/api/buzzer/off'));
 
-    $('#btnLedOff').click(function () {
-        sendOutputForLedOrBuzzer("/api/led/off");
-    });
-
-    $('#btnBuzzerOn').click(function () {
-        sendOutputForLedOrBuzzer("/api/buzzer/on");
-    });
-
-    $('#btnBuzzerOff').click(function () {
-        sendOutputForLedOrBuzzer("/api/buzzer/off");
-    });
-
-    $('#btndisplayMessageOnLcd').click(function () {
-        const text = $('#lcdText').val();
-        if (!text) {
-            alert('Vui lòng nhập nội dung hiển thị.');
+    $('#btnSetServoAngle').click(() => {
+        const angle = parseInt($('#servoAngle').val());
+        if (isNaN(angle) || angle < 0 || angle > 180) {
+            alert('Vui lòng nhập số hợp lệ trong khoảng 0-180.');
+            return;
         }
-        else {
-            $.ajax({
-                url: '/api/lcd',
-                type: 'POST',
-                data: { message: text }, //
-                success: function(response) {
-                    alert(response); // vì đây là text/plain
-                },
-                error: function(xhr) {
-                    alert(xhr.responseText); // lấy nội dung lỗi dạng text
-                }
-            });
-        }
+        sendOutput('/api/servo/' + angle);
     });
+    function updateMotionStatus() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/api/motion/status",
+            method: "GET",
+            success: function(status) {
+                let color = (status === "Có chuyển động") ? "red" : "green";
+                $("#motionStatusText").text(status).css("color", color);
+            },
+            error: function() {
+                console.log("❌ Không lấy được trạng thái!");
+            }
+        });
+    }
 
-    $('#sendChatBtn').click(function () {
-        const userMsg = $('#chatInput').val();
-        if (userMsg.trim() === "") return;
-
-        $('#chatArea').append('<p><strong>Bạn:</strong> ' + userMsg + '</p>');
-
-        // Giả lập phản hồi
-        let botReply = "Tôi chưa được lập trình phản hồi nội dung này.";
-        if (userMsg.toLowerCase().includes("led")) {
-            botReply = "Để bật/tắt LED, hãy nhấn các nút ở khu vực Điều khiển LED.";
-        } else if (userMsg.toLowerCase().includes("buzzer")) {
-            botReply = "Bạn có thể bật/tắt Buzzer bằng các nút tương ứng.";
-        } else if (userMsg.toLowerCase().includes("lcd")) {
-            botReply = "Nhập nội dung vào ô và nhấn gửi để hiển thị trên LCD.";
+    // Gọi lần đầu ngay khi tải trang
+    updateMotionStatus();
+    // Gọi lại mỗi 1 giây
+    setInterval(updateMotionStatus, 1000);
+    $('#btnDisplayMessageOnLcd').click(() => {
+        const message = $('#lcdText').val();
+        if (!message) {
+            alert('Vui lòng nhập nội dung.');
+            return;
         }
-
-        setTimeout(() => {
-            $('#chatArea').append('<p><strong>Bot:</strong> ' + botReply + '</p>');
-            $('#chatArea').scrollTop($('#chatArea')[0].scrollHeight);
-        }, 500);
-
-        $('#chatInput').val('');
+        sendOutput('/api/lcd', 'POST', { message: message });
     });
 </script>
-
 </body>
 </html>

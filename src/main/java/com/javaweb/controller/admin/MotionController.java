@@ -25,8 +25,6 @@ public class MotionController {
         motionDTO.setListResult(motionSearchResponses);
         motionDTO.setTotalItems(motionService.countTotalItems());
         // Thêm trạng thái chuyển động mới nhất
-        String latestStatus = motionService.getLatestMotionStatus(); // cần thêm method này trong service
-        motionDTO.setLatestMotionStatus(latestStatus);
         modelAndView.addObject("motionDTO", motionDTO);
         return modelAndView;
     }

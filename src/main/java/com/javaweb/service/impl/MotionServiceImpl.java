@@ -37,13 +37,11 @@ public class MotionServiceImpl implements MotionService {
         return motionRepository.countTotalItems();
     }
 
-    // ✅ Getter
     @Override
     public String getLatestMotionStatus() {
         return latestMotionStatus;
     }
 
-    // ✅ Setter
     @Override
     public void setLatestMotionStatus(String status) {
         this.latestMotionStatus = status;
