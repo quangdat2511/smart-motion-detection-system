@@ -5,9 +5,7 @@
 			<div class="col-12 col-md-3">
 				<div class="logo">
 					<a href="">
-						<img src="https://funix.edu.vn/wp-content/uploads/2023/06/internet-of-thing-iot-4.jpg"
-							 alt=""
-							 width="100" height="50">
+						<img src="https://karofi.karofi.com/karofi-com/2022/06/internet-van-vat-iot.jpg" alt="" class="img-fluid" style="max-width: 100px;">
 					</a>
 				</div>
 			</div>
@@ -17,7 +15,10 @@
 						<li class="nav-item"><a class="nav-link" href="<c:url value='/login'/>">Đăng nhập</a></li>
 						<li class="nav-item"><a class="nav-link" href="<c:url value='/register'/>">Đăng ký</a></li>
 					</security:authorize>
-						<li class="nav-item"><a class="nav-link" href="/admin/home">ADMIN</a></li>
+					<security:authorize access="isAuthenticated()">
+						<li class="nav-item"><a class="nav-link" href="/admin/home">Trang quản trị</a></li>
+					</security:authorize>
+
 					<security:authorize access="isAuthenticated()">
 						<li class="nav-item">
 							<a class="nav-link" href="#">Xin chào <%=

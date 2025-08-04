@@ -24,6 +24,27 @@
 </head>
 <body>
 <div class="container">
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('breadcrumbs', 'fixed')
+            } catch (e) {
+            }
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <a href="/admin/home">
+                    Trang quản trị
+                </a>
+            </li>
+            <li class="active">
+                <%--<spring:message code="label.user.list"/>--%>
+                Danh sách các thao tác
+            </li>
+        </ul>
+        <!-- /.breadcrumb -->
+    </div>
     <div class="page-header text-center">
         <h1>Lịch sử chuyển động <small>hiển thị trạng thái và hình ảnh</small></h1>
     </div>
@@ -104,8 +125,6 @@
             }
         });
     }
-
-    $('#btnLedOff').click(() => sendOutput('/api/led/off'));
     $('#btnBuzzerOn').click(() => sendOutput('/api/buzzer/on'));
     $('#btnBuzzerOff').click(() => sendOutput('/api/buzzer/off'));
 

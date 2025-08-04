@@ -10,7 +10,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>
         <%--<spring:message code="label.user.list"/>--%>
-        Danh sách người dùng
+        Danh sách tài khoản
     </title>
 </head>
 
@@ -28,15 +28,13 @@
 
                 <ul class="breadcrumb">
                     <li>
-                        <i class="ace-icon fa fa-home home-icon"></i>
-                        <a href="<c:url value="/admin/home"/>">
-                                <%--<spring:message code="label.home"/>--%>
-                            Trang chủ
+                        <a href="/admin/home">
+                            Trang quản trị
                         </a>
                     </li>
                     <li class="active">
                             <%--<spring:message code="label.user.list"/>--%>
-                        Danh sách người dùng
+                        Danh sách tài khoản
                     </li>
                 </ul>
                 <!-- /.breadcrumb -->
@@ -59,7 +57,7 @@
                                     <div class="widget-header">
                                         <h4 class="widget-title">
                                                 <%--<spring:message code="label.search"/>--%>
-                                            Tìm kiếm
+                                            Tìm theo tên đăng nhập hoặc tên đầy đủ (không phân biệt hoa thường)
                                         </h4>
                                         <div class="widget-toolbar">
                                             <a href="#" data-action="collapse">
@@ -112,7 +110,7 @@
                                             <button id="btnDelete" type="button" disabled
                                                     class="dt-button buttons-html5 btn btn-white btn-primary btn-bold"
                                                     data-toggle="tooltip"
-                                                    title="Xóa bài viết" onclick="warningBeforeDelete()">
+                                                    title="Xóa người dùng" onclick="warningBeforeDelete()">
 															<span>
 																<i class="fa fa-trash-o bigger-110 pink"></i>
 															</span>

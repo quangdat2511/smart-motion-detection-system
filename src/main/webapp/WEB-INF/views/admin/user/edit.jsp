@@ -50,10 +50,8 @@
                                 <%--<spring:message code="label.username"/>--%> Tên đăng nhập
                             </label>
                             <div class="col-sm-9">
-                                <div class="col-sm-9">
-                                    <c:set var="isDisabled" value="${not empty model.id}" />
-                                    <form:input path="userName" id="userName" cssClass="form-control" disabled="${isDisabled}" />
-                                </div>
+                                <c:set var="isDisabled" value="${not empty model.id}" />
+                                <form:input path="userName" id="userName" cssClass="form-control" disabled="${isDisabled}" />
                             </div>
                         </div>
                         <div class="space-4"></div>
@@ -106,7 +104,7 @@
             if (roleCode != '') {
                 updateUser(dataArray, $('#userId').val());
             } else {
-                window.location.href = "<c:url value='/admin/user-edit-"+userId+"?message=role_require'/>";
+                alert('Vui lòng chọn vai trò cho người dùng!');
             }
         }
         else {
@@ -116,7 +114,7 @@
                 $('#loading_image').show();
                 addUser(dataArray);
             } else {
-                window.location.href = "<c:url value='/admin/user-edit?message=username_role_require'/>";
+                alert('Vui lòng nhập tên đăng nhập và chọn vai trò cho người dùng!');
             }
         }
     });
@@ -136,10 +134,10 @@
             data: JSON.stringify(data),
             success: function (res) {
                 $('#loading_image').hide();
-                window.location.href = "<c:url value='/admin/user-edit-"+res.id+"?message=insert_success'/>";
+                alert('Thêm mới người dùng thành công!');
             },
             error: function (res) {
-                window.location.href = "<c:url value='/admin/user-edit-"+res.id+"?message=error_system'/>";
+                alert('Có lỗi xảy ra khi thêm mới người dùng!');
             }
         });
     }
@@ -152,10 +150,10 @@
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (res) {
-                window.location.href = "<c:url value='/admin/user-edit-"+res.id+"?message=update_success'/>";
+                alert('Cập nhật người dùng thành công!');
             },
             error: function (res) {
-                window.location.href = "<c:url value='/admin/user-edit-"+id+"?message=error_system'/>";
+                alert('Có lỗi xảy ra khi cập nhật người dùng!');
             }
         });
     }
@@ -167,10 +165,10 @@
             dataType: 'json',
             success: function (res) {
                 $('#loading_image').hide();
-                window.location.href = "<c:url value='/admin/user-edit-"+res.id+"?message=reset_password_success'/>";
+                alert('Reset mật khẩu thành công!');
             },
             error: function (res) {
-                window.location.href = "<c:url value='/admin/user-edit-"+id+"?message=error_system'/>";
+                alert('Có lỗi xảy ra khi reset mật khẩu!');
             }
         });
     }

@@ -25,6 +25,7 @@
 - Java, Spring Boot, Spring MVC, Spring Security
 - JPA / Hibernate, Spring Data JPA
 - RESTful API design
+- MQTT for real-time communication
 
 ### 💻 Frontend
 
@@ -35,6 +36,7 @@
 ### 🗄 Database
 
 - MySQL
+- Firebase Realtime Database
 
 ### 🔧 Architecture
 

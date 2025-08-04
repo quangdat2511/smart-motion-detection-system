@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/motion")
 public class MotionAPI {
-
     @Autowired
     private MotionService motionService;
     @GetMapping("/status")

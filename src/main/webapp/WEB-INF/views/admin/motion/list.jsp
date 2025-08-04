@@ -1,4 +1,5 @@
 <%@ taglib uri="http://displaytag.sf.net" prefix="display" %>
+<%@include file="/common/taglib.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
@@ -9,6 +10,27 @@
 <body>
 
 <div class="container">
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('breadcrumbs', 'fixed')
+            } catch (e) {
+            }
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <a href="/admin/home">
+                    Trang quản trị
+                </a>
+            </li>
+            <li class="active">
+                    <%--<spring:message code="label.user.list"/>--%>
+                Danh sách các chuyển động
+            </li>
+        </ul>
+        <!-- /.breadcrumb -->
+    </div>
     <h2 class="text-center">Danh sách các chuyển động</h2>
     <p class="text-muted text-center">Phân trang bằng DisplayTag</p>
         <display:table name="${motionDTO.listResult}" cellspacing="0" cellpadding="0"
