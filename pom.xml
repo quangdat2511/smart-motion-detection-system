@@ -132,7 +132,13 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<scope>annotationProcessor</scope>
+			<version>1.18.30</version> <!-- Cập nhật phiên bản mới -->
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.30</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
