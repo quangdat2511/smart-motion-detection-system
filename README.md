@@ -102,12 +102,12 @@ This will load the main page of the application.
 
 The system comes with a few pre-configured user accounts for testing purposes:
 
-| Username   | Role    | Password |
-| ---------- | ------- | -------- |
-| nguyenvana | MANAGER | 123456   |
-| nguyenvanb | STAFF   | 123456   |
-| nguyenvanc | STAFF   | 123456   |
-| nguyenvand | STAFF   | 123456   |
+| Username   | Role     | Password |
+| ---------- |----------| -------- |
+| nguyenvana | MANAGER  | 123456   |
+| nguyenvanb | OPERATOR | 123456   |
+| nguyenvanc | OPERATOR | 123456   |
+| nguyenvand | OPERATOR | 123456   |
 
 > ⚠️ **Note:** These accounts are for demonstration and testing only. Do not use them in a production environment.
 
@@ -118,15 +118,13 @@ The system comes with a few pre-configured user accounts for testing purposes:
 1. Open your browser and visit: [http://localhost:8080/login](http://localhost:8080/login)
 2. Enter one of the default usernames and the password `123456`.
 3. After logging in:
-   - MANAGER accounts have full administrative access.
-   - STAFF accounts have limited access to staff functionalities.
+   - MANAGER: Full access
+   - OPERATOR: No access to user management
 
 ---
 
 ## 🧠 Future Improvements
-
 - Add unit & integration tests
-- Export transaction reports to PDF
 - Add user analytics dashboard
 
 ## 🤝 Author
