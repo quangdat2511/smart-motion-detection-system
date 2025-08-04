@@ -80,7 +80,7 @@ git clone https://github.com/quangdat2511/smart-motion-system.git
 8. Make sure the HTTP port is set to `8080`
 9. Click **OK** to save the configuration
 
-> If you don't have Tomcat installed, download version 8.5.34 from: [https://tomcat.apache.org/download-80.cgi](https://tomcat.apache.org/download-80.cgi)
+> If you don't have Tomcat installed, download version 8.5.34 from: [https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/)
 
 ### 6. Run the project
 

@@ -11,3 +11,4 @@
 
 !database/
 !database/**
+src/main/resources/serviceAccountKey.json

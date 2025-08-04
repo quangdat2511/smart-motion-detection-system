@@ -15,7 +15,6 @@ public class MqttServiceImpl implements MqttService {
     private final String BROKER = "tcp://broker.hivemq.com:1883";
     private final String CLIENT_ID = "JavaClient-" + System.currentTimeMillis();
     private final String MOTION_TOPIC = "/23127341/motion";
-    private final String LED_TOPIC = "/23127341/led";
     private final String BUZZER_TOPIC = "/23127341/buzzer";
     private final String LCD_TOPIC = "/23127341/lcd";
     private final String SERVO_TOPIC = "/23127341/servo";
@@ -67,7 +66,6 @@ public class MqttServiceImpl implements MqttService {
             System.out.println("✅ Đã kết nối tới MQTT Broker!");
 
             // 🧹 Xóa các retained message cũ ngay khi kết nối
-            clearRetainedMessage(LED_TOPIC);
             clearRetainedMessage(BUZZER_TOPIC);
             clearRetainedMessage(LCD_TOPIC);
             clearRetainedMessage(SERVO_TOPIC);
@@ -102,12 +100,6 @@ public class MqttServiceImpl implements MqttService {
             e.printStackTrace();
         }
     }
-
-    @Override
-    public void publishLedMessage(String message) {
-        publishMessage(message, LED_TOPIC);
-    }
-
     @Override
     public void publishBuzzerMessage(String message) {
         publishMessage(message, BUZZER_TOPIC);

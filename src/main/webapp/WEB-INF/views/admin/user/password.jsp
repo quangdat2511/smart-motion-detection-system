@@ -67,9 +67,13 @@
                                 </div>
                             </div>
                             <!--Btn-->
-                            <div class="col-sm-12">
-                                <label class="col-sm-3 control-label no-padding-right message-info"></label>
-                                <input type="button" class="btn btn-white btn-warning btn-bold" value="Đổi mật khẩu" id="btnChangePassword"/>
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <input type="button" class="btn btn-warning btn-bold" value="Đổi mật khẩu" id="btnChangePassword"/>
+                                    <button type="button" class="btn btn-danger" onclick="window.history.back();">
+                                        Hủy thao tác
+                                    </button>
+                                </div>
                             </div>
                             <!--Btn-->
                             <input type="hidden" value="${model.id}" id="userId"/>
@@ -122,14 +126,15 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     if (res == 'update_success') {
-                        window.location.href = "<c:url value='/admin/profile-password?message=update_success'/>";
+                        alert("Đổi mật khẩu thành công!");
                     } else if (res == 'change_password_fail') {
-                        window.location.href = "<c:url value='/admin/profile-password?message=change_password_fail'/>";
+                        alert("Đổi mật khẩu thất bại! Mật khẩu cũ không đúng hoặc mật khẩu mới không khớp.");
                     }
+                    window.location.href = '/admin/home';
                 },
                 error: function (res) {
-                    console.log(res);
-                    window.location.href = "<c:url value='/admin/profile-password?message=error_system'/>";
+                    alert("Đổi mật khẩu thất bại do lỗi hệ thống!");
+                    window.location.href = '/admin/home';
                 }
             });
         }

@@ -17,7 +17,7 @@ public class MotionController {
     @Autowired
     private MotionService motionService;
     @GetMapping("/admin/motion-list")
-    public ModelAndView getAllCustomers(HttpServletRequest request) {
+    public ModelAndView getAllMotions(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("admin/motion/list");
         MotionDTO motionDTO = new MotionDTO();
         DisplayTagUtils.of(request, motionDTO);

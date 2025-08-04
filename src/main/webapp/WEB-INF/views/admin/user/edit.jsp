@@ -50,12 +50,10 @@
                                 <%--<spring:message code="label.username"/>--%> Tên đăng nhập
                             </label>
                             <div class="col-sm-9">
-                                <c:if test="${not empty model.id}">
-                                    <form:input path="userName" id="userName" cssClass="form-control" disabled="true"/>
-                                </c:if>
-                                <c:if test="${empty model.id}">
-                                    <form:input path="userName" id="userName" cssClass="form-control"/>
-                                </c:if>
+                                <div class="col-sm-9">
+                                    <c:set var="isDisabled" value="${not empty model.id}" />
+                                    <form:input path="userName" id="userName" cssClass="form-control" disabled="${isDisabled}" />
+                                </div>
                             </div>
                         </div>
                         <div class="space-4"></div>

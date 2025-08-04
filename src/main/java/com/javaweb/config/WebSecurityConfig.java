@@ -43,12 +43,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-                http.csrf().disable()
+        http.csrf().disable()
                 .authorizeRequests()
-                        .antMatchers("api/user", "api/user/**").hasRole("MANAGER")
-                        .antMatchers("admin/user-list", "admin/user-edit", "admin/user-edit-{id}", "/admin/profile-{username}", "/admin/profile-password").hasRole("MANAGER")
-                        .antMatchers("/admin/**").hasAnyRole("MANAGER","STAFF")
-                        .antMatchers("/login", "/resource/**", "/trang-chu", "/api/**").permitAll()
+                // MANAGER ONLY
+                .antMatchers("/admin/user-list", "/admin/user-edit", "/admin/user-edit-{id}").hasRole("MANAGER")
+                // MANAGER + OPERATOR
+//                .antMatchers("/admin/profile-{username}", "/admin/profile-password").hasAnyRole("MANAGER", "OPERATOR")
+                .antMatchers("/api/buzzer", "/api/buzzer/**").hasAnyRole("MANAGER", "OPERATOR")
+                .antMatchers("/api/lcd", "/api/lcd/**").hasAnyRole("MANAGER", "OPERATOR")
+                .antMatchers("/api/motion", "/api/motion/**").hasAnyRole("MANAGER", "OPERATOR")
+                .antMatchers("/api/servo", "/api/servo/**").hasAnyRole("MANAGER", "OPERATOR")
+                .antMatchers("/admin/**").hasAnyRole("MANAGER","OPERATOR")
+                // PUBLIC ACCESS
+                .antMatchers("/login", "/resource/**", "/trang-chu").permitAll()
+                // Mọi request khác phải đăng nhập
                 .and()
                 .formLogin().loginPage("/login").usernameParameter("j_username").passwordParameter("j_password").permitAll()
                 .loginProcessingUrl("/j_spring_security_check")
@@ -56,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/login?incorrectAccount").and()
                 .logout().logoutUrl("/logout").deleteCookies("JSESSIONID")
                 .and().exceptionHandling().accessDeniedPage("/access-denied").and()
-                .sessionManagement().maximumSessions(1).expiredUrl("/login?sessionTimeout");
+                .sessionManagement()    .maximumSessions(1).expiredUrl("/login?sessionTimeout");
     }
 
     @Bean

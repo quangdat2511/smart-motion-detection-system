@@ -31,7 +31,7 @@
     <!-- Hiển thị chuyển động -->
     <div class="panel panel-default">
         <div class="panel-heading text-center">
-            Thời gian: <fmt:formatDate value="<%= new java.util.Date() %>" pattern="dd/MM/yyyy HH:mm:ss"/>
+            Thời gian: <span id="currentTime"></span>
         </div>
         <div class="panel-body text-center">
             <h4 id="motionStatusText" style="color: green;">Đang tải trạng thái...</h4>
@@ -41,19 +41,8 @@
 
     <!-- Khu vực điều khiển OUTPUT -->
     <div class="row text-center">
-        <!-- LED -->
-        <div class="col-sm-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">LED</div>
-                <div class="panel-body">
-                    <button class="btn btn-success btn-block" id="btnLedOn">Bật</button>
-                    <button class="btn btn-danger btn-block" id="btnLedOff">Tắt</button>
-                </div>
-            </div>
-        </div>
-
         <!-- Buzzer -->
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="panel panel-warning">
                 <div class="panel-heading">Buzzer</div>
                 <div class="panel-body">
@@ -64,7 +53,7 @@
         </div>
 
         <!-- LCD -->
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="panel panel-info">
                 <div class="panel-heading">LCD</div>
                 <div class="panel-body">
@@ -75,7 +64,7 @@
         </div>
 
         <!-- Servo -->
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="panel panel-danger">
                 <div class="panel-heading">Servo</div>
                 <div class="panel-body">
@@ -88,6 +77,20 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    function updateTimeNow() {
+        const now = new Date();
+        const formattedTime = now.toLocaleString('vi-VN', {
+            hour12: false,
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+        $('#currentTime').text(formattedTime);
+    }
+
     function sendOutput(endpoint, method = 'PUT', data = null) {
         $.ajax({
             url: endpoint,
@@ -102,7 +105,6 @@
         });
     }
 
-    $('#btnLedOn').click(() => sendOutput('/api/led/on'));
     $('#btnLedOff').click(() => sendOutput('/api/led/off'));
     $('#btnBuzzerOn').click(() => sendOutput('/api/buzzer/on'));
     $('#btnBuzzerOff').click(() => sendOutput('/api/buzzer/off'));
@@ -122,6 +124,8 @@
             success: function(status) {
                 let color = (status === "Có chuyển động") ? "red" : "green";
                 $("#motionStatusText").text(status).css("color", color);
+                if (status === "Có chuyển động")
+                    updateTimeNow(); // ← Cập nhật thời gian mỗi lần gọi thành công
             },
             error: function() {
                 console.log("❌ Không lấy được trạng thái!");

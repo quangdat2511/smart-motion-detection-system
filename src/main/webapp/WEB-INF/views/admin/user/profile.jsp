@@ -57,11 +57,17 @@
                             </div>
                         </div>
                         <!--Btn-->
-                        <div class="col-sm-12">
-                                <label class="col-sm-3 control-label no-padding-right message-info"></label>
-                                <input type="button" class="btn btn-white btn-warning btn-bold"
-                                       value="Cập nhật người dùng" id="btnUpdateUser"/>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <button type="button" class="btn btn-warning btn-bold" id="btnUpdateUser">
+                                    Cập nhật người dùng
+                                </button>
+                                <button type="button" class="btn btn-danger" onclick="window.history.back();">
+                                    Hủy thao tác
+                                </button>
+                            </div>
                         </div>
+
                         <!--Btn-->
                         <form:hidden path="id" id="userId"/>
                         </form:form>
@@ -88,11 +94,12 @@
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    window.location.href = "<c:url value='/admin/profile/"+res.userName+"?message=update_success'/>";
+                    alert('Cập nhật thông tin người dùng thành công!');
+                    window.location.href = '/admin/home';
                 },
                 error: function (res) {
-                    console.log(res);
-                    window.location.href = "<c:url value='/admin/profile/"+username+"?message=error_system'/>";
+                    alert('Cập nhật thông tin người dùng thất bại!');
+                    window.location.href = '/admin/home';
                 }
             });
         }

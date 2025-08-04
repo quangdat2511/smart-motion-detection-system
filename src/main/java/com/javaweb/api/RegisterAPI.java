@@ -1,4 +1,4 @@
-package com.javaweb.api.admin;
+package com.javaweb.api;
 
 import com.javaweb.exception.ValidateDataException;
 import com.javaweb.model.dto.UserDTO;
