@@ -10,7 +10,6 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<!--<version>1.5.22.RELEASE</version>-->
 		<version>2.0.9.RELEASE</version>
 	</parent>
 
@@ -20,13 +19,18 @@
 		<displaytag.version>1.2</displaytag.version>
 		<java.version>1.8</java.version>
 	</properties>
-<!--	<repositories>-->
-<!--		<repository>-->
-<!--			<id>Eclipse Paho Repo</id>-->
-<!--			<url>https://repo.eclipse.org/content/repositories/paho-releases/</url>-->
-<!--		</repository>-->
-<!--	</repositories>-->
+	<!--	<repositories>-->
+	<!--		<repository>-->
+	<!--			<id>Eclipse Paho Repo</id>-->
+	<!--			<url>https://repo.eclipse.org/content/repositories/paho-releases/</url>-->
+	<!--		</repository>-->
+	<!--	</repositories>-->
 	<dependencies>
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>3.21.12</version> <!-- hoặc mới hơn -->
+		</dependency>
 		<dependency>
 			<groupId>com.google.firebase</groupId>
 			<artifactId>firebase-admin</artifactId>
