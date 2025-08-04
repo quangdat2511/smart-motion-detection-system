@@ -34,7 +34,7 @@
     <h2 class="text-center">Danh sách các chuyển động</h2>
     <p class="text-muted text-center">Phân trang bằng DisplayTag</p>
         <display:table name="${motionDTO.listResult}" cellspacing="0" cellpadding="0"
-                       requestURI="/admin/motion-list" partialList="true" sort="external"
+                       requestURI="/admin/motion-list?deviceId=1" partialList="true" sort="external"
                        size="${motionDTO.totalItems}" defaultsort="2" defaultorder="ascending"
                        id="tableList" pagesize="${motionDTO.maxPageItems}"
                        export="false"

@@ -16,7 +16,7 @@
     </li>
     <!-- Nút: Quản lí các chuyển động -->
     <li class="">
-        <a href="/admin/motion-list">
+        <a href="${pageContext.request.contextPath}/admin/motion-list?deviceId=1">
             <i class="bi bi-person-walking"></i>
             <span class="menu-text">Danh sách các chuyển động</span>
         </a>
