@@ -15,6 +15,7 @@ human detection, and web-based monitoring with cloud storage.
 ## Group Information
 
 **Class:** 23CLC05
+
 **Group members:**
 1. Nguyen Hoang Anh Khoa - 23127015
 2. Nguyen Hoang Dang - 23127166
@@ -70,8 +71,10 @@ human detection, and web-based monitoring with cloud storage.
 ## 📦 Setup Instructions
 ### Prerequisites
 Make sure you have the following installed:
-- **Apache Maven 3.9.6** (for building the project) 
+- **Apache Maven 3.9.6** (for building the project)
+
    +Download version 3.9.6 from: [https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.6/apache-maven-3.9.6-bin.zip](https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.6/apache-maven-3.9.6-bin.zip)
+- 
    +Config Apache Maven in Windows Environment Variables: https://mkyong.com/maven/how-to-install-maven-in-windows/
 - **MySQL** (for user accounts database)
 - **Apache Tomcat 8.5.34** (for running the application)
