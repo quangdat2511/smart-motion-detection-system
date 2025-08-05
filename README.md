@@ -8,7 +8,7 @@
 
 **Semester:** 2024-2025, Semester 3
 
-Smart Motion System is an IoT-based security solution that detects motion, 
+**Smart Motion System** is an IoT-based security solution that detects motion, 
 captures images, and sends real-time alerts. It supports remote alarm control,
 human detection, and web-based monitoring with cloud storage.
 
@@ -68,6 +68,38 @@ human detection, and web-based monitoring with cloud storage.
 - Clear separation of concerns for scalability and maintainability
 
 ## 📦 Setup Instructions
+### Prerequisites
+Make sure you have the following installed:
+- **Apache Maven 3.9.6** (for building the project) 
+   +Download version 3.9.6 from: [https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.6/apache-maven-3.9.6-bin.zip](https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.6/apache-maven-3.9.6-bin.zip)
+   +Config Apache Maven in Windows Environment Variables: https://mkyong.com/maven/how-to-install-maven-in-windows/
+- **MySQL** (for user accounts database)
+- **Apache Tomcat 8.5.34** (for running the application)
+  Download version 8.5.34 from:
+  [https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/](https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/)
+- **IntelliJ IDE**A (recommended IDE for Java development)
+- Firebase account (for motion sensor data storage)
+    ### Create a Firebase Project
+    - Go to: https://console.firebase.google.com
+    - Click **"Add project"**
+    - Enter a project name → click **Continue**
+    - (Optional) Disable **Google Analytics** → click **Create project**
+    - Wait for the setup to complete → click **Continue** to open the dashboard
+
+    ### Enable Realtime Database
+    - In the left-hand menu, go to **Build → Realtime Database**
+    - Click **"Create Database"**
+    - Choose a region → click **Next**
+    - Select **"Start in test mode"** → click **Enable**
+    ### Get `serviceAccountKey.json`
+    - Go to **Project settings** (⚙️ icon) → **Service accounts** tab
+    - Click **"Generate new private key"**
+    - The file `serviceAccountKey.json` will be downloaded automatically
+    ### Add the Key to Your Project
+    Move the file to the following path: 
+    ```
+    src/main/resources/serviceAccountKey.json
+    ```
 
 ### 1. Clone the repository
 
@@ -128,9 +160,6 @@ mvn clean install
     - By default, the HTTP port is set to **8080**.
     - If port 8080 is already in use, you can change it to another port (e.g., 8081) by modifying the **HTTP port** field.
 9. Click **OK** to save the configuration.
-
-> If you don't have Tomcat installed, download version 8.5.34 from:  
-> [https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/](https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/)
 
 ### 7. Run the Project
 
