@@ -1,18 +1,37 @@
-# 🏠 Smart Motion System
+# Project Final: Smart Motion System
 
+**Course:** Physics for Information Technology
+**Instructors:** Mr. Cao Xuan Nam, Mr. Dang Hoai Thuong
+**University:** University of Science, VNU-HCM
+**Semester:** 2024-2025, Semester 3
+Smart Motion System is an IoT-based security solution that detects motion, 
+captures images, and sends real-time alerts. It supports remote alarm control,
+human detection, and web-based monitoring with cloud storage.
 
+## Group Information
+
+**Class:** 23CLC05
+**Group members:**
+1. Nguyen Hoang Anh Khoa - 23127015
+2. Nguyen Hoang Dang - 23127166
+3. Ngo Tran Quang Dat - 23127341
 ## 🚀 Features
 
 ### ✅ Authentication & Authorization
 
 - User login & registration
-- Role-based access control (Manager, Staff, User)
-
+- Role-based access control (Manager, Operator)
+### Management and Monitoring
+- Real-time monitoring of motion sensors
+- Display message on LCD screen
+- Turn on/off buzzers
+- Edit servo angle
+### Motion Sensor Management
+- Time-based motion sensor management
+- Determine motion of person or other objects
+- Image upload for motion sensors
 ### 🧑‍💼 Account Management
-
 - Create, edit, delete, and search user accounts
-- Permission-based operation control
-
 ### 🌐 Responsive UI
 
 - Clean and responsive design built with Bootstrap
@@ -22,10 +41,11 @@
 
 ### 💻 Backend
 
-- Java, Spring Boot, Spring MVC, Spring Security
+- Java 8
+- Spring Boot, Spring MVC, Spring Security
 - JPA / Hibernate, Spring Data JPA
-- RESTful API design
-- MQTT for real-time communication
+- RESTful API
+- MQTT protocol for real-time communication
 
 ### 💻 Frontend
 
@@ -35,8 +55,8 @@
 
 ### 🗄 Database
 
-- MySQL
-- Firebase Realtime Database
+- MySQL (for user accounts data)
+- Firebase Realtime Database (motion sensor data)
 
 ### 🔧 Architecture
 
@@ -57,8 +77,8 @@ git clone https://github.com/quangdat2511/smart-motion-system.git
 
 - Go to `File > Project Structure` (or press `Ctrl + Alt + Shift + S`)
 - Under the **Project** tab:
-  - Set **Language level** to: `8 - Lambdas, type annotations, etc.`
-  - Set **Project SDK** to: `corretto-1.8 Amazon Corretto 1.8.0_452`
+    - Set **Language level** to: `8 - Lambdas, type annotations, etc.`
+    - Set **Project SDK** to: `corretto-1.8 Amazon Corretto 1.8.0_452`
 
 > This ensures the project uses Java 8, which is compatible with the source code and prevents issues such as missing `javax.xml.bind` classes found in later Java versions.
 
@@ -71,30 +91,60 @@ git clone https://github.com/quangdat2511/smart-motion-system.git
   spring.datasource.password=your_password
   ```
 
-### 5. Set up Tomcat 8.5.34 deployment in IntelliJ IDEA
+### 5. Import and Build the Project
+
+#### a. Reload Maven Projects
+
+1. Open the Maven tool window in IntelliJ (**View > Tool Windows > Maven**).
+2. Click the **Reload All Maven Projects** button to sync dependencies from `pom.xml`.
+
+#### b. Build the Project
+
+Open the terminal and run the following command:
+
+```bash
+mvn clean install
+```
+
+> This will download all dependencies, compile the code, run tests, and package the application.
+
+### 6. Set up Tomcat 8.5.34 deployment in IntelliJ IDEA
 
 1. Go to **Run > Edit Configurations...**
 2. Click the `+` icon → select **Tomcat Server > Local**
-3. In the **Server** tab, click **Configure...** and set the path to your local **Tomcat 8.5.34** installation, click **VM options:** and paste -Dfile.encoding=UTF-8
-5. Switch to the **Deployment** tab
-6. Click the `+` button → choose `spring-boot:war exploded` (recommended)
-7. Click on Application context and leave it empty
-8. Make sure the HTTP port is set to `8080`
-9. Click **OK** to save the configuration
+3. In the **Server** tab, click **Configure...** and set the path to your local **Tomcat 8.5.34** installation.
+4. In the **VM options:** field, paste:
+   ```
+   -Dfile.encoding=UTF-8
+   ```
+5. Switch to the **Deployment** tab.
+6. Click the `+` button → choose `spring-boot:war exploded` (recommended).
+7. Click on **Application context** and leave it empty.
+8. Configure the HTTP port:
+    - By default, the HTTP port is set to **8080**.
+    - If port 8080 is already in use, you can change it to another port (e.g., 8081) by modifying the **HTTP port** field.
+9. Click **OK** to save the configuration.
 
-> If you don't have Tomcat installed, download version 8.5.34 from: [https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/)
+> If you don't have Tomcat installed, download version 8.5.34 from:  
+> [https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/](https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/)
 
-### 6. Run the project
+### 7. Run the Project
 
-- Click the green **Run** button next to your Tomcat configuration.
+- Click the green **Run** button next to your Tomcat configuration in IntelliJ.
 
-## 7. Access the Application
+### 8. Access the Application
 
 Open your browser and go to:
 
 ```http
 http://localhost:8080
 ```
+
+> If you configured a different port in the Tomcat settings (e.g., 8081), replace `8080` with your custom port:
+>
+> ```http
+> http://localhost:8081
+> ```
 
 This will load the main page of the application.
 
@@ -121,15 +171,11 @@ The system comes with a few pre-configured user accounts for testing purposes:
 2. Enter one of the default usernames and the password `123456`.
 3. After logging in:
    - MANAGER: Full access
-   - OPERATOR: No access to user management
+   - OPERATOR: No access to account management
 
 ---
 
 ## 🧠 Future Improvements
 - Add unit & integration tests
 - Add user analytics dashboard
-
-## 🤝 Author
-
-**Ngo Tran Quang Dat** – [LinkedIn](https://linkedin.com/in/ntqdat) | [Email](mailto\:ngotranquangdat2511@gmail.com)
 

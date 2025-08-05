@@ -40,7 +40,7 @@
             </li>
             <li class="active">
                 <%--<spring:message code="label.user.list"/>--%>
-                Danh sách các thao tác
+                Giám sát & Điều khiển
             </li>
         </ul>
         <!-- /.breadcrumb -->
