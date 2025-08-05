@@ -19,11 +19,12 @@ public class MqttServiceImpl implements MqttService {
     private SessionService sessionService;
     private final String BROKER = "tcp://broker.hivemq.com:1883";
     private final String CLIENT_ID = "JavaClient-" + System.currentTimeMillis();
-    private final String MOTION_TOPIC = "/23127341/motion";
-    private final String BUTTON_TOPIC = "/23127341/button";
-    private final String BUZZER_TOPIC = "/23127341/buzzer";
-    private final String LCD_TOPIC = "/23127341/lcd";
-    private final String SERVO_TOPIC = "/23127341/servo";
+    private final String GET_TOPIC = "/group7/get";
+    private final String MOTION_TOPIC = "/group7/motion";
+    private final String BUTTON_TOPIC = "/group7/button";
+    private final String BUZZER_TOPIC = "/group7/buzzer";
+    private final String LCD_TOPIC = "/group7/lcd";
+    private final String SERVO_TOPIC = "/group7/servo";
 
     private MqttClient client;
 

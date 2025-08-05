@@ -46,7 +46,7 @@
         <!-- /.breadcrumb -->
     </div>
     <div class="page-header text-center">
-        <h1>Lịch sử chuyển động <small>hiển thị trạng thái và hình ảnh</small></h1>
+        <h1>Chuyển động gần nhất</h1>
     </div>
 
     <!-- Hiển thị chuyển động -->

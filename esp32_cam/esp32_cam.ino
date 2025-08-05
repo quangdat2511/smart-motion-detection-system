@@ -33,8 +33,8 @@
 //       Serial.println("connected");
 
 //       // Subscribe to desired topic
-//       mqttClient.subscribe("/23127166/image");
-//       mqttClient.subscribe("/23127166/get");
+//       mqttClient.subscribe("/group7/image");
+//       mqttClient.subscribe("/group7/get");
 //     } else {
 //       Serial.print(mqttClient.state());
 //       Serial.println(" try again in 5 seconds");
@@ -52,7 +52,7 @@
 //   }
 
 //   String imageBase64 = base64::encode(fb->buf, fb->len);
-//   bool success = mqttClient.publish("/23127166/image", imageBase64.c_str());
+//   bool success = mqttClient.publish("/group7/image", imageBase64.c_str());
 //   Serial.println(imageBase64);
 //   Serial.println(fb->len);
 //   if (!success) {
@@ -73,7 +73,7 @@
 
 //   Serial.printf("Received on topic: %s | Message: %s\n", topic, msg.c_str());
 
-//   if (String(topic) == "/23127166/get" && msg == "get") {
+//   if (String(topic) == "/group7/get" && msg == "get") {
 //     captureAndSendImage();
 //   }
 
@@ -219,7 +219,9 @@ void mqttConnect() {
     if (mqttClient.connect(clientId.c_str())) {
 
       //***Subscribe all topic you need***
-      mqttClient.subscribe("/23127166/get");
+      mqttClient.subscribe("/group7/get");
+      mqttClient.subscribe("/group7/lcd"); 
+      mqttClient.subscribe("/group7/buzzer); 
 
     } else {
       delay(5000);
@@ -236,7 +238,7 @@ void captureAndSendImage() {
   }
 
   String imageBase64 = base64::encode(fb->buf, fb->len);
-  bool success = mqttClient.publish("/23127166/image", imageBase64.c_str());
+  bool success = mqttClient.publish("/group7/image", imageBase64.c_str());
   esp_camera_fb_return(fb);
 
   // if (success) {
@@ -254,11 +256,14 @@ void callback(char* topic, byte* message, unsigned int length) {
   }
 
   //***Code here to process the received package***
-  if (String(topic) == "/23127166/get" && msg == "get") {
+  if (String(topic) == "/group7/get" && msg == "get") {
     captureAndSendImage();
   }
-  else if (String(topic) == "/23127166/lcd") {
+  else if (String(topic) == "/group7/lcd") {
     Serial.println("LCD: " + msg);
+  }
+  if (String(topic) == "/group7/buzzer") {
+    Serial.println("BUZZER: " + msg);
   }
 }
 
@@ -348,6 +353,8 @@ void setup() {
   mqttClient.setBufferSize(20000);
 }
 
+unsigned long lastMotionSent = 0;
+const unsigned long interval = 500; // 0.5 giây
 void loop() {
   if (WiFi.status() != WL_CONNECTED) {
     wifiConnect();
@@ -366,7 +373,11 @@ void loop() {
     if (msg == "motion") {
       captureAndSendImage();
     }
+    if (msg == "button"){
+      mqttClient.publish("/group7/button", "1");
+    }
   }
+
 }
 
 
