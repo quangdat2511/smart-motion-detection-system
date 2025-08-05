@@ -74,7 +74,7 @@ Make sure you have the following installed:
 - **Apache Maven 3.9.6** (for building the project)
 
    +Download version 3.9.6 from: [https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.6/apache-maven-3.9.6-bin.zip](https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.6/apache-maven-3.9.6-bin.zip)
-- 
+ 
    +Config Apache Maven in Windows Environment Variables: https://mkyong.com/maven/how-to-install-maven-in-windows/
 - **MySQL** (for user accounts database)
 - **Apache Tomcat 8.5.34** (for running the application)
@@ -110,7 +110,7 @@ Make sure you have the following installed:
 git clone https://github.com/quangdat2511/smart-motion-system.git
 ```
 
-### 2. Open the project in IntelliJ IDEA
+### 2. Open the folder web in IntelliJ IDEA
 
 ### 3. Set the Java language level
 
