@@ -1,14 +1,25 @@
-# Ignore everything by default
-*
+# Bỏ qua tất cả trong thư mục web
+/web/*
 
-# But keep these files/folders
-!.gitignore
-!pom.xml
-!README.md
+# --- Giữ lại các thư mục cấp cao ---
+!arduino/
+!arduino/**
+!esp32_cam/
+!esp32_cam/**
+# Nhưng giữ lại các file/folder quan trọng trong web
+!/web/.gitignore
+!/web/pom.xml
+!/web/README.md
 
-!src/
-!src/**
+!/web/src/
+!/web/src/**
 
-!database/
-!database/**
-src/main/resources/serviceAccountKey.json
+!/web/database/
+!/web/database/**
+
+# Bỏ riêng các thư mục nên ignore
+/web/.idea/
+/web/target/
+
+# Bỏ riêng file nhạy cảm
+/web/src/main/resources/serviceAccountKey.json
