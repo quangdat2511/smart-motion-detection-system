@@ -1,9 +1,13 @@
 # Project Final: Smart Motion System
 
-**Course:** Physics for Information Technology
-**Instructors:** Mr. Cao Xuan Nam, Mr. Dang Hoai Thuong
 **University:** University of Science, VNU-HCM
+
+**Course:** Physics for Information Technology
+
+**Instructors:** Mr. Cao Xuan Nam, Mr. Dang Hoai Thuong
+
 **Semester:** 2024-2025, Semester 3
+
 Smart Motion System is an IoT-based security solution that detects motion, 
 captures images, and sends real-time alerts. It supports remote alarm control,
 human detection, and web-based monitoring with cloud storage.
