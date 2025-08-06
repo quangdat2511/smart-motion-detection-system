@@ -1,31 +1,37 @@
 #include <SoftwareSerial.h>
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
+#include <Servo.h>
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 // Kết nối với ESP32-CAM: RX = D10, TX = D11
 SoftwareSerial espSerial(10, 11); // RX, TX
 
 // Giả lập cảm biến chuyển động
-int motionPin = 2;  // hoặc thay bằng tín hiệu từ PIR
-int buttonPin = 3; 
+int pirPin = 3;  // hoặc thay bằng tín hiệu từ PIR
+int buttonPin = 4;
+int buzzerPin = 12; 
+int ledPin = 13;
+int servoPin = 9;
 bool lastMotion = false;
 bool lastButton = false;
+Servo myServo;
+
 void setup() {
   Serial.begin(9600);       // Debug
   espSerial.begin(9600);    // UART đến ESP32-CAM
-  pinMode(motionPin, INPUT);
+  pinMode(pirPin, INPUT);
   pinMode(buttonPin, INPUT);
   pinMode(buzzerPin, OUTPUT); // setup buzzer output
   digitalWrite(buzzerPin, LOW); // buzzer tắt ban đầu
   lcd.init();
   lcd.backlight();
-  pinMode(motionPin, INPUT);
+  myServo.attach(9);
   Serial.println("Arduino ready.");
 }
 
 void loop() {
-  bool motion = digitalRead(motionPin);
+  bool motion = digitalRead(pirPin);
   bool button = digitalRead(buttonPin);
   // Đọc cảm biến
   if (motion && !lastMotion) {
@@ -54,7 +60,7 @@ void loop() {
       lcd.setCursor(0, 0);
       lcd.print(content);
     }
-    if (line.startsWith("BUZZER: ")){
+    if (line.startsWith("BUZZER: ")) {
       String content = line.substring(8);
       if (content == "on") {
         digitalWrite(buzzerPin, HIGH);
@@ -70,6 +76,11 @@ void loop() {
         Serial.print("Unknown BUZZER command: ");
         Serial.println(content);
       }
+    }
+    if (line.startsWith("SERVO: ")){
+      String content = line.substring(7);
+      int angle = content.toInt();
+      myServo.write(angle);
     }
     
   }
