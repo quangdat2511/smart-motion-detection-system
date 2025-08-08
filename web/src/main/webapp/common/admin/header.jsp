@@ -38,11 +38,19 @@
                         </li>
                         <li class="divider"></li>
                         <li>
+                            <c:url var="selectDeviceURL" value="/admin/device-choose"/>
+                            <a href="${selectDeviceURL}">
+                                <i class="fa fa-exchange"></i>
+                                Chọn thiết bị
+                            </a>
+                        </li>
+                        <li>
                             <a href="<c:url value='/logout'/>">
                                 <i class="ace-icon fa fa-power-off"></i>
                                 Thoát
                             </a>
                         </li>
+
                     </ul>
                 </li>
             </ul>

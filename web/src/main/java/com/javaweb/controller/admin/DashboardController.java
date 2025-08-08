@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class MainController {
-    @GetMapping("/admin/main-list")
-    public ModelAndView getMain() {
-        ModelAndView modelAndView = new ModelAndView("admin/main/list");
+public class DashboardController {
+    @GetMapping("/admin/dashboard-list")
+    public ModelAndView getDashboard() {
+        ModelAndView modelAndView = new ModelAndView("admin/dashboard/list");
         return modelAndView;
     }
 

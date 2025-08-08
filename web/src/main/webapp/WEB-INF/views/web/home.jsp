@@ -6,44 +6,99 @@
     <meta charset="UTF-8">
     <title>Trang chủ - Hệ thống phát hiện chuyển động thông minh</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CSS (CDN hoặc thay bằng link nội bộ nếu cần) -->
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .section-title {
+            border-left: 5px solid #007bff;
+            padding-left: 10px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-4">
-    <h1 class="text-center mb-4 text-primary">Hệ thống phát hiện chuyển động thông minh</h1>
 
-    <div class="card mb-4">
-        <div class="card-header bg-info text-white">1.1 Giới thiệu sản phẩm</div>
-        <div class="card-body">
-            <p>Hệ thống phát hiện chuyển động thông minh là một sản phẩm IoT, giúp giám sát các khu vực và gửi cảnh báo ngay khi phát hiện chuyển động. Thiết bị sử dụng cảm biến PIR và vi điều khiển ESP32 để xử lý dữ liệu và đưa ra phản hồi như: bật còi báo động, gửi thông báo qua mạng.</p>
-            <p>Sản phẩm có thể áp dụng tại nhà ở, văn phòng, lớp học, kho hàng, hành lang ký túc xá... mang lại giải pháp đơn giản, hiệu quả và tiết kiệm chi phí.</p>
+    <!-- Tiêu đề trang -->
+    <div class="text-center mb-4">
+        <h1 class="text-primary">🌟 Trang chủ</h1>
+        <h4 class="text-secondary">Hệ thống phát hiện chuyển động thông minh</h4>
+        <p class="lead mt-3">
+            Chào mừng bạn đến với hệ thống!
+            Dưới đây là hướng dẫn nhanh để bạn có thể sử dụng các chức năng chính của website.
+        </p>
+        <hr>
+    </div>
+
+    <!-- Hướng dẫn bên trái -->
+    <div class="mb-4">
+        <h4 class="section-title">📌 Ở thanh điều hướng bên trái, bạn có thể thấy:</h4>
+
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">1.1 Giám sát và điều khiển</div>
+            <div class="card-body">
+                <p>Quan sát hình ảnh và thời điểm của chuyển động gần nhất.</p>
+                <p>Bật/tắt buzzer, hiển thị thông điệp lên LCD, quay servo đến góc mong muốn.</p>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">1.2 Danh sách chuyển động</div>
+            <div class="card-body">
+                <p>Xem danh sách các chuyển động kèm hình ảnh đã ghi nhận.</p>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">1.3 Danh sách tài khoản (chỉ dành cho quản trị viên)</div>
+            <div class="card-body">
+                <p>Xem, tìm kiếm, thêm, sửa, xóa tài khoản và reset mật khẩu.</p>
+            </div>
         </div>
     </div>
 
-    <div class="card mb-4">
-        <div class="card-header bg-info text-white">1.2 Sự cần thiết</div>
-        <div class="card-body">
-            <p>An ninh luôn là vấn đề quan trọng, nhưng nhiều hệ thống giám sát hiện nay có chi phí cao, lắp đặt phức tạp và thiếu tính linh hoạt. Với công nghệ IoT, hệ thống giám sát chuyển động thông minh giúp người dùng dễ dàng phát hiện và xử lý kịp thời các tình huống bất thường.</p>
-        </div>
-    </div>
+    <!-- Hướng dẫn bên phải -->
+    <div class="mb-4">
+        <h4 class="section-title">📌 Ở thanh điều hướng bên phải, bạn có thể thấy:</h4>
 
-    <div class="card mb-4">
-        <div class="card-header bg-info text-white">1.3 Các chức năng chính</div>
-        <div class="card-body">
-            <ul>
-                <li>Phát hiện chuyển động và gửi thông báo qua website, email, và điện thoại kèm hình ảnh.</li>
-                <li>Bật còi báo động từ xa nếu phát hiện có xâm nhập nghi ngờ.</li>
-                <li>Phân biệt chuyển động có phải do con người gây ra không.</li>
-                <li>Truy xuất lịch sử chuyển động và hình ảnh ghi nhận được.</li>
-                <li>Hiển thị thông tin lên màn hình LCD: giờ, thông báo ngắn, hình ảnh trang trí.</li>
-                <li>Tự bật đèn hỗ trợ camera khi thiếu ánh sáng để chụp rõ hơn.</li>
-            </ul>
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">2.1 Thông tin tài khoản</div>
+            <div class="card-body">
+                <p>Hiển thị tên đăng nhập, tên đầy đủ và cho phép chỉnh sửa tên.</p>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">2.2 Đổi mật khẩu</div>
+            <div class="card-body">
+                <p>Thay đổi mật khẩu với 3 bước: nhập mật khẩu hiện tại, mật khẩu mới và xác nhận mật khẩu mới.</p>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">2.3 Chọn thiết bị</div>
+            <div class="card-body">
+                <p>Chọn thiết bị bạn muốn giám sát và điều khiển.
+                    Chỉ một thiết bị có thể được giám sát tại một thời điểm.</p>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">2.4 Thoát</div>
+            <div class="card-body">
+                <p>Đăng xuất khỏi hệ thống bằng nút "Thoát".</p>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap JS (CDN) -->
+<!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

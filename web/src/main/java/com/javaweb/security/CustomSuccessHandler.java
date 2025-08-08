@@ -1,7 +1,8 @@
 package com.javaweb.security;
 
-import com.javaweb.constant.SystemConstant;
-import com.javaweb.security.utils.SecurityUtils;
+import com.javaweb.model.dto.MyUserDetail;
+import com.javaweb.service.MqttService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -11,16 +12,23 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-
+    @Autowired
+    private MqttService mqttService;
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException {
+        String deviceId = "unknown"; // Default value if not set
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof MyUserDetail) {
+            deviceId = String.valueOf(((MyUserDetail) principal).getDeviceId());
+        }
+        MyUserDetail myUserDetail = (MyUserDetail) principal;
+        mqttService.handleLogin(deviceId, myUserDetail.getUsername());
         String targetUrl = "/admin/home";
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }

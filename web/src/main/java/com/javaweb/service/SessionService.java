@@ -1,5 +1,5 @@
 package com.javaweb.service;
 
 public interface SessionService {
-    void logoutAllUsers();
+    void logoutAllUsers(Integer deviceId);
 }

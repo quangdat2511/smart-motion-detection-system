@@ -44,7 +44,7 @@ public class RegisterAPI {
     }
     @PostMapping
     public ResponseEntity<?> createNewUser(@Valid @RequestBody UserDTO newUser, BindingResult bindingResult) {
-        newUser.setRoleCode("USER");
+        newUser.setRoleCode("OPERATOR");
         if (userService.existsByUserName(newUser.getUserName())) {
             throw new ValidateDataException("Username đã tồn tại trong hệ thống.");
         }

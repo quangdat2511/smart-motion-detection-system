@@ -1,6 +1,5 @@
 package com.javaweb.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,10 +31,8 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "status", nullable = false)
     private Integer status;
-
-    @Column(name = "email", unique = true)
-    private String email;
-
+    @Column(name = "device_id", nullable = false)
+    private Integer deviceId;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", nullable = false),

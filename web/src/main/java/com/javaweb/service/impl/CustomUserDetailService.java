@@ -23,17 +23,34 @@ public class CustomUserDetailService implements UserDetailsService {
     private UserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        UserDTO userDTO = userService.findOneByUserNameAndStatus(name, 1);
-        if(userDTO == null){
-            throw new UsernameNotFoundException("Username not found");
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // Lấy thông tin user từ DB
+        UserDTO userDTO = userService.findOneByUserNameAndStatus(username, 1);
+
+        if (userDTO == null) {
+            throw new UsernameNotFoundException("Không tìm thấy tài khoản: " + username);
         }
+
+        // Gán quyền (roles) cho user
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for(RoleDTO role: userDTO.getRoles()){
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getCode()));
+        for (RoleDTO role : userDTO.getRoles()) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getCode()));
         }
-        MyUserDetail myUserDetail = new MyUserDetail(name,userDTO.getPassword(),true,true,true,true,authorities);
+
+        // Khởi tạo MyUserDetail với các thông tin cơ bản từ UserDTO
+        MyUserDetail myUserDetail = new MyUserDetail(
+                username,
+                userDTO.getPassword(),
+                true,  // enabled
+                true,  // accountNonExpired
+                true,  // credentialsNonExpired
+                true,  // accountNonLocked
+                authorities
+        );
+
+        // Copy các thuộc tính bổ sung từ UserDTO sang MyUserDetail (ví dụ: id, fullName)
         BeanUtils.copyProperties(userDTO, myUserDetail);
+
         return myUserDetail;
     }
 }

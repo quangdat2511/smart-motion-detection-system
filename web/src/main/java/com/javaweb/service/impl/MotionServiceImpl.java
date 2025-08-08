@@ -3,7 +3,8 @@ package com.javaweb.service.impl;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import com.javaweb.model.dto.MotionDTO;
+import com.javaweb.enums.MotionType;
+import com.javaweb.model.request.MotionRequestDTO;
 import com.javaweb.model.response.MotionSearchResponse;
 import com.javaweb.service.MotionService;
 import org.springframework.data.domain.PageRequest;
@@ -18,10 +19,8 @@ import java.util.concurrent.ExecutionException;
 public class MotionServiceImpl implements MotionService {
 
 
-    // ✅ Thêm biến lưu trạng thái chuyển động mới nhất
-    private String latestMotionStatus = "Không có chuyển động";
     @Override
-    public List<MotionSearchResponse> findAll(MotionDTO motionDTO) throws ExecutionException, InterruptedException {
+    public List<MotionSearchResponse> findAll(MotionRequestDTO motionDTO) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
 
         // Tạo đối tượng phân trang: page bắt đầu từ 1, nhưng PageRequest.of() cần index từ 0
@@ -47,7 +46,9 @@ public class MotionServiceImpl implements MotionService {
         for (DocumentSnapshot doc : querySnapshot.get().getDocuments()) {
             resultList.add(doc.toObject(MotionSearchResponse.class));
         }
-
+        for (MotionSearchResponse motion : resultList) {
+            motion.setMotionType(MotionType.getMotionTypeName(motion.getMotionType()));
+        }
         return resultList;
     }
 
@@ -68,13 +69,4 @@ public class MotionServiceImpl implements MotionService {
         return documents.size();
     }
 
-    @Override
-    public String getLatestMotionStatus() {
-        return latestMotionStatus;
-    }
-
-    @Override
-    public void setLatestMotionStatus(String status) {
-        this.latestMotionStatus = status;
-    }
 }

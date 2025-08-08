@@ -9,7 +9,7 @@
 <ul class="nav nav-list">
     <!-- Nút: Quản lí thao tác -->
     <li class="">
-        <a href="/admin/main-list">
+        <a href="/admin/dashboard-list">
             <i class="bi bi-cpu-fill"></i>
             <span class="menu-text">Giám sát & Điều khiển</span>
         </a>

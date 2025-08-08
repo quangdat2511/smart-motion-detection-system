@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/common/taglib.jsp"%>
+<%--<%@include file="/common/taglib.jsp"%>--%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,6 +60,9 @@
                                         <div class="text-center">
                                             <p class="mb-0">Đã có tài khoản?
                                                 <a href="login" class="text-white-50 fw-bold">Đăng nhập</a>
+                                            </p>
+                                            <p class="mt-3">
+                                                <a href="/" class="btn btn-light btn-sm">Quay về trang chủ</a>
                                             </p>
                                         </div>
                                     </div>

@@ -79,7 +79,12 @@ public class UserController {
 		mav.addObject(SystemConstant.MODEL, model);
 		return mav;
 	}
+	@RequestMapping(value = "/admin/device-choose", method = RequestMethod.GET)
+	public ModelAndView chooseDevice() {
+		ModelAndView mav = new ModelAndView("admin/user/chooseDevice");
+		return mav;
 
+	}
 	private void initMessageResponse(ModelAndView mav, HttpServletRequest request) {
 		String message = request.getParameter("message");
 		if (message != null && StringUtils.isNotEmpty(message)) {

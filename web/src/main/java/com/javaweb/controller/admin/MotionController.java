@@ -1,7 +1,6 @@
 package com.javaweb.controller.admin;
 
-import com.javaweb.model.dto.FirebaseDTO;
-import com.javaweb.model.dto.MotionDTO;
+import com.javaweb.model.request.MotionRequestDTO;
 import com.javaweb.model.response.MotionSearchResponse;
 import com.javaweb.service.MotionService;
 import com.javaweb.utils.DisplayTagUtils;
@@ -22,7 +21,7 @@ public class MotionController {
     @GetMapping("/admin/motion-list")
     public ModelAndView getAllMotions(@RequestParam String deviceId, HttpServletRequest request) throws ExecutionException, InterruptedException {
         ModelAndView modelAndView = new ModelAndView("admin/motion/list");
-        MotionDTO motionDTO = new MotionDTO();
+        MotionRequestDTO motionDTO = new MotionRequestDTO();
         motionDTO.setDeviceId(deviceId);
         DisplayTagUtils.of(request, motionDTO);
         List<MotionSearchResponse> motionSearchResponses = motionService.findAll(motionDTO);

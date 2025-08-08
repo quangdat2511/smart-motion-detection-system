@@ -48,14 +48,6 @@
 													<input type="password" class="form-control" id="password" name="j_password" placeholder="Mật khẩu">
 												</div>
 
-<%--												<div class="form-check d-flex justify-content-center mb-5">--%>
-<%--													<div><input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" /></div>--%>
-<%--													<div><label class="form-check-label">--%>
-<%--                                                        Ghi nhớ mật khẩu--%>
-<%--                                                    </label></div>--%>
-<%--												</div>--%>
-
-<%--												<p class="small mb-2 pb-lg-2"><a class="text-white-50" href="#!">Quên mật khẩu?</a></p>--%>
 
 												<button type="submit" class="btn btn-primary" >Đăng nhập</button>
 												</form>
@@ -66,7 +58,12 @@
 												</div>
 											</div>
 											<div class="text-center">
-												<p class="mb-0 tex-center account">Chưa có tài khoản? <a href="register" class="text-white-50 fw-bold">Đăng ký</a></p>
+												<p class="mb-0 tex-center account">
+													Chưa có tài khoản? <a href="register" class="text-white-50 fw-bold">Đăng ký</a>
+												</p>
+												<p class="mt-3">
+													<a href="/" class="btn btn-light btn-sm">Quay về trang chủ</a>
+												</p>
 											</div>
 
 										</div>
@@ -76,8 +73,6 @@
 						</div>
 					</section>
 				</div>
-				<%--<script src="./assets/dist/js/boostrap-v5/bootstrap.js"></script>--%>
-				<%--<script src="./assets/dist/js/fontawsome-v5/all.js"></script>--%>
 			</div>
 		</div>
 	</div>
