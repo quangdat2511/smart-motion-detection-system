@@ -30,13 +30,13 @@ public class BuzzerAPI {
 
         // Lấy deviceId từ sessionService theo username
         UserDTO user = userService.findOneByUserNameAndStatus(username, 1);
-        Integer deviceId = user.getDeviceId();
-        if (deviceId == null) {
+        String deviceId = user.getDeviceId();
+        if (deviceId == null || deviceId.isEmpty()) {
             return ResponseEntity.badRequest().body("❌ Không tìm thấy thiết bị cho tài khoản này");
         }
 
         // Gửi lệnh qua mqttService
-        mqttService.publishBuzzerMessage(message.toLowerCase(), String.valueOf(deviceId));
+        mqttService.publishBuzzerMessage(message.toLowerCase(), deviceId);
 
         return ResponseEntity.ok("✅ Buzzer đã " + (message.equalsIgnoreCase("on") ? "bật" : "tắt"));
     }

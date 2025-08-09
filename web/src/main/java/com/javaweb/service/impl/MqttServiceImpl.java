@@ -40,7 +40,7 @@ public class MqttServiceImpl implements MqttService {
      */
     public synchronized void handleLogin(String deviceId, String username) {
         if (deviceId == null || Strings.isBlank(deviceId) || username == null || username.isEmpty()) {
-            System.out.println("⚠ deviceId hoặc username không hợp lệ");
+            System.out.println("User này chưa quản lí thiết bị nào, không cần kết nối MQTT");
             return;
         }
 
@@ -80,7 +80,7 @@ public class MqttServiceImpl implements MqttService {
                         String buttonTopic = BASE_BUTTON_TOPIC + "/" + deviceId;
                         if (topic.equals(buttonTopic) && "1".equals(msg)) {
                             System.out.println("🔔 Nút bấm được nhấn. Logout tất cả user quản lí deviceId: " + deviceId);
-                            sessionService.logoutAllUsers(Integer.valueOf(deviceId));
+                            sessionService.logoutAllUsers(deviceId);
                         }
                     }
 

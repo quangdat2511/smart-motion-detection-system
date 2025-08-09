@@ -32,7 +32,7 @@ CREATE TABLE `user` (
                         `createddate` DATETIME DEFAULT NULL,
                         `modifieddate` DATETIME DEFAULT NULL,
                         `status` INT DEFAULT NULL,
-                        `device_id` INT DEFAULT NULL,
+                        `device_id` varchar(255) DEFAULT NULL,
                         `createdby` VARCHAR(255) DEFAULT NULL,
                         `modifiedby` VARCHAR(255) DEFAULT NULL,
                         PRIMARY KEY (`id`)

@@ -45,24 +45,15 @@
                                                     <input type="password" id="retypePassword" name="retypePassword" class="form-control" required>
                                                     <span class="error-message text-warning" style="color:red;" id="retypePasswordError"></span>
                                                 </div>
-                                                <div class="form-check mb-4 text-start">
-                                                    <input class="form-check-input" type="checkbox" id="agree" name="agree" required>
-                                                    <label class="form-check-label text-white" for="agree">
-                                                        Tôi đồng ý với các điều khoản và điều kiện
-                                                    </label>
-                                                    <br>
-                                                    <span class="error-message text-warning" style="color:red;" id="agreeTermsError"></span>
-                                                </div>
-
                                                 <button type="submit" class="btn btn-primary" id="btnRegister">Đăng ký</button>
                                             </form>
                                         </div>
-                                        <div class="text-center">
+                                        <div class="text-center" style="margin-top: -60px;">
                                             <p class="mb-0">Đã có tài khoản?
                                                 <a href="login" class="text-white-50 fw-bold">Đăng nhập</a>
                                             </p>
                                             <p class="mt-3">
-                                                <a href="/" class="btn btn-light btn-sm">Quay về trang chủ</a>
+                                                <a href="${pageContext.request.contextPath}/trang-chu" class="btn btn-light btn-sm">Quay về trang chủ</a>
                                             </p>
                                         </div>
                                     </div>

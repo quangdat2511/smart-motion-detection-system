@@ -16,13 +16,13 @@ public class DeviceServiceImpl implements DeviceService {
     @Autowired
     private MqttService mqttService;
     @Override
-    public void updateDeviceIdOfUser(Integer deviceId) {
+    public void updateDeviceIdOfUser(String deviceId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         UserEntity userEntity = userRepository.findOneByUserName(userName);
-        Integer oldDeviceId = userEntity.getDeviceId();
+        String oldDeviceId = userEntity.getDeviceId();
         userEntity.setDeviceId(deviceId);
-        mqttService.updateDeviceId(oldDeviceId.toString(), deviceId.toString(), userName);
+        mqttService.updateDeviceId(oldDeviceId, deviceId, userName);
         userRepository.save(userEntity);
     }
 }

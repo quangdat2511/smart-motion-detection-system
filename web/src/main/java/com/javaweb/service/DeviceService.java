@@ -1,5 +1,5 @@
 package com.javaweb.service;
 
 public interface DeviceService {
-    void updateDeviceIdOfUser(Integer deviceId);
+    void updateDeviceIdOfUser(String deviceId);
 }

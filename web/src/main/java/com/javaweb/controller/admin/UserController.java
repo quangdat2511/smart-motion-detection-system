@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller(value = "usersControllerOfAdmin")
 public class UserController {
@@ -82,9 +83,14 @@ public class UserController {
 	@RequestMapping(value = "/admin/device-choose", method = RequestMethod.GET)
 	public ModelAndView chooseDevice() {
 		ModelAndView mav = new ModelAndView("admin/user/chooseDevice");
-		return mav;
 
+		String deviceIdObj = SecurityUtils.getPrincipal().getDeviceId();
+		String deviceId = (deviceIdObj != null) ? deviceIdObj : "";
+
+		mav.addObject("currentDeviceId", deviceId);
+		return mav;
 	}
+
 	private void initMessageResponse(ModelAndView mav, HttpServletRequest request) {
 		String message = request.getParameter("message");
 		if (message != null && StringUtils.isNotEmpty(message)) {

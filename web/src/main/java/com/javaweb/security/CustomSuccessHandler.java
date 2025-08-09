@@ -22,13 +22,21 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException {
-        String deviceId = "unknown"; // Default value if not set
+        String deviceId = null; // mặc định là null
+
         Object principal = authentication.getPrincipal();
         if (principal instanceof MyUserDetail) {
-            deviceId = String.valueOf(((MyUserDetail) principal).getDeviceId());
+            deviceId = ((MyUserDetail) principal).getDeviceId();
+
+            // Chặn luôn trường hợp "null" hoặc rỗng
+            if (deviceId == null || deviceId.trim().isEmpty() || "null".equalsIgnoreCase(deviceId.trim())) {
+                deviceId = null; // đặt lại về null nếu không hợp lệ
+            }
         }
+
         MyUserDetail myUserDetail = (MyUserDetail) principal;
         mqttService.handleLogin(deviceId, myUserDetail.getUsername());
+
         String targetUrl = "/admin/home";
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }

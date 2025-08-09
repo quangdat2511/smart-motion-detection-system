@@ -43,6 +43,7 @@
                                 </label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="deviceId" name="deviceId"
+                                           value="${currentDeviceId}"
                                            placeholder="ID thiết bị...">
                                 </div>
                             </div>

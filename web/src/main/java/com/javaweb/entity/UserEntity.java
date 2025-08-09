@@ -28,11 +28,10 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "password", nullable = false)
     private String password;
-
     @Column(name = "status", nullable = false)
     private Integer status;
     @Column(name = "device_id", nullable = false)
-    private Integer deviceId;
+    private String deviceId;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", nullable = false),

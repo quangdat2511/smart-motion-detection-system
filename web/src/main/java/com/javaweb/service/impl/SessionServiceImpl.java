@@ -16,7 +16,7 @@ public class SessionServiceImpl implements SessionService {
     private SessionRegistry sessionRegistry;
 
     @Override
-    public void logoutAllUsers(Integer deviceId) {
+    public void logoutAllUsers(String deviceId) {
         for (Object principal : sessionRegistry.getAllPrincipals()) {
             if (principal instanceof MyUserDetail) {
                 MyUserDetail userDetail = (MyUserDetail) principal;

@@ -24,5 +24,5 @@ public class UserDTO extends AbstractDTO {
     private List<RoleDTO> roles = new ArrayList<>();
     private String roleCode;
     private Map<String,String> roleDTOs = new HashMap<>();
-    private Integer deviceId; // ID thiết bị ESP32
+    private String deviceId; // ID thiết bị ESP32
 }

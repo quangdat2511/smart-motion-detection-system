@@ -27,11 +27,11 @@ public class LcdAPI {
 
         // Lấy deviceId từ sessionService theo username
         UserDTO user = userService.findOneByUserNameAndStatus(username, 1);
-        Integer deviceId = user.getDeviceId();
-        if (deviceId == null) {
+        String deviceId = user.getDeviceId();
+        if (deviceId == null || deviceId.isEmpty()) {
             return ResponseEntity.badRequest().body("❌ Không tìm thấy thiết bị cho tài khoản này");
         }
-        mqttService.publishLcdMessage(message, String.valueOf(deviceId));
+        mqttService.publishLcdMessage(message, deviceId);
         return ResponseEntity.ok("✅ LCD đã hiển thị: " + message);
     }
 

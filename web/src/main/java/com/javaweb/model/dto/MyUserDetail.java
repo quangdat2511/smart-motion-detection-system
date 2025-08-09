@@ -13,7 +13,7 @@ public class MyUserDetail extends User {
 
     private Long id;
     private String fullName;
-    private Integer deviceId; // ID thiết bị ESP32
+    private String deviceId; // ID thiết bị ESP32
 
     public MyUserDetail(
             String username,

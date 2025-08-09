@@ -62,7 +62,7 @@
 													Chưa có tài khoản? <a href="register" class="text-white-50 fw-bold">Đăng ký</a>
 												</p>
 												<p class="mt-3">
-													<a href="/" class="btn btn-light btn-sm">Quay về trang chủ</a>
+													<a href="${pageContext.request.contextPath}/trang-chu" class="btn btn-light btn-sm">Quay về trang chủ</a>
 												</p>
 											</div>
 

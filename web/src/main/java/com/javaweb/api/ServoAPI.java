@@ -36,12 +36,12 @@ public class ServoAPI {
 
         // Lấy deviceId từ sessionService theo username
         UserDTO user = userService.findOneByUserNameAndStatus(username, 1);
-        Integer deviceId = user.getDeviceId();
-        if (deviceId == null) {
+        String deviceId = user.getDeviceId();
+        if (deviceId == null || deviceId.isEmpty()) {
             return ResponseEntity.badRequest().body("❌ Không tìm thấy thiết bị cho tài khoản này");
         }
         // Publish góc quay lên MQTT
-        mqttService.publishServoMessage(angle, deviceId.toString());
+        mqttService.publishServoMessage(angle, deviceId);
 
         return ResponseEntity.ok("✅ Servo đã xoay đến " + angle + " độ.");
     }
