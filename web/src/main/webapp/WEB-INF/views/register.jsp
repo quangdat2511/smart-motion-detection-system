@@ -96,14 +96,8 @@
             $('#retypePasswordError').html('Mật khẩu nhập lại không khớp');
             ok = 0;
         }
-
-        if (!$('#agree').is(':checked')) {
-            $('#agreeTermsError').html('Bạn phải đồng ý với các điều khoản');
-            ok = 0;
-        }
     }
 
-    // Xử lý nút xóa nhiều building
     $('#btnRegister').click(function(e) {
         e.preventDefault();
         var formData = $('#formRegister').serializeArray();
@@ -143,8 +137,6 @@
             }
         });
     }
-
-    // Gán building cho user
 </script>
 
 </body>

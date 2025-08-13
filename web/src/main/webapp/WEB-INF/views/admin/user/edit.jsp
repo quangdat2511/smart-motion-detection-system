@@ -102,7 +102,7 @@
         if ($('#userId').val() != "") {
             var userId = $('#userId').val();
             var roleCode = dataArray['roleCode'];
-            if (roleCode != '') {
+            if (roleCode !== '') {
                 updateUser(dataArray, $('#userId').val());
             } else {
                 alert('Vui lòng chọn vai trò cho người dùng!');
@@ -111,7 +111,7 @@
         else {
             var userName = dataArray['userName'];
             var roleCode = dataArray['roleCode'];
-            if (userName != '' && roleCode != '') {
+            if (userName !== '' && roleCode !== '') {
                 $('#loading_image').show();
                 addUser(dataArray);
             } else {

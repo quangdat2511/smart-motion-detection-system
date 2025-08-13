@@ -40,7 +40,7 @@ public class MqttServiceImpl implements MqttService {
      */
     public synchronized void handleLogin(String deviceId, String username) {
         if (deviceId == null || Strings.isBlank(deviceId) || username == null || username.isEmpty()) {
-            System.out.println("User này chưa quản lí thiết bị nào, không cần kết nối MQTT");
+            System.out.println("User này chưa quản lí thiết bị nào, không cần kết nối MQTT"); 
             return;
         }
 
@@ -64,40 +64,7 @@ public class MqttServiceImpl implements MqttService {
 
                 // Tạo client mới
                 String clientId = "JavaClient-" + deviceId + "-" + System.currentTimeMillis();
-                MqttClient clientNew = new MqttClient(BROKER, clientId, new MemoryPersistence());
-
-                clientNew.setCallback(new MqttCallback() {
-                    @Override
-                    public void connectionLost(Throwable cause) {
-                        System.out.println("❌ Mất kết nối MQTT deviceId=" + deviceId + ": " + cause.getMessage());
-                    }
-
-                    @Override
-                    public void messageArrived(String topic, MqttMessage message) {
-                        String msg = message.toString();
-                        System.out.println("📥 Nhận [" + topic + "] deviceId=" + deviceId + ": " + msg);
-
-                        String buttonTopic = BASE_BUTTON_TOPIC + "/" + deviceId;
-                        if (topic.equals(buttonTopic) && "1".equals(msg)) {
-                            System.out.println("🔔 Nút bấm được nhấn. Logout tất cả user quản lí deviceId: " + deviceId);
-                            sessionService.logoutAllUsers(deviceId);
-                        }
-                    }
-
-                    @Override
-                    public void deliveryComplete(IMqttDeliveryToken token) {
-                        System.out.println("✅ Gửi thành công deviceId=" + deviceId);
-                    }
-                });
-
-                MqttConnectOptions options = new MqttConnectOptions();
-                options.setCleanSession(true);
-                options.setAutomaticReconnect(true);
-
-                clientNew.connect(options);
-
-                clientNew.subscribe(BASE_IMAGE_TOPIC + "/" + deviceId);
-                clientNew.subscribe(BASE_BUTTON_TOPIC + "/" + deviceId);
+                MqttClient clientNew = getMqttClient(deviceId, clientId);
 
                 System.out.println("✅ Kết nối thành công tới MQTT Broker cho deviceId: " + deviceId);
                 System.out.println("📡 Đã subscribe các topic cho deviceId: " + deviceId);
@@ -112,6 +79,44 @@ public class MqttServiceImpl implements MqttService {
                 return existingClient;
             }
         });
+    }
+
+    private MqttClient getMqttClient(String deviceId, String clientId) throws MqttException {
+        MqttClient clientNew = new MqttClient(BROKER, clientId, new MemoryPersistence());
+
+        clientNew.setCallback(new MqttCallback() {
+            @Override
+            public void connectionLost(Throwable cause) {
+                System.out.println("❌ Mất kết nối MQTT deviceId=" + deviceId + ": " + cause.getMessage());
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage message) {
+                String msg = message.toString();
+                System.out.println("📥 Nhận [" + topic + "] deviceId=" + deviceId + ": " + msg);
+
+                String buttonTopic = BASE_BUTTON_TOPIC + "/" + deviceId;
+                if (topic.equals(buttonTopic) && "1".equals(msg)) {
+                    System.out.println("🔔 Nút bấm được nhấn. Logout tất cả user quản lí deviceId: " + deviceId);
+                    sessionService.logoutAllUsers(deviceId);
+                }
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken token) {
+                System.out.println("✅ Gửi thành công deviceId=" + deviceId);
+            }
+        });
+
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setCleanSession(true);
+        options.setAutomaticReconnect(true);
+
+        clientNew.connect(options);
+
+        clientNew.subscribe(BASE_IMAGE_TOPIC + "/" + deviceId);
+        clientNew.subscribe(BASE_BUTTON_TOPIC + "/" + deviceId);
+        return clientNew;
     }
 
     /**

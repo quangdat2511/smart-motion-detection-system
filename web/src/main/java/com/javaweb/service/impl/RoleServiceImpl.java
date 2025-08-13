@@ -35,9 +35,9 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public Map<String, String> getRoles() {
 		Map<String,String> roleTerm = new HashMap<>();
-		List<RoleEntity> roleEntity = roleRepository.findAll();
-		for(RoleEntity item : roleEntity){
-			RoleDTO roleDTO = roleConverter.convertToDto(item);
+		List<RoleEntity> roleEntityList = roleRepository.findAll();
+		for(RoleEntity roleEntity : roleEntityList){
+			RoleDTO roleDTO = roleConverter.convertToDto(roleEntity);
 			roleTerm.put(roleDTO.getCode(), roleDTO.getName());
 		}
 		return roleTerm;

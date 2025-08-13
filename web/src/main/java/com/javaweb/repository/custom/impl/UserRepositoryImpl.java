@@ -17,14 +17,6 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 	private EntityManager entityManager;
 
 	@Override
-	public List<UserEntity> findByRole(String roleCode) {
-		//JPQL
-		String sql = "FROM UserEntity";
-		Query query = entityManager.createNativeQuery(sql, UserEntity.class);
-		return query.getResultList();
-	}
-
-	@Override
 	public List<UserEntity> getAllUsers(Pageable pageable) {
 
 		StringBuilder sql = new StringBuilder(buildQueryFilter())

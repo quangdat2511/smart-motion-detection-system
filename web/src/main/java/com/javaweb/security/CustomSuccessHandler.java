@@ -2,6 +2,8 @@ package com.javaweb.security;
 
 import com.javaweb.model.dto.MyUserDetail;
 import com.javaweb.service.MqttService;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -16,6 +18,8 @@ import java.io.IOException;
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    @Getter
+    @Setter
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     @Autowired
     private MqttService mqttService;
@@ -39,13 +43,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         String targetUrl = "/admin/home";
         redirectStrategy.sendRedirect(request, response, targetUrl);
-    }
-    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
-        this.redirectStrategy = redirectStrategy;
-    }
-
-    public RedirectStrategy getRedirectStrategy() {
-        return redirectStrategy;
     }
 
 }

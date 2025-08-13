@@ -21,8 +21,9 @@ public class UserDTO extends AbstractDTO {
     @NotBlank(message = "Mật khẩu không được để trống")
     private String password;
     private Integer status;
+    private String deviceId; // ID thiết bị ESP32
     private List<RoleDTO> roles = new ArrayList<>();
     private String roleCode;
     private Map<String,String> roleDTOs = new HashMap<>();
-    private String deviceId; // ID thiết bị ESP32
+
 }

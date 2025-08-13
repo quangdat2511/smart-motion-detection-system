@@ -48,7 +48,7 @@ public class CustomUserDetailService implements UserDetailsService {
                 authorities
         );
 
-        // Copy các thuộc tính bổ sung từ UserDTO sang MyUserDetail (ví dụ: id, fullName)
+        // Copy các thuộc tính bổ sung từ UserDTO sang MyUserDetail
         BeanUtils.copyProperties(userDTO, myUserDetail);
 
         return myUserDetail;

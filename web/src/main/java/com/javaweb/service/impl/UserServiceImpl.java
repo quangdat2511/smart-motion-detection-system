@@ -141,14 +141,16 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDTO update(Long id, UserDTO updateUser) {
+        // chỉ update role và fullname, không update username, status, password, deviceId
         RoleEntity role = roleRepository.findOneByCode(updateUser.getRoleCode());
         UserEntity oldUser = userRepository.findById(id).get();
-        UserEntity userEntity = userConverter.convertToEntity(updateUser);
-        userEntity.setUserName(oldUser.getUserName());
-        userEntity.setStatus(oldUser.getStatus());
-        userEntity.setRoles(Stream.of(role).collect(Collectors.toList()));
-        userEntity.setPassword(oldUser.getPassword());
-        return userConverter.convertToDto(userRepository.save(userEntity));
+        UserEntity newUser = userConverter.convertToEntity(updateUser);
+        newUser.setUserName(oldUser.getUserName());
+        newUser.setStatus(oldUser.getStatus());
+        newUser.setRoles(Stream.of(role).collect(Collectors.toList()));
+        newUser.setPassword(oldUser.getPassword());
+        newUser.setDeviceId(oldUser.getDeviceId());
+        return userConverter.convertToDto(userRepository.save(newUser));
     }
 
     @Override
