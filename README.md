@@ -51,7 +51,6 @@ human detection, and web-based monitoring with cloud storage.
 - JPA / Hibernate, Spring Data JPA
 - RESTful API
 - MQTT protocol for real-time communication
-
 ### 💻 Frontend
 
 - HTML, CSS, JavaScript
@@ -104,18 +103,21 @@ Make sure you have the following installed:
     src/main/resources/serviceAccountKey.json
     ```
 ## 📂 Project Structure
+
+```
 smart-motion-system/
-│── arduino/ # Arduino code (motion sensors, LED, buzzer, etc.)
-│── esp32_cam/ # ESP32-CAM code (image capture and data transfer)
-│── web/ # Web application (data management and user interface)
-│ │── database/ # SQL scripts (database schema and sample data)
-│ │── src/main/ # Main source code of the web app
-│ │ │── java/com/javaweb/ # Backend java(controller, service, repository, entity, config)
-│ │ │── resources/ # Configuration files (application.properties, logging configs, etc.)
-│ │ │── webapp/ # Frontend (JSP pages, static resources, scripts, styles)
-│ │── pom.xml # Maven build and dependency configuration
-│── .gitignore # Git ignore configuration
-│── README.md # Project documentation
+├── arduino/                 # Arduino code (motion sensors, LED, buzzer, etc.)
+├── esp32_cam/               # ESP32-CAM code (image capture and data transfer)
+├── web/                     # Web application (data management and user interface)
+│   ├── database/            # SQL scripts (database schema and sample data)
+│   ├── src/main/            # Main source code of the web app
+│   │   ├── java/com/javaweb/ # Backend Java (controller, service, repository, entity, config)
+│   │   ├── resources/       # Configuration files (application.properties, logging configs, etc.)
+│   │   └── webapp/          # Frontend (JSP pages, static resources, scripts, styles)
+│   └── pom.xml              # Maven build and dependency configuration
+├── .gitignore               # Git ignore configuration
+└── README.md                # Project documentation
+```
 ## 🚀 How to Run
 
 ### 1. Arduino
