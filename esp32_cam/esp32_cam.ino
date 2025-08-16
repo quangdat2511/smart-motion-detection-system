@@ -5,10 +5,13 @@
 #include "esp_camera.h"
 #include "base64.h"
 #include "board_config.h"
+#include <WiFiManager.h>
 
 // WiFi info
-const char* ssid = "i86";
-const char* password = "KyNiem10Nam@1!";
+// const char* ssid = "i86";
+// const char* password = "KyNiem10Nam@1!";
+WiFiManager wm;
+unsigned long lastCheck = 0;
 
 // MQTT info
 const char* mqttServer = "broker.hivemq.com";
@@ -16,12 +19,12 @@ int port = 1883;
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
 
-void wifiConnect() {
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-  }
-}
+// void wifiConnect() {
+//   WiFi.begin(ssid, password);
+//   while (WiFi.status() != WL_CONNECTED) {
+//     delay(500);
+//   }
+// }
 
 void mqttConnect() {
   while (!mqttClient.connected()) {
@@ -29,10 +32,10 @@ void mqttConnect() {
     if (mqttClient.connect(clientId.c_str())) {
 
       //***Subscribe all topic you need***
-      mqttClient.subscribe("/group7/get");
-      mqttClient.subscribe("/group7/lcd"); 
-      mqttClient.subscribe("/group7/buzzer");
-      mqttClient.subscribe("/group7/servo");
+      // mqttClient.subscribe("/group7/get/561");
+      mqttClient.subscribe("/group7/lcd/561"); 
+      mqttClient.subscribe("/group7/buzzer/561");
+      mqttClient.subscribe("/group7/servo/561");
 
     } else {
       delay(5000);
@@ -158,20 +161,38 @@ void setupCamera() {
 void setup() {
   Serial.begin(9600);  // Dùng UART0 để giao tiếp với Arduino (TX=GPIO1, RX=GPIO3)
 
-  wifiConnect();
+  // wifiConnect();
   setupCamera();
 
   mqttClient.setServer(mqttServer, port);
   mqttClient.setCallback(callback);
   mqttClient.setKeepAlive(90);
   mqttClient.setBufferSize(20000);
+  
+  //Code cho chức năng AP
+  wm.setConfigPortalTimeout(180);
+  // Serial.println("LCD: Not WiFi connect, enter AP mode!")
+  // wm.autoConnect("ESP32-CAM-Setup", "12345678"
+  if (!wm.autoConnect("ESP32-CAM-Setup", "12345678")) {
+    Serial.println("LCD: Not WiFi: AP mode!");
+  } else {
+    Serial.println("LCD: Connect WiFi successfully!");
+  }
 }
 
 unsigned long lastMotionSent = 0;
 const unsigned long interval = 500; // 0.5 giây
 void loop() {
-  if (WiFi.status() != WL_CONNECTED) {
-    wifiConnect();
+  // if (WiFi.status() != WL_CONNECTED) {
+  //   wifiConnect();
+  // }
+  if (millis() - lastCheck > 5000) {
+    lastCheck = millis();
+    if (WiFi.status() != WL_CONNECTED) {
+      Serial.println("LCD: Not WiFi: AP mode!");
+      wm.startConfigPortal("ESP32-CAM-Setup", "12345678");
+      Serial.println("LCD: Connect WiFi successfully!");
+    }
   }
 
   if (!mqttClient.connected()) {

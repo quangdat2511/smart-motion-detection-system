@@ -58,7 +58,13 @@ void loop() {
       String content = line.substring(5);
       lcd.clear();
       lcd.setCursor(0, 0);
-      lcd.print(content);
+    
+      lcd.print(content.substring(0, min(16, content.length())));
+
+      if (content.length() > 16) {
+        lcd.setCursor(0, 1);
+        lcd.print(content.substring(16, min(32, content.length())));
+      }
     }
     if (line.startsWith("BUZZER: ")) {
       String content = line.substring(8);
