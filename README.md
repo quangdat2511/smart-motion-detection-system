@@ -103,16 +103,45 @@ Make sure you have the following installed:
     ```
     src/main/resources/serviceAccountKey.json
     ```
+## 📂 Project Structure
+smart-motion-system/
+│── arduino/ # Arduino code (motion sensors, LED, buzzer, etc.)
+│── esp32_cam/ # ESP32-CAM code (image capture and data transfer)
+│── web/ # Web application (data management and user interface)
+│ │── database/ # SQL scripts (database schema and sample data)
+│ │── src/main/ # Main source code of the web app
+│ │ │── java/com/javaweb/ # Backend java(controller, service, repository, entity, config)
+│ │ │── resources/ # Configuration files (application.properties, logging configs, etc.)
+│ │ │── webapp/ # Frontend (JSP pages, static resources, scripts, styles)
+│ │── pom.xml # Maven build and dependency configuration
+│── .gitignore # Git ignore configuration
+│── README.md # Project documentation
+## 🚀 How to Run
 
-### 1. Clone the repository
+### 1. Arduino
+1. Open the `arduino/` folder in Arduino IDE.
+2. Connect the Arduino board via USB.
+3. Select the correct **Board** and **Port** from the IDE.
+4. Upload the code to the Arduino.
+5. Verify that LEDs, buzzer, and motion sensors work properly.
+
+### 2. ESP32-CAM
+1. Open the `esp32_cam/` folder in Arduino IDE.
+2. Install ESP32 board support (if not already installed).
+3. Select **ESP32-CAM** as the board and the correct COM port.
+4. Upload the code to the ESP32-CAM.
+5. After reset, the ESP32-CAM should connect to Wi-Fi and be ready for image capture and transfer.
+
+### 3. Web Application
+#### 3.1 Clone the repository
 
 ```bash
 git clone https://github.com/quangdat2511/smart-motion-system.git
 ```
 
-### 2. Open the folder web in IntelliJ IDEA
+#### 3.2 Open the folder web in IntelliJ IDEA
 
-### 3. Set the Java language level
+#### 3.3 Set the Java language level
 
 - Go to `File > Project Structure` (or press `Ctrl + Alt + Shift + S`)
 - Under the **Project** tab:
@@ -121,7 +150,7 @@ git clone https://github.com/quangdat2511/smart-motion-system.git
 
 > This ensures the project uses Java 8, which is compatible with the source code and prevents issues such as missing `javax.xml.bind` classes found in later Java versions.
 
-### 4. Configure the MySQL database
+#### 3.4 Configure the MySQL database
 
 - Open the file `database/insert_database.sql`, copy its contents, and run it in your MySQL DBMS.
 - Update the `application.properties` file with your own MySQL credentials:
@@ -130,14 +159,14 @@ git clone https://github.com/quangdat2511/smart-motion-system.git
   spring.datasource.password=your_password
   ```
 
-### 5. Import and Build the Project
+#### 3.5 Import and Build the Project
 
-#### a. Reload Maven Projects
+##### a. Reload Maven Projects
 
 1. Open the Maven tool window in IntelliJ (**View > Tool Windows > Maven**).
 2. Click the **Reload All Maven Projects** button to sync dependencies from `pom.xml`.
 
-#### b. Build the Project
+##### b. Build the Project
 
 Open the terminal and run the following command:
 
@@ -147,7 +176,7 @@ mvn clean install
 
 > This will download all dependencies, compile the code, run tests, and package the application.
 
-### 6. Set up Tomcat 8.5.34 deployment in IntelliJ IDEA
+#### 3.6 Set up Tomcat 8.5.34 deployment in IntelliJ IDEA
 
 1. Go to **Run > Edit Configurations...**
 2. Click the `+` icon → select **Tomcat Server > Local**
@@ -164,11 +193,11 @@ mvn clean install
     - If port 8080 is already in use, you can change it to another port (e.g., 8081) by modifying the **HTTP port** field.
 9. Click **OK** to save the configuration.
 
-### 7. Run the Project
+#### 3.7 Run the Project
 
 - Click the green **Run** button next to your Tomcat configuration in IntelliJ.
 
-### 8. Access the Application
+#### 3.8 Access the Application
 
 Open your browser and go to:
 
@@ -186,7 +215,7 @@ This will load the main page of the application.
 
 ---
 
-## 8. Default Accounts
+#### 3.9 Default Accounts
 
 The system comes with a few pre-configured user accounts for testing purposes:
 
@@ -201,7 +230,7 @@ The system comes with a few pre-configured user accounts for testing purposes:
 
 ---
 
-## 9. How to Log In
+#### 3.10 How to Log In
 
 1. Open your browser and visit: [http://localhost:8080/login](http://localhost:8080/login)
 2. Enter one of the default usernames and the password `123456`.
