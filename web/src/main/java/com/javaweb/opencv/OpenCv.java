@@ -69,6 +69,7 @@ public class OpenCv {
 
         // Save output image
         Imgcodecs.imwrite("images/output.png", image);
+//        faceArray.length chính là số lượng khuôn mặt mà OpenCV tìm thấy trong ảnh.
         System.out.println("✅ Faces detected: " + faceArray.length + " -> Saved as output.png");
     }
 

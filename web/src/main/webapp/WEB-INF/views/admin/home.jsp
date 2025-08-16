@@ -71,7 +71,8 @@
                         <div class="card mb-3">
                             <div class="card-header bg-info text-white">1.3 Chọn thiết bị</div>
                             <div class="card-body">
-                                <p>Chọn thiết bị bạn muốn giám sát và điều khiển.
+                                <p>Chọn thiết bị bạn muốn giám sát và điều khiển(nếu bạn đang điều khiển một thiết bị, id của thiết bị đó sẽ được hiển lên,
+                                    nếu chưa, nó sẽ trống.)
                                     Chỉ một thiết bị có thể được giám sát tại một thời điểm.</p>
                             </div>
                         </div>

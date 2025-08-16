@@ -1,6 +1,7 @@
 package com.javaweb.service.impl;
 
 import com.javaweb.service.MqttService;
+import com.javaweb.service.PushSaferService;
 import com.javaweb.service.SessionService;
 import org.apache.logging.log4j.util.Strings;
 import org.eclipse.paho.client.mqttv3.*;
@@ -17,10 +18,10 @@ public class MqttServiceImpl implements MqttService {
 
     @Autowired
     private SessionService sessionService;
-
+    @Autowired
+    private PushSaferService pushSaferService;
     private final String BROKER = "tcp://broker.hivemq.com:1883";
 
-    private final String BASE_GET_TOPIC = "/group7/get";
     private final String BASE_IMAGE_TOPIC = "/group7/image";
     private final String BASE_BUTTON_TOPIC = "/group7/button";
     private final String BASE_BUZZER_TOPIC = "/group7/buzzer";
@@ -99,6 +100,11 @@ public class MqttServiceImpl implements MqttService {
                 if (topic.equals(buttonTopic) && "1".equals(msg)) {
                     System.out.println("🔔 Nút bấm được nhấn. Logout tất cả user quản lí deviceId: " + deviceId);
                     sessionService.logoutAllUsers(deviceId);
+                }
+                String imageTopic = BASE_IMAGE_TOPIC + "/" + deviceId;
+                if (topic.equals(imageTopic)) {
+                    System.out.println("🔔 Có chuyển động");
+                    pushSaferService.sendPush();
                 }
             }
 
