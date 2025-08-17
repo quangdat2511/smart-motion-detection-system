@@ -39,6 +39,10 @@ void mqttConnect() {
       mqttClient.subscribe("/group7/servo/561");
 
     } else {
+      if (WiFi.status() != WL_CONNECTED) {
+        // WiFi chưa sẵn sàng, không connect MQTT
+        return;
+      }
       // Serial.print(" failed, rc=");
       // Serial.println(mqttClient.state());
       delay(5000);
@@ -194,12 +198,12 @@ void loop() {
   if (millis() - lastCheck > 5000) {
     lastCheck = millis();
     if (WiFi.status() != WL_CONNECTED) {
-      Serial.println("LCD: Not WiFi: AP mode!");
+      Serial.println("LCD: No WiFi, switch to AP mode!");
       wm.startConfigPortal("ESP32-CAM-Setup", "12345678");
-      Serial.println("LCD: Connect WiFi successfully!");
+      Serial.println("LCD: Connect to WiFi successfully!");
     }
   }
-
+  
   if (!mqttClient.connected()) {
     mqttConnect();
   }
