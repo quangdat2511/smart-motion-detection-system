@@ -104,7 +104,8 @@ public class MqttServiceImpl implements MqttService {
                 String imageTopic = BASE_IMAGE_TOPIC + "/" + deviceId;
                 if (topic.equals(imageTopic)) {
                     System.out.println("🔔 Có chuyển động");
-                    pushSaferService.sendPush();
+                    if (pushSaferService.isReceiveMessage())
+                        pushSaferService.sendPush();
                 }
             }
 
