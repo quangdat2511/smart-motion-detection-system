@@ -13,6 +13,7 @@ int buttonPin = 4;
 int buzzerPin = 12; 
 int ledPin = 13;
 int servoPin = 6;
+int ldrPin = 2;
 bool lastMotion = false;
 bool lastButton = false;
 Servo myServo;
@@ -24,6 +25,8 @@ void setup() {
   pinMode(buttonPin, INPUT);
   pinMode(buzzerPin, OUTPUT); // setup buzzer output
   digitalWrite(buzzerPin, LOW); // buzzer tắt ban đầu
+  pinMode(ldrPin, INPUT);
+  pinMode(ledPin, OUTPUT);
   lcd.init();
   lcd.backlight();
   myServo.attach(servoPin);
@@ -45,6 +48,7 @@ void printToScreen(String content) {
 void loop() {
   bool motion = digitalRead(pirPin);
   bool button = digitalRead(buttonPin);
+  bool light = digitalRead(ldrPin);
   // Đọc cảm biến
   if (motion && !lastMotion) {
     // Serial.println("Motion detected! Sending to ESP32...");
@@ -54,11 +58,19 @@ void loop() {
   if (button && !lastButton){
     // Serial.println("Button press detected! Sending to ESP32...");
     // espSerial.println("button");  // Gửi lệnh cho ESP32-CAM button
-    // printToScreen("Button press detected!");
-    // Serial.println("button");
+    printToScreen("Button press detected!");
+    Serial.println("button");
   }
   lastMotion = motion;
   lastButton = button;
+
+  //Trời tối bật đèn, trời sáng tắt đèn
+  if (light == true) {
+    digitalWrite(ledPin, true);
+  } else {
+    digitalWrite(ledPin, false);
+  }
+
   // Nhận phản hồi từ ESP32-CAM
   if (Serial.available()) {
     // String line = espSerial.readStringUntil('\n');

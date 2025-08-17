@@ -176,17 +176,17 @@ void setup() {
   wm.setConfigPortalTimeout(180);
   // Serial.println("LCD: Not WiFi connect, enter AP mode!")
   // wm.autoConnect("ESP32-CAM-Setup", "12345678"
-  Serial.println("LCD: Not WiFi: AP mode!");
+  Serial.println("LCD: No WiFi, switch to AP mode!");
   // if (!wm.autoConnect("ESP32-CAM-Setup", "12345678")) {
   // } else {
   //   Serial.println("LCD: Connect WiFi successfully!");
   // }
   wm.startConfigPortal("ESP32-CAM-Setup", "12345678");
-  Serial.println("LCD: Connect WiFi successfully!");
+  Serial.println("LCD: Connect to WiFi successfully!");
 }
 
-unsigned long lastMotionSent = 0;
-const unsigned long interval = 500; // 0.5 giây
+// unsigned long lastMotionSent = 0;
+// const unsigned long interval = 500; // 0.5 giây
 void loop() {
   // if (WiFi.status() != WL_CONNECTED) {
   //   wifiConnect();
