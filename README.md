@@ -26,15 +26,15 @@ human detection, and web-based monitoring with cloud storage.
 
 - User login & registration
 - Role-based access control (Manager, Operator)
-### Management and Monitoring
-- Real-time monitoring of motion sensors
-- Display message on LCD screen
-- Turn on/off buzzers
-- Edit servo angle
-### Motion Sensor Management
-- Time-based motion sensor management
-- Determine motion of person or other objects
-- Image upload for motion sensors
+### 📊 Management & Monitoring
+- Real-time monitoring of motion sensors  
+- Display messages on LCD screen  
+- Control buzzers (turn on/off)  
+- Adjust servo motor angle  
+### 🎯 Motion Sensor Management
+- Time-based motion sensor scheduling  
+- Detect human motion or other objects  
+- Upload images for motion sensor events  
 ### 🧑‍💼 Account Management
 - Create, edit, delete, and search user accounts
 ### 🌐 Responsive UI
@@ -80,6 +80,7 @@ Make sure you have the following installed:
   Download version 8.5.34 from:
   [https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/](https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/)
 - **IntelliJ IDE**A (recommended IDE for Java development)
+- **OpenCV(version 4.5.5): https://opencv.org/releases/page/2/
 - Firebase account (for motion sensor data storage)
     ### Create a Firebase Project
     - Go to: https://console.firebase.google.com
@@ -142,8 +143,19 @@ git clone https://github.com/quangdat2511/smart-motion-system.git
 ```
 
 #### 3.2 Open the folder web in IntelliJ IDEA
-
-#### 3.3 Set the Java language level
+#### 3.3 Install OpenCV Dependency
+Because OpenCV is not available in the default Maven Central repository, you need to manually install the .jar file into your local Maven repository.
+-Locate the file opencv-455.jar in your OpenCV build directory: <path-to-opencv>/build/java/opencv-455.jar
+- `<path-to-opencv>` is the actual directory where you extracted or built OpenCV.
+-Open terminal at web folder and run the following command
+mvn install:install-file ^
+  -Dfile="<path-to-opencv>/build/java/opencv-455.jar" ^
+  -DgroupId=org.opencv ^
+  -DartifactId=opencv ^
+  -Dversion=4.5.5 ^
+  -Dpackaging=jar
+-💡 On Linux/macOS, replace ^ with \ for line continuation.
+#### 3.4 Set the Java language level
 
 - Go to `File > Project Structure` (or press `Ctrl + Alt + Shift + S`)
 - Under the **Project** tab:
@@ -152,7 +164,7 @@ git clone https://github.com/quangdat2511/smart-motion-system.git
 
 > This ensures the project uses Java 8, which is compatible with the source code and prevents issues such as missing `javax.xml.bind` classes found in later Java versions.
 
-#### 3.4 Configure the MySQL database
+#### 3.5 Configure the MySQL database
 
 - Open the file `database/insert_database.sql`, copy its contents, and run it in your MySQL DBMS.
 - Update the `application.properties` file with your own MySQL credentials:
@@ -161,7 +173,7 @@ git clone https://github.com/quangdat2511/smart-motion-system.git
   spring.datasource.password=your_password
   ```
 
-#### 3.5 Import and Build the Project
+#### 3.6 Import and Build the Project
 
 ##### a. Reload Maven Projects
 
@@ -178,14 +190,15 @@ mvn clean install
 
 > This will download all dependencies, compile the code, run tests, and package the application.
 
-#### 3.6 Set up Tomcat 8.5.34 deployment in IntelliJ IDEA
+#### 3.7 Set up Tomcat 8.5.34 deployment in IntelliJ IDEA
 
 1. Go to **Run > Edit Configurations...**
 2. Click the `+` icon → select **Tomcat Server > Local**
 3. In the **Server** tab, click **Configure...** and set the path to your local **Tomcat 8.5.34** installation.
 4. In the **VM options:** field, paste:
    ```
-   -Dfile.encoding=UTF-8
+  -Dfile.encoding=UTF-8
+  -Djava.library.path=<path-to-opencv>\build\java\x64
    ```
 5. Switch to the **Deployment** tab.
 6. Click the `+` button → choose `spring-boot:war exploded` (recommended).
@@ -195,11 +208,11 @@ mvn clean install
     - If port 8080 is already in use, you can change it to another port (e.g., 8081) by modifying the **HTTP port** field.
 9. Click **OK** to save the configuration.
 
-#### 3.7 Run the Project
+#### 3.8 Run the Project
 
 - Click the green **Run** button next to your Tomcat configuration in IntelliJ.
 
-#### 3.8 Access the Application
+#### 3.9 Access the Application
 
 Open your browser and go to:
 
@@ -217,7 +230,7 @@ This will load the main page of the application.
 
 ---
 
-#### 3.9 Default Accounts
+#### 3.10 Default Accounts
 
 The system comes with a few pre-configured user accounts for testing purposes:
 
@@ -232,7 +245,7 @@ The system comes with a few pre-configured user accounts for testing purposes:
 
 ---
 
-#### 3.10 How to Log In
+#### 3.11 How to Log In
 
 1. Open your browser and visit: [http://localhost:8080/login](http://localhost:8080/login)
 2. Enter one of the default usernames and the password `123456`.

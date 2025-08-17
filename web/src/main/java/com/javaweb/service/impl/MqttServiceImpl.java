@@ -212,7 +212,7 @@ public class MqttServiceImpl implements MqttService {
             mqttMessage.setQos(0);
             mqttMessage.setRetained(false);
             client.publish(topic, mqttMessage);
-            System.out.println("🚀 Gửi [" + message + "] tới topic: " + topic + " deviceId: " + deviceId);
+            System.out.println("🚀 Gửi [" + message + "] tới topic: " + topic);
         } catch (MqttException e) {
             System.out.println("❌ Gửi thất bại: " + e.getMessage());
             e.printStackTrace();
