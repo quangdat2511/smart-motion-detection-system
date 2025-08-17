@@ -29,6 +29,7 @@ PubSubClient mqttClient(wifiClient);
 void mqttConnect() {
   while (!mqttClient.connected()) {
     String clientId = "ESP32Client-" + String(random(0xffff), HEX);
+    // Serial.print("Connecting to MQTT...");
     if (mqttClient.connect(clientId.c_str())) {
 
       //***Subscribe all topic you need***
@@ -38,6 +39,8 @@ void mqttConnect() {
       mqttClient.subscribe("/group7/servo/561");
 
     } else {
+      // Serial.print(" failed, rc=");
+      // Serial.println(mqttClient.state());
       delay(5000);
     }
   }
@@ -52,7 +55,7 @@ void captureAndSendImage() {
   }
 
   String imageBase64 = base64::encode(fb->buf, fb->len);
-  bool success = mqttClient.publish("/group7/image", imageBase64.c_str());
+  bool success = mqttClient.publish("/group7/image/561", imageBase64.c_str());
   esp_camera_fb_return(fb);
 
   // if (success) {
@@ -70,16 +73,16 @@ void callback(char* topic, byte* message, unsigned int length) {
   }
 
   //***Code here to process the received package***
-  if (String(topic) == "/group7/get" && msg == "get") {
-    captureAndSendImage();
-  }
-  if (String(topic) == "/group7/lcd") {
+  // if (String(topic) == "/group7/get/561" && msg == "get") {
+  //   captureAndSendImage();
+  // }
+  if (String(topic) == "/group7/lcd/561") {
     Serial.println("LCD: " + msg);
   }
-  if (String(topic) == "/group7/buzzer") {
+  if (String(topic) == "/group7/buzzer/561") {
     Serial.println("BUZZER: " + msg);
   }
-  if (String(topic) == "/group7/servo") {
+  if (String(topic) == "/group7/servo/561") {
     Serial.println("SERVO: " + msg);
   }
 }
@@ -173,11 +176,13 @@ void setup() {
   wm.setConfigPortalTimeout(180);
   // Serial.println("LCD: Not WiFi connect, enter AP mode!")
   // wm.autoConnect("ESP32-CAM-Setup", "12345678"
-  if (!wm.autoConnect("ESP32-CAM-Setup", "12345678")) {
-    Serial.println("LCD: Not WiFi: AP mode!");
-  } else {
-    Serial.println("LCD: Connect WiFi successfully!");
-  }
+  Serial.println("LCD: Not WiFi: AP mode!");
+  // if (!wm.autoConnect("ESP32-CAM-Setup", "12345678")) {
+  // } else {
+  //   Serial.println("LCD: Connect WiFi successfully!");
+  // }
+  wm.startConfigPortal("ESP32-CAM-Setup", "12345678");
+  Serial.println("LCD: Connect WiFi successfully!");
 }
 
 unsigned long lastMotionSent = 0;
@@ -209,7 +214,7 @@ void loop() {
       captureAndSendImage();
     }
     if (msg == "button"){
-      mqttClient.publish("/group7/button", "1");
+      mqttClient.publish("/group7/button/561", "1");
     }
   }
 
