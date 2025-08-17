@@ -6,6 +6,8 @@ import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
+
 @Service
 public class OpenCvServiceImpl implements com.javaweb.service.OpenCvService {
 
@@ -14,51 +16,70 @@ public class OpenCvServiceImpl implements com.javaweb.service.OpenCvService {
     }
 
     @Override
-    public int detectAndSave(String inputPath, String outputPath) {
-        Mat image = Imgcodecs.imread(inputPath);
-        if (image.empty()) {
-            System.out.println("❌ Could not load image: " + inputPath);
-            return 0;
-        }
+    public int detectAndSave(String base64Image, String outputPath) {
+        try {
+            // 1. Decode Base64 → byte[]
+            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
 
-        Mat grayFrame = new Mat();
-        Imgproc.cvtColor(image, grayFrame, Imgproc.COLOR_BGR2GRAY);
-        Imgproc.equalizeHist(grayFrame, grayFrame);
+            // 2. byte[] → Mat (dùng OpenCV)
+            Mat inputImage = Imgcodecs.imdecode(new MatOfByte(imageBytes), Imgcodecs.IMREAD_COLOR);
+            if (inputImage.empty()) {
+                System.out.println("❌ Could not decode Base64 image!");
+                return 0;
+            }
 
-        int height = grayFrame.height();
-        int absoluteFaceSize = Math.round(height * 0.2f);
+            // 3. Chuyển sang grayscale
+            Mat grayFrame = new Mat();
+            Imgproc.cvtColor(inputImage, grayFrame, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.equalizeHist(grayFrame, grayFrame);
 
-        CascadeClassifier faceDetector = new CascadeClassifier();
-        boolean loaded = faceDetector.load("data/haarcascade_frontalface_alt2.xml");
-        if (!loaded) {
-            System.out.println("❌ Could not load Haar Cascade XML file!");
-            return 0;
-        }
+            // 4. Xác định kích thước tối thiểu của khuôn mặt
+            int height = grayFrame.height();
+            int absoluteFaceSize = Math.round(height * 0.2f);
 
-        MatOfRect faces = new MatOfRect();
-        faceDetector.detectMultiScale(
-                grayFrame,
-                faces,
-                1.1,
-                2,
-                Objdetect.CASCADE_SCALE_IMAGE,
-                new Size(absoluteFaceSize, absoluteFaceSize),
-                new Size()
-        );
+            // 5. Load Haar Cascade
+            CascadeClassifier faceDetector = new CascadeClassifier();
+            boolean loaded = faceDetector.load("data/haarcascade_frontalface_alt2.xml");
+            if (!loaded) {
+                System.out.println("❌ Could not load Haar Cascade XML file!");
+                return 0;
+            }
 
-        Rect[] faceArray = faces.toArray();
-        for (Rect rect : faceArray) {
-            Imgproc.rectangle(image,
-                    new Point(rect.x, rect.y),
-                    new Point(rect.x + rect.width, rect.y + rect.height),
-                    new Scalar(0, 0, 255),
-                    3
+            // 6. Detect faces
+            MatOfRect faces = new MatOfRect();
+            faceDetector.detectMultiScale(
+                    grayFrame,
+                    faces,
+                    1.1,
+                    2,
+                    Objdetect.CASCADE_SCALE_IMAGE,
+                    new Size(absoluteFaceSize, absoluteFaceSize),
+                    new Size()
             );
+
+            Rect[] faceArray = faces.toArray();
+            for (Rect rect : faceArray) {
+                Imgproc.rectangle(inputImage,
+                        new Point(rect.x, rect.y),
+                        new Point(rect.x + rect.width, rect.y + rect.height),
+                        new Scalar(0, 0, 255),
+                        3
+                );
+            }
+
+            // 7. Save output image
+            boolean saved = Imgcodecs.imwrite(outputPath, inputImage);
+            if (!saved) {
+                System.out.println("❌ Could not save output image to " + outputPath);
+                return 0;
+            }
+
+            System.out.println("✅ Faces detected: " + faceArray.length + " -> Saved as " + outputPath);
+            return faceArray.length;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
         }
-
-        Imgcodecs.imwrite(outputPath, image);
-        System.out.println("✅ Faces detected: " + faceArray.length + " -> Saved as " + outputPath);
-
-        return faceArray.length;
     }
 }

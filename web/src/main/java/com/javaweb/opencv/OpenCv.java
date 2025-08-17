@@ -10,7 +10,7 @@ public class OpenCv {
     public static void main(String[] arg){
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 //        System.out.println(Core.VERSION);
-      String filePath = "images/input.png";
+      String filePath = "src/main/resources/static/img/image1.jpg";
         Mat image = Imgcodecs.imread(filePath);
 
         if (image.empty()) {
@@ -68,7 +68,7 @@ public class OpenCv {
         }
 
         // Save output image
-        Imgcodecs.imwrite("images/output.png", image);
+        Imgcodecs.imwrite("src/main/resources/static/img/output.jpg", image);
 //        faceArray.length chính là số lượng khuôn mặt mà OpenCV tìm thấy trong ảnh.
         System.out.println("✅ Faces detected: " + faceArray.length + " -> Saved as output.png");
     }

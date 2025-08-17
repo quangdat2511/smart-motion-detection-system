@@ -63,7 +63,7 @@
     <!-- Khu vực điều khiển OUTPUT -->
     <div class="row text-center">
         <!-- Buzzer -->
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="panel panel-warning">
                 <div class="panel-heading">Buzzer</div>
                 <div class="panel-body">
@@ -74,7 +74,7 @@
         </div>
 
         <!-- LCD -->
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="panel panel-info">
                 <div class="panel-heading">LCD</div>
                 <div class="panel-body">
@@ -85,12 +85,22 @@
         </div>
 
         <!-- Servo -->
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="panel panel-danger">
                 <div class="panel-heading">Servo</div>
                 <div class="panel-body">
                     <input type="number" id="servoAngle" class="form-control" placeholder="Góc 0-180" min="0" max="180">
                     <button class="btn btn-danger btn-block" id="btnSetServoAngle">Quay</button>
+                </div>
+            </div>
+        </div>
+        <!-- Servo -->
+        <div class="col-sm-3">
+            <div class="panel panel-warning">
+                <div class="panel-heading">PushSafer</div>
+                <div class="panel-body">
+                    <button class="btn btn-success btn-block" id="btnPushSaferOn">Bật thông báo</button>
+                    <button class="btn btn-danger btn-block" id="btnPushSaferOff">Tắt thông báo</button>
                 </div>
             </div>
         </div>
@@ -127,7 +137,8 @@
     }
     $('#btnBuzzerOn').click(() => sendOutput('/api/buzzer/on'));
     $('#btnBuzzerOff').click(() => sendOutput('/api/buzzer/off'));
-
+    $('#btnPushSaferOn').click(() => sendOutput('/api/pushsafer/on'));
+    $('#btnPushSaferOff').click(() => sendOutput('/api/pushsafer/off'));
     $('#btnSetServoAngle').click(() => {
         const angle = parseInt($('#servoAngle').val());
         if (isNaN(angle) || angle < 0 || angle > 180) {

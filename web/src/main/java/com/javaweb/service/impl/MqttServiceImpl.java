@@ -1,6 +1,7 @@
 package com.javaweb.service.impl;
 
 import com.javaweb.service.MqttService;
+import com.javaweb.service.OpenCvService;
 import com.javaweb.service.PushSaferService;
 import com.javaweb.service.SessionService;
 import org.apache.logging.log4j.util.Strings;
@@ -20,6 +21,8 @@ public class MqttServiceImpl implements MqttService {
     private SessionService sessionService;
     @Autowired
     private PushSaferService pushSaferService;
+    @Autowired
+    private OpenCvService openCvService;
     private final String BROKER = "tcp://broker.hivemq.com:1883";
 
     private final String BASE_IMAGE_TOPIC = "/group7/image";
@@ -27,7 +30,7 @@ public class MqttServiceImpl implements MqttService {
     private final String BASE_BUZZER_TOPIC = "/group7/buzzer";
     private final String BASE_LCD_TOPIC = "/group7/lcd";
     private final String BASE_SERVO_TOPIC = "/group7/servo";
-
+    private int numberOfOutputImage = 1;
     // Map quản lý client MQTT theo deviceId
     private final Map<String, MqttClient> clientMap = new ConcurrentHashMap<>();
 
@@ -106,6 +109,8 @@ public class MqttServiceImpl implements MqttService {
                     System.out.println("🔔 Có chuyển động");
                     if (pushSaferService.isReceiveMessage())
                         pushSaferService.sendPush();
+                    openCvService.detectAndSave(msg, "output" + numberOfOutputImage + ".jpg");
+                    numberOfOutputImage++;
                 }
             }
 
