@@ -4,6 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.javaweb.enums.MotionType;
+import com.javaweb.model.dto.MotionDTO;
 import com.javaweb.model.request.MotionRequestDTO;
 import com.javaweb.model.response.MotionSearchResponse;
 import com.javaweb.service.MotionService;
@@ -11,8 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -69,4 +69,99 @@ public class MotionServiceImpl implements MotionService {
         return documents.size();
     }
 
+    @Override
+    public void addMotion(MotionDTO motionDTO) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        CollectionReference motionCollection = db.collection("motion");
+        DocumentReference docRef = motionCollection.document();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("deviceId", motionDTO.getDeviceId());
+        data.put("motionType", motionDTO.getMotionType());
+        data.put("image", motionDTO.getImage());
+        data.put("time", FieldValue.serverTimestamp()); // server timestamp ngay từ đầu
+
+        docRef.set(data).get();
+    }
+
+    @Override
+    public List<MotionDTO> getMotionsLastHour(String deviceId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+
+        // Thời điểm hiện tại và 1 giờ trước
+        Date now = new Date();
+        Date oneHourAgo = new Date(now.getTime() - 60L * 60L * 1000L); // 60 phút trước
+
+        CollectionReference motionCollection = db.collection("motion");
+        ApiFuture<QuerySnapshot> future = motionCollection
+                .whereEqualTo("deviceId", deviceId)
+                .whereGreaterThanOrEqualTo("time", oneHourAgo)
+                .get();
+
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        List<MotionDTO> results = new ArrayList<>(documents.size());
+
+        for (QueryDocumentSnapshot doc : documents) {
+            // Thử map trực tiếp sang MotionDTO (yêu cầu MotionDTO có no-arg constructor + getters/setters)
+            MotionDTO motion = doc.toObject(MotionDTO.class);
+
+            // Đảm bảo các field quan trọng được set (fallback nếu toObject không map)
+            if (motion.getDeviceId() == null) {
+                motion.setDeviceId(doc.getString("deviceId"));
+            }
+            // doc.getDate trả java.util.Date nếu field là Firestore Timestamp
+            Date time = doc.getDate("time");
+            if (time != null) {
+                motion.setTime(time);
+            }
+            if (motion.getMotionType() == null) {
+                motion.setMotionType(doc.getString("motionType"));
+            }
+            if (motion.getImage() == null) {
+                motion.setImage(doc.getString("image"));
+            }
+
+            results.add(motion);
+        }
+
+        return results;
+    }
+
+    @Override
+    public List<MotionDTO> getMotions(String deviceId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+
+        CollectionReference motionCollection = db.collection("motion");
+        ApiFuture<QuerySnapshot> future = motionCollection
+                .whereEqualTo("deviceId", deviceId)
+                .get();
+
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        List<MotionDTO> results = new ArrayList<>(documents.size());
+
+        for (QueryDocumentSnapshot doc : documents) {
+            // Thử map trực tiếp sang MotionDTO (yêu cầu MotionDTO có no-arg constructor + getters/setters)
+            MotionDTO motion = doc.toObject(MotionDTO.class);
+
+            // Đảm bảo các field quan trọng được set (fallback nếu toObject không map)
+            if (motion.getDeviceId() == null) {
+                motion.setDeviceId(doc.getString("deviceId"));
+            }
+            // doc.getDate trả java.util.Date nếu field là Firestore Timestamp
+            Date time = doc.getDate("time");
+            if (time != null) {
+                motion.setTime(time);
+            }
+            if (motion.getMotionType() == null) {
+                motion.setMotionType(doc.getString("motionType"));
+            }
+            if (motion.getImage() == null) {
+                motion.setImage(doc.getString("image"));
+            }
+
+            results.add(motion);
+        }
+
+        return results;
+    }
 }
