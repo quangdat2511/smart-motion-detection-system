@@ -56,7 +56,7 @@
         </div>
         <div class="panel-body text-center">
             <h4 id="motionStatusText" style="color: green;">Đang tải trạng thái...</h4>
-            <img src="${pageContext.request.contextPath}/img/image1.jpg" alt="Motion Image" class="img-responsive center-block">
+            <img id = "motionImage" src="" alt="Motion Image" class="img-responsive center-block">
         </div>
     </div>
 
@@ -108,6 +108,45 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    let lastFilename = null; // lưu ảnh cũ
+
+    function updateLatestImage() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/api/image",
+            method: "GET",
+            success: function(filename) {
+                if (filename) {
+                    if (filename !== lastFilename) {
+                        // ảnh mới khác ảnh cũ -> cập nhật
+                        $("#motionImage").attr(
+                            "src",
+                            "${pageContext.request.contextPath}/img/" + filename + "?t=" + new Date().getTime()
+                        );
+
+                        $("#motionStatusText").text("Có chuyển động").css("color", "red");
+                        updateTimeNow();
+
+                        // lưu lại ảnh hiện tại để so sánh lần sau
+                        lastFilename = filename;
+                    } else {
+                        // ảnh vẫn giống cũ -> không cập nhật thời gian nữa
+                        console.log("⚠️ Ảnh không đổi, bỏ qua updateTimeNow()");
+                    }
+                } else {
+                    $("#motionStatusText").text("Không có chuyển động").css("color", "green");
+                    lastFilename = null; // reset
+                }
+            },
+            error: function() {
+                console.log("❌ Không lấy được ảnh mới nhất!");
+            }
+        });
+    }
+
+    // Gọi ngay khi load trang
+    updateLatestImage();
+    // Cập nhật ảnh mỗi 2 giây
+    setInterval(updateLatestImage, 2000);
     function updateTimeNow() {
         const now = new Date();
         const formattedTime = now.toLocaleString('vi-VN', {
@@ -146,34 +185,6 @@
             return;
         }
         sendOutput('/api/servo/' + angle);
-    });
-    function updateMotionStatus() {
-        $.ajax({
-            url: "${pageContext.request.contextPath}/api/motion/status",
-            method: "GET",
-            success: function(status) {
-                let color = (status === "Có chuyển động") ? "red" : "green";
-                $("#motionStatusText").text(status).css("color", color);
-                if (status === "Có chuyển động")
-                    updateTimeNow(); // ← Cập nhật thời gian mỗi lần gọi thành công
-            },
-            error: function() {
-                console.log("❌ Không lấy được trạng thái!");
-            }
-        });
-    }
-
-    // Gọi lần đầu ngay khi tải trang
-    updateMotionStatus();
-    // Gọi lại mỗi 1 giây
-    setInterval(updateMotionStatus, 1000);
-    $('#btnDisplayMessageOnLcd').click(() => {
-        const message = $('#lcdText').val();
-        if (!message) {
-            alert('Vui lòng nhập nội dung.');
-            return;
-        }
-        sendOutput('/api/lcd', 'POST', { message: message });
     });
 </script>
 </body>

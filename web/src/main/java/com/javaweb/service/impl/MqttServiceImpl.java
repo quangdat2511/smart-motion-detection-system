@@ -1,9 +1,6 @@
 package com.javaweb.service.impl;
 
-import com.javaweb.service.MqttService;
-import com.javaweb.service.OpenCvService;
-import com.javaweb.service.PushSaferService;
-import com.javaweb.service.SessionService;
+import com.javaweb.service.*;
 import org.apache.logging.log4j.util.Strings;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
@@ -23,6 +20,8 @@ public class MqttServiceImpl implements MqttService {
     private PushSaferService pushSaferService;
     @Autowired
     private OpenCvService openCvService;
+    @Autowired
+    private ImageService imageService;
     private final String BROKER = "tcp://broker.hivemq.com:1883";
 
     private final String BASE_IMAGE_TOPIC = "/group7/image";
@@ -30,7 +29,6 @@ public class MqttServiceImpl implements MqttService {
     private final String BASE_BUZZER_TOPIC = "/group7/buzzer";
     private final String BASE_LCD_TOPIC = "/group7/lcd";
     private final String BASE_SERVO_TOPIC = "/group7/servo";
-    private int numberOfOutputImage = 1;
     // Map quản lý client MQTT theo deviceId
     private final Map<String, MqttClient> clientMap = new ConcurrentHashMap<>();
 
@@ -97,7 +95,7 @@ public class MqttServiceImpl implements MqttService {
             @Override
             public void messageArrived(String topic, MqttMessage message) {
                 String msg = message.toString();
-                System.out.println("📥 Nhận [" + topic + "] deviceId=" + deviceId + ": " + msg);
+                System.out.println("📥 Nhận [" + topic + "] deviceId=" + deviceId);
 
                 String buttonTopic = BASE_BUTTON_TOPIC + "/" + deviceId;
                 if (topic.equals(buttonTopic) && "1".equals(msg)) {
@@ -106,11 +104,13 @@ public class MqttServiceImpl implements MqttService {
                 }
                 String imageTopic = BASE_IMAGE_TOPIC + "/" + deviceId;
                 if (topic.equals(imageTopic)) {
-                    System.out.println("🔔 Có chuyển động");
+//                    System.out.println("🔔 Có chuyển động");
                     if (pushSaferService.isReceiveMessage())
                         pushSaferService.sendPush();
-                    openCvService.detectAndSave(msg, "output" + numberOfOutputImage + ".jpg");
-                    numberOfOutputImage++;
+                    String fileName = "output" + System.currentTimeMillis()  + ".jpg";
+                    String outputPath = "D:/tomcat/uploads/img/" + fileName;
+                    openCvService.detectAndSave(msg, outputPath);
+                    imageService.setLatestFilename(fileName);
                 }
             }
 

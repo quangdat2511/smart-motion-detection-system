@@ -6,6 +6,8 @@ import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.net.URL;
 import java.util.Base64;
 
 @Service
@@ -14,7 +16,15 @@ public class OpenCvServiceImpl implements com.javaweb.service.OpenCvService {
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // Load thư viện OpenCV 1 lần
     }
+    private String matToBase64(Mat image) {
+        // Encode Mat -> byte[]
+        MatOfByte mob = new MatOfByte();
+        Imgcodecs.imencode(".jpg", image, mob);
+        byte[] byteArray = mob.toArray();
 
+        // byte[] -> Base64
+        return Base64.getEncoder().encodeToString(byteArray);
+    }
     @Override
     public int detectAndSave(String base64Image, String outputPath) {
         try {
@@ -37,11 +47,17 @@ public class OpenCvServiceImpl implements com.javaweb.service.OpenCvService {
             int height = grayFrame.height();
             int absoluteFaceSize = Math.round(height * 0.2f);
 
-            // 5. Load Haar Cascade
-            CascadeClassifier faceDetector = new CascadeClassifier();
-            boolean loaded = faceDetector.load("data/haarcascade_frontalface_alt2.xml");
-            if (!loaded) {
-                System.out.println("❌ Could not load Haar Cascade XML file!");
+            // 5. Load Haar Cascade từ resources/data
+            URL xmlUrl = getClass().getClassLoader().getResource("data/haarcascade_frontalface_alt2.xml");
+            if (xmlUrl == null) {
+                System.out.println("❌ Haar Cascade XML file not found in resources!");
+                return 0;
+            }
+
+            File xmlFile = new File(xmlUrl.toURI());
+            CascadeClassifier faceDetector = new CascadeClassifier(xmlFile.getAbsolutePath());
+            if (faceDetector.empty()) {
+                System.out.println("❌ Failed to load Haar Cascade from " + xmlFile.getAbsolutePath());
                 return 0;
             }
 
@@ -59,7 +75,8 @@ public class OpenCvServiceImpl implements com.javaweb.service.OpenCvService {
 
             Rect[] faceArray = faces.toArray();
             for (Rect rect : faceArray) {
-                Imgproc.rectangle(inputImage,
+                Imgproc.rectangle(
+                        inputImage,
                         new Point(rect.x, rect.y),
                         new Point(rect.x + rect.width, rect.y + rect.height),
                         new Scalar(0, 0, 255),
@@ -73,7 +90,8 @@ public class OpenCvServiceImpl implements com.javaweb.service.OpenCvService {
                 System.out.println("❌ Could not save output image to " + outputPath);
                 return 0;
             }
-
+            String base64Output = matToBase64(inputImage);
+            System.out.println("Preview Base64: " + base64Output.substring(0,100) + "...");
             System.out.println("✅ Faces detected: " + faceArray.length + " -> Saved as " + outputPath);
             return faceArray.length;
 
@@ -82,4 +100,5 @@ public class OpenCvServiceImpl implements com.javaweb.service.OpenCvService {
             return 0;
         }
     }
+
 }
