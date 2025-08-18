@@ -146,7 +146,7 @@
     // Gọi ngay khi load trang
     updateLatestImage();
     // Cập nhật ảnh mỗi 2 giây
-    setInterval(updateLatestImage, 2000);
+    setInterval(updateLatestImage, 1000);
     function updateTimeNow() {
         const now = new Date();
         const formattedTime = now.toLocaleString('vi-VN', {

@@ -103,6 +103,7 @@ Make sure you have the following installed:
     ```
     src/main/resources/serviceAccountKey.json
     ```
+- Create folder `D:\tomcat\uploads\img` to store images.
 ## 📂 Project Structure
 
 ```
