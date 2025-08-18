@@ -13,7 +13,7 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender mailSender;
 
     @Override
-    public boolean sendMail(int motionCount, int motionHasPersonCount) {
+    public boolean sendMail(String deviceId, int motionCount, int motionHasPersonCount) {
         try {
             // Creating a simple mail message
             SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -23,7 +23,7 @@ public class EmailServiceImpl implements EmailService {
             mailMessage.setTo("nhakhoa23@clc.fitus.edu.vn");
             String body = "Trong 1 giờ qua, hệ thống phát hiện " + motionCount + " chuyển động, trong đó có " + motionHasPersonCount + " chuyển động có người.";
             mailMessage.setText(body);
-            mailMessage.setSubject("Thông báo từ hệ thống phát hiện chuyển động");
+            mailMessage.setSubject("Thông báo từ hệ thống phát hiện chuyển động " + deviceId);
 
             // Sending the mail
             mailSender.send(mailMessage);

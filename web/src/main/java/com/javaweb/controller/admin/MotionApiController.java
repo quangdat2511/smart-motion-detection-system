@@ -54,7 +54,7 @@ public class MotionApiController {
 
             resp.put("countPerson", countPerson);
             resp.put("countMotion", countMotion);
-            resp.put("email", emailService.sendMail(countMotion, countPerson));
+            resp.put("email", emailService.sendMail(deviceId, countMotion, countPerson));
 
             return ResponseEntity.ok(resp);
         } catch (InterruptedException ie) {

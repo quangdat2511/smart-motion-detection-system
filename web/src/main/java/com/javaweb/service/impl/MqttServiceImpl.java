@@ -1,5 +1,6 @@
 package com.javaweb.service.impl;
 
+import com.javaweb.model.dto.MotionDTO;
 import com.javaweb.service.*;
 import org.apache.logging.log4j.util.Strings;
 import org.eclipse.paho.client.mqttv3.*;
@@ -7,9 +8,14 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class MqttServiceImpl implements MqttService {
@@ -34,6 +40,10 @@ public class MqttServiceImpl implements MqttService {
 
     // Map quản lý tập user đang điều khiển từng deviceId
     private final Map<String, Set<String>> deviceUsersMap = new ConcurrentHashMap<>();
+    @Autowired
+    private MotionService motionService;
+    @Autowired
+    private EmailService emailService;
 
 
     /**
@@ -93,9 +103,10 @@ public class MqttServiceImpl implements MqttService {
             }
 
             @Override
-            public void messageArrived(String topic, MqttMessage message) {
+            public void messageArrived(String topic, MqttMessage message) throws ExecutionException, InterruptedException {
                 String msg = message.toString();
                 System.out.println("📥 Nhận [" + topic + "] deviceId=" + deviceId);
+                Date timestamp = new Date();
 
                 String buttonTopic = BASE_BUTTON_TOPIC + "/" + deviceId;
                 if (topic.equals(buttonTopic) && "1".equals(msg)) {
@@ -109,8 +120,43 @@ public class MqttServiceImpl implements MqttService {
                     String outputPath = "D:/tomcat/uploads/img/" + fileName;
                     int numberOfPeople = openCvService.detectAndSave(msg, outputPath);
                     imageService.setLatestFilename(fileName);
-                    if (pushSaferService.isReceiveMessage() && numberOfPeople > 0)
-                        pushSaferService.sendPush();
+
+                    MotionDTO motionDTO = new MotionDTO();
+                    motionDTO.setDeviceId(deviceId);
+                    if (numberOfPeople > 0) motionDTO.setMotionType("person");
+                    else motionDTO.setMotionType("unknown");
+                    motionDTO.setTime(timestamp);
+                    motionDTO.setImage(fileName);
+                    motionService.addMotion(motionDTO);
+
+                    List<MotionDTO> motionList = motionService.getMotionsLastHour(deviceId);
+                    int countPerson = 0;
+                    int countMotion = 0;
+                    for (MotionDTO m : motionList) {
+                        if (m == null) continue;
+                        countMotion++;
+                        String mt = m.getMotionType();
+                        if (mt == null) continue;
+                        String normalized = mt.trim().toLowerCase();
+                        if ("person".equals(normalized) || normalized.contains("person")) {
+                            countPerson++;
+                        }
+                    }
+
+                    if (countMotion < 2) {
+                        emailService.sendMail(deviceId, countMotion, countPerson);
+                    } else {
+                        MotionDTO secondLastMotion = motionList.get(1);
+                        Date secondLastTime = secondLastMotion.getTime();
+                        long minutesBetween = Duration.between(secondLastTime.toInstant(), timestamp.toInstant()).toMinutes();
+                        System.out.println("ℹ️ Khoảng cách giữa lần này và lastMotion = " + minutesBetween + " phút.");
+                        if (minutesBetween >= 10) {
+                            emailService.sendMail(deviceId, countMotion, countPerson);
+                        }
+                    }
+
+//                    if (pushSaferService.isReceiveMessage() && numberOfPeople > 0)
+//                        pushSaferService.sendPush();
                 }
             }
             @Override

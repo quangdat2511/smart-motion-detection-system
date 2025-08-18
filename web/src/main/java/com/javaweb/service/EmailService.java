@@ -1,5 +1,5 @@
 package com.javaweb.service;
 
 public interface EmailService {
-    boolean sendMail(int motionCount, int motionHasPersonCount);
+    boolean sendMail(String deviceId, int motionCount, int motionHasPersonCount);
 }

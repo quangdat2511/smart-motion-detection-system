@@ -96,6 +96,7 @@ public class MotionServiceImpl implements MotionService {
         ApiFuture<QuerySnapshot> future = motionCollection
                 .whereEqualTo("deviceId", deviceId)
                 .whereGreaterThanOrEqualTo("time", oneHourAgo)
+                .orderBy("time", Query.Direction.DESCENDING)
                 .get();
 
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
