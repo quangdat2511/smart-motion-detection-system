@@ -105,15 +105,14 @@ public class MqttServiceImpl implements MqttService {
                 String imageTopic = BASE_IMAGE_TOPIC + "/" + deviceId;
                 if (topic.equals(imageTopic)) {
 //                    System.out.println("🔔 Có chuyển động");
-                    if (pushSaferService.isReceiveMessage())
-                        pushSaferService.sendPush();
                     String fileName = "output" + System.currentTimeMillis()  + ".jpg";
                     String outputPath = "D:/tomcat/uploads/img/" + fileName;
-                    openCvService.detectAndSave(msg, outputPath);
+                    int numberOfPeople = openCvService.detectAndSave(msg, outputPath);
                     imageService.setLatestFilename(fileName);
+                    if (pushSaferService.isReceiveMessage() && numberOfPeople > 0)
+                        pushSaferService.sendPush();
                 }
             }
-
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
                 System.out.println("✅ Gửi thành công deviceId=" + deviceId);

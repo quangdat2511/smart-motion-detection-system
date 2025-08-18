@@ -142,7 +142,25 @@
             }
         });
     }
+    $('#btnDisplayMessageOnLcd').click(() => {
+        const message = $('#lcdText').val().trim();
+        if (!message) {
+            alert("Vui lòng nhập nội dung hiển thị!");
+            return;
+        }
 
+        $.ajax({
+            url: '/api/lcd',   // API ở backend
+            type: 'POST',
+            data: { message: message }, // truyền message như @RequestParam
+            success: function (response) {
+                alert(response); // hiển thị thông báo từ backend
+            },
+            error: function (xhr) {
+                alert("❌ Lỗi: " + xhr.responseText);
+            }
+        });
+    });
     // Gọi ngay khi load trang
     updateLatestImage();
     // Cập nhật ảnh mỗi 2 giây

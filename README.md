@@ -79,7 +79,7 @@ Make sure you have the following installed:
 - **Apache Tomcat 8.5.34** (for running the application)
   Download version 8.5.34 from:
   [https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/](https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/)
-- **IntelliJ IDE**A (recommended IDE for Java development)
+- **IntelliJ IDEA** (recommended IDE for Java development)
 - **OpenCV(version 4.5.5): https://opencv.org/releases/page/2/
 - Firebase account (for motion sensor data storage)
     ### Create a Firebase Project
@@ -103,7 +103,7 @@ Make sure you have the following installed:
     ```
     src/main/resources/serviceAccountKey.json
     ```
-- Create folder `D:\tomcat\uploads\img` to store images.
+- Create D:\tomcat\uploads\img to store image.
 ## 📂 Project Structure
 
 ```
@@ -198,9 +198,10 @@ mvn clean install
 3. In the **Server** tab, click **Configure...** and set the path to your local **Tomcat 8.5.34** installation.
 4. In the **VM options:** field, paste:
    ```
-  -Dfile.encoding=UTF-8
-  -Djava.library.path=<path-to-opencv>\build\java\x64
+   -Dfile.encoding=UTF-8
+   -Djava.library.path=<path-to-opencv>\build\java\x64
    ```
+   > Replace `<path-to-opencv>` with the actual path where OpenCV is installed.
 5. Switch to the **Deployment** tab.
 6. Click the `+` button → choose `spring-boot:war exploded` (recommended).
 7. Click on **Application context** and leave it empty.
