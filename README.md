@@ -1,4 +1,4 @@
-# Project Final: Smart Motion System
+# Project Final: Smart Motion Detection System
 
 **University:** University of Science, VNU-HCM
 
