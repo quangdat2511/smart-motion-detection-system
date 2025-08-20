@@ -30,11 +30,6 @@ public class MotionServiceImpl implements MotionService {
         int limit = pageable.getPageSize();          // số phần tử mỗi trang
         int offset = (int) pageable.getOffset();     // vị trí bắt đầu
 
-        // Query Firestore:
-        // 1. Lọc theo deviceId
-        // 2. Sắp xếp theo time giảm dần (nhất định phải có orderBy nếu muốn dùng offset)
-        // 3. Giới hạn số kết quả (limit)
-        // 4. Bỏ qua offset phần tử đầu
         CollectionReference motionRef = dbFirestore.collection("motion");
         Query query = motionRef
                 .whereEqualTo("deviceId", motionRequestDTO.getDeviceId())
@@ -56,18 +51,14 @@ public class MotionServiceImpl implements MotionService {
 
     @Override
     public int countTotalItems(String deviceId) throws ExecutionException, InterruptedException {
-        // 1. Lấy instance Firestore
         Firestore db = FirestoreClient.getFirestore();
 
-        // 2. Truy vấn tất cả document trong collection "motion" có field "deviceId" khớp
         ApiFuture<QuerySnapshot> future = db.collection("motion")
                 .whereEqualTo("deviceId", deviceId)
                 .get();
 
-        // 3. Chờ kết quả và lấy danh sách documents
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
-        // 4. Trả về số lượng document
         return documents.size();
     }
 
@@ -87,7 +78,7 @@ public class MotionServiceImpl implements MotionService {
         data.put("deviceId", motionDTO.getDeviceId());
         data.put("motionType", motionDTO.getMotionType());
         data.put("image", motionDTO.getImage());
-        data.put("time", vnDate); // <-- thay vì FieldValue.serverTimestamp()
+        data.put("time", vnDate); // thay vì FieldValue.serverTimestamp()
 
         docRef.set(data).get();
     }

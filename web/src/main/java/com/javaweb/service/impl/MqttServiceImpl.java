@@ -63,7 +63,7 @@ public class MqttServiceImpl implements MqttService {
         clientMap.compute(deviceId, (key, existingClient) -> {
             try {
                 if (existingClient != null && existingClient.isConnected()) {
-                    System.out.println("⚠ Đã có client MQTT kết nối với deviceId này rồi: " + deviceId);
+                    System.out.println("Đã có client MQTT kết nối với deviceId này rồi: " + deviceId);
                     return existingClient;
                 }
 
@@ -71,22 +71,22 @@ public class MqttServiceImpl implements MqttService {
                 if (existingClient != null) {
                     existingClient.disconnect();
                     existingClient.close();
-                    System.out.println("♻️ Đóng client MQTT cũ cho deviceId: " + deviceId);
+                    System.out.println("Đóng client MQTT cũ cho deviceId: " + deviceId);
                 }
 
                 // Tạo client mới
                 String clientId = "JavaClient-" + deviceId + "-" + System.currentTimeMillis();
                 MqttClient clientNew = getMqttClient(deviceId, clientId);
 
-                System.out.println("✅ Kết nối thành công tới MQTT Broker cho deviceId: " + deviceId);
-                System.out.println("📡 Đã subscribe các topic cho deviceId: " + deviceId);
+                System.out.println("Kết nối thành công tới MQTT Broker cho deviceId: " + deviceId);
+                System.out.println("Đã subscribe các topic cho deviceId: " + deviceId);
 
                 clearStartupRetainedMessages(deviceId, clientNew);
 
                 return clientNew;
 
             } catch (MqttException e) {
-                System.out.println("❌ Lỗi khi kết nối MQTT deviceId=" + deviceId + ": " + e.getMessage());
+                System.out.println("Lỗi khi kết nối MQTT deviceId=" + deviceId + ": " + e.getMessage());
                 e.printStackTrace();
                 return existingClient;
             }
@@ -99,23 +99,23 @@ public class MqttServiceImpl implements MqttService {
         clientNew.setCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable cause) {
-                System.out.println("❌ Mất kết nối MQTT deviceId=" + deviceId + ": " + cause.getMessage());
+                System.out.println("Mất kết nối MQTT deviceId=" + deviceId + ": " + cause.getMessage());
             }
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws ExecutionException, InterruptedException {
                 String msg = message.toString();
-                System.out.println("📥 Nhận [" + topic + "] deviceId=" + deviceId);
+                System.out.println("Nhận [" + topic + "] deviceId=" + deviceId);
                 Date timestamp = new Date();
 
                 String buttonTopic = BASE_BUTTON_TOPIC + "/" + deviceId;
                 if (topic.equals(buttonTopic) && "1".equals(msg)) {
-                    System.out.println("🔔 Nút bấm được nhấn. Logout tất cả user quản lí deviceId: " + deviceId);
+                    System.out.println("Nút bấm được nhấn. Logout tất cả user quản lí deviceId: " + deviceId);
                     sessionService.logoutAllUsers(deviceId);
                 }
                 String imageTopic = BASE_IMAGE_TOPIC + "/" + deviceId;
                 if (topic.equals(imageTopic)) {
-//                    System.out.println("🔔 Có chuyển động");
+//                    System.out.println("Có chuyển động");
                     String fileName = "output" + System.currentTimeMillis()  + ".jpg";
                     String outputPath = "D:/tomcat/uploads/img/" + fileName;
                     int numberOfPeople = openCvService.detectAndSave(msg, outputPath);
@@ -149,7 +149,7 @@ public class MqttServiceImpl implements MqttService {
                         MotionDTO secondLastMotion = motionList.get(1);
                         Date secondLastTime = secondLastMotion.getTime();
                         long minutesBetween = Duration.between(secondLastTime.toInstant(), timestamp.toInstant()).toMinutes();
-                        System.out.println("ℹ️ Khoảng cách giữa lần này và lastMotion = " + minutesBetween + " phút.");
+                        System.out.println("Khoảng cách giữa lần này và lastMotion = " + minutesBetween + " phút.");
                         if (minutesBetween >= 10) {
                             emailService.sendMail(deviceId, countMotion, countPerson);
                         }
@@ -161,7 +161,7 @@ public class MqttServiceImpl implements MqttService {
             }
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
-                System.out.println("✅ Gửi thành công deviceId=" + deviceId);
+                System.out.println("Gửi thành công deviceId=" + deviceId);
             }
         });
 
@@ -183,14 +183,14 @@ public class MqttServiceImpl implements MqttService {
      */
     public synchronized void handleLogout(String deviceId, String username) {
         if (deviceId == null || Strings.isBlank(deviceId) || username == null || username.isEmpty()) {
-            System.out.println("⚠ deviceId hoặc username không hợp lệ");
+            System.out.println("deviceId hoặc username không hợp lệ");
             return;
         }
 
         Set<String> users = deviceUsersMap.get(deviceId);
         if (users != null) {
             users.remove(username);
-            System.out.println("🔻 Đã xóa user '" + username + "' khỏi deviceId " + deviceId);
+            System.out.println("Đã xóa user '" + username + "' khỏi deviceId " + deviceId);
 
             // Nếu không còn user nào điều khiển deviceId này nữa → đóng client
             if (users.isEmpty()) {
@@ -201,9 +201,9 @@ public class MqttServiceImpl implements MqttService {
                     try {
                         client.disconnect();
                         client.close();
-                        System.out.println("♻️ Đóng client MQTT deviceId " + deviceId + " vì không còn user nào điều khiển");
+                        System.out.println("Đóng client MQTT deviceId " + deviceId + " vì không còn user nào điều khiển");
                     } catch (MqttException e) {
-                        System.out.println("❌ Lỗi khi đóng client MQTT deviceId " + deviceId + ": " + e.getMessage());
+                        System.out.println("Lỗi khi đóng client MQTT deviceId " + deviceId + ": " + e.getMessage());
                         e.printStackTrace();
                     }
                 }
@@ -214,7 +214,7 @@ public class MqttServiceImpl implements MqttService {
     @Override
     public synchronized void updateDeviceId(String oldDeviceId, String newDeviceId, String username) {
         if (username == null || username.isEmpty()) {
-            System.out.println("⚠ Username không hợp lệ khi update deviceId");
+            System.out.println("Username không hợp lệ khi update deviceId");
             return;
         }
         if (oldDeviceId != null && !Strings.isBlank(oldDeviceId)) {
@@ -239,9 +239,9 @@ public class MqttServiceImpl implements MqttService {
             mqttMessage.setQos(0);
             mqttMessage.setRetained(true);
             client.publish(topic, mqttMessage);
-            System.out.println("🧹 Đã xóa retained message của topic: " + topic);
+            System.out.println("Đã xóa retained message của topic: " + topic);
         } catch (MqttException e) {
-            System.out.println("❌ Lỗi xóa retained message: " + e.getMessage());
+            System.out.println("Lỗi xóa retained message: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -249,7 +249,7 @@ public class MqttServiceImpl implements MqttService {
     private void publishMessage(String message, String topic, String deviceId) {
         MqttClient client = clientMap.get(deviceId);
         if (client == null || !client.isConnected()) {
-            System.out.println("⚠ MQTT chưa kết nối hoặc client không tồn tại cho deviceId: " + deviceId);
+            System.out.println("MQTT chưa kết nối hoặc client không tồn tại cho deviceId: " + deviceId);
             return;
         }
         try {
@@ -257,9 +257,9 @@ public class MqttServiceImpl implements MqttService {
             mqttMessage.setQos(0);
             mqttMessage.setRetained(false);
             client.publish(topic, mqttMessage);
-            System.out.println("🚀 Gửi [" + message + "] tới topic: " + topic);
+            System.out.println("Gửi [" + message + "] tới topic: " + topic);
         } catch (MqttException e) {
-            System.out.println("❌ Gửi thất bại: " + e.getMessage());
+            System.out.println("Gửi thất bại: " + e.getMessage());
             e.printStackTrace();
         }
     }

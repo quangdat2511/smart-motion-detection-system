@@ -27,7 +27,6 @@
     </div>
 
     <h2 class="text-center">Danh sách các chuyển động</h2>
-    <p class="text-muted text-center">Phân trang bằng DisplayTag</p>
 
     <display:table name="${motionRequestDTO.listResult}" cellspacing="0" cellpadding="0"
                    requestURI="/admin/motion-list" partialList="true" sort="external"
