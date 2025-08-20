@@ -1,14 +1,10 @@
-// #include <SoftwareSerial.h>
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
-// Kết nối với ESP32-CAM: RX = D10, TX = D11
-// SoftwareSerial espSerial(10, 11); // RX, TX
 
-// Giả lập cảm biến chuyển động
-int pirPin = 3;  // hoặc thay bằng tín hiệu từ PIR
+int pirPin = 3;
 int buttonPin = 4;
 int buzzerPin = 12; 
 int ledPin = 13;
@@ -19,20 +15,26 @@ bool lastButton = false;
 Servo myServo;
 
 void setup() {
-  Serial.begin(9600);       // Debug
-  // espSerial.begin(9600);    // UART đến ESP32-CAM
+  Serial.begin(9600); //UART đến ESP32-CAM
+  //PIR
   pinMode(pirPin, INPUT);
+  //Button
   pinMode(buttonPin, INPUT);
-  pinMode(buzzerPin, OUTPUT); // setup buzzer output
-  digitalWrite(buzzerPin, LOW); // buzzer tắt ban đầu
+  //Buzzer
+  pinMode(buzzerPin, OUTPUT);
+  digitalWrite(buzzerPin, LOW);
+  //LDR
   pinMode(ldrPin, INPUT);
+  //LED
   pinMode(ledPin, OUTPUT);
+  //LCD
   lcd.init();
   lcd.backlight();
+  //Servo
   myServo.attach(servoPin);
-  // Serial.println("Arduino ready.");
 }
 
+//Hàm xử lí in ra LCD
 void printToScreen(String content) {
   lcd.clear();
   lcd.setCursor(0, 0);
@@ -48,16 +50,13 @@ void printToScreen(String content) {
 void loop() {
   bool motion = digitalRead(pirPin);
   bool button = digitalRead(buttonPin);
-  bool light = digitalRead(ldrPin);
-  // Đọc cảm biến
+  bool no_light = digitalRead(ldrPin);
+
+  //Đọc cảm biến
   if (motion && !lastMotion) {
-    // Serial.println("Motion detected! Sending to ESP32...");
-    // espSerial.println("motion");  // Gửi lệnh cho ESP32-CAM chụp ảnh
     Serial.println("motion"); 
   }
   if (button && !lastButton){
-    // Serial.println("Button press detected! Sending to ESP32...");
-    // espSerial.println("button");  // Gửi lệnh cho ESP32-CAM button
     printToScreen("Button press detected!");
     Serial.println("button");
   }
@@ -65,46 +64,33 @@ void loop() {
   lastButton = button;
 
   //Trời tối bật đèn, trời sáng tắt đèn
-  if (light == true) {
+  if (no_light == true) {
     digitalWrite(ledPin, true);
   } else {
     digitalWrite(ledPin, false);
   }
 
-  // Nhận phản hồi từ ESP32-CAM
+  //Nhận yêu cầu từ ESP32-CAM
   if (Serial.available()) {
-    // String line = espSerial.readStringUntil('\n');
     String line = Serial.readStringUntil('\n');
     line.trim(); 
-
-    // In ra serial debug
-    // Serial.print("Recv: [");
-    // Serial.print(line);
-    // Serial.println("]");
-
+    //In ra LCD
     if (line.startsWith("LCD: ")) {
       String content = line.substring(5);
-      // lcd.clear();
-      // lcd.setCursor(0, 0);
       printToScreen(content);
     }
+    //Bật/tắt buzzer
     if (line.startsWith("BUZZER: ")) {
       String content = line.substring(8);
       if (content == "on") {
         digitalWrite(buzzerPin, HIGH);
-        // Serial.println("Buzzer turned ON.");
       } 
       else if (content == "off") 
       {
         digitalWrite(buzzerPin, LOW);
-        // Serial.println("Buzzer turned OFF.");
-      } 
-      else 
-      {
-        // Serial.print("Unknown BUZZER command: ");
-        // Serial.println(content);
       }
     }
+    //Xoay servo (nhằm chỉnh góc cam)
     if (line.startsWith("SERVO: ")){
       String content = line.substring(7);
       int angle = content.toInt();

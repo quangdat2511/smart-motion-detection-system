@@ -33,7 +33,6 @@ void mqttConnect() {
     if (mqttClient.connect(clientId.c_str())) {
 
       //***Subscribe all topic you need***
-      // mqttClient.subscribe("/group7/get/561");
       mqttClient.subscribe("/group7/lcd/561"); 
       mqttClient.subscribe("/group7/buzzer/561");
       mqttClient.subscribe("/group7/servo/561");
@@ -61,12 +60,6 @@ void captureAndSendImage() {
   String imageBase64 = base64::encode(fb->buf, fb->len);
   bool success = mqttClient.publish("/group7/image/561", imageBase64.c_str());
   esp_camera_fb_return(fb);
-
-  // if (success) {
-  //   Serial.println("done");  // Gửi về Arduino: gửi thành công
-  // } else {
-  //   Serial.println("publish_fail");
-  // }
 }
 
 // MQTT callback
@@ -77,9 +70,6 @@ void callback(char* topic, byte* message, unsigned int length) {
   }
 
   //***Code here to process the received package***
-  // if (String(topic) == "/group7/get/561" && msg == "get") {
-  //   captureAndSendImage();
-  // }
   if (String(topic) == "/group7/lcd/561") {
     Serial.println("LCD: " + msg);
   }
@@ -166,7 +156,7 @@ void setupCamera() {
 }
 
 void setup() {
-  Serial.begin(9600);  // Dùng UART0 để giao tiếp với Arduino (TX=GPIO1, RX=GPIO3)
+  Serial.begin(9600);  //Dùng UART để giao tiếp với Arduino
 
   // wifiConnect();
   setupCamera();
@@ -178,19 +168,12 @@ void setup() {
   
   //Code cho chức năng AP
   wm.setConfigPortalTimeout(180);
-  // Serial.println("LCD: Not WiFi connect, enter AP mode!")
-  // wm.autoConnect("ESP32-CAM-Setup", "12345678"
   Serial.println("LCD: No WiFi, switch to AP mode!");
-  // if (!wm.autoConnect("ESP32-CAM-Setup", "12345678")) {
-  // } else {
-  //   Serial.println("LCD: Connect WiFi successfully!");
-  // }
+  // wm.autoConnect("ESP32-CAM-Setup", "12345678"
   wm.startConfigPortal("ESP32-CAM-Setup", "12345678");
   Serial.println("LCD: Connect to WiFi successfully!");
 }
 
-// unsigned long lastMotionSent = 0;
-// const unsigned long interval = 500; // 0.5 giây
 void loop() {
   // if (WiFi.status() != WL_CONNECTED) {
   //   wifiConnect();
