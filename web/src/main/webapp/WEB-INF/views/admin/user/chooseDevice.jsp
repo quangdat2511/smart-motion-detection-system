@@ -43,7 +43,7 @@
                                 </label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="deviceId" name="deviceId"
-                                           value="${currentDeviceId}"
+<%--                                           value="${currentDeviceId}"--%>
                                            placeholder="ID thiết bị...">
                                 </div>
                             </div>
@@ -91,6 +91,7 @@
                 data: { deviceId: deviceId },
                 success: function (response) {
                     alert(response);
+                    window.location.href = "/admin/motion-list";
                 },
                 error: function (xhr) {
                     alert('Lỗi khi chọn thiết bị: ' + xhr.responseText);

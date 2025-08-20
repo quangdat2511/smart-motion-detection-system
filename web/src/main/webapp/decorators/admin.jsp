@@ -29,7 +29,7 @@
 				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
 		</script>
 		<!-- header -->
-    	<%@ include file="/common/admin/menu.jsp" %>
+		<jsp:include page="/common/admin/menu.jsp" />
     	<!-- header -->
 		
 		<dec:body/>

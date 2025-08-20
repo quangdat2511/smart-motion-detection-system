@@ -84,10 +84,10 @@ public class UserController {
 	public ModelAndView chooseDevice() {
 		ModelAndView mav = new ModelAndView("admin/user/chooseDevice");
 
-		String deviceIdObj = SecurityUtils.getPrincipal().getDeviceId();
-		String deviceId = (deviceIdObj != null) ? deviceIdObj : "";
-
-		mav.addObject("currentDeviceId", deviceId);
+//		String deviceIdObj = SecurityUtils.getPrincipal().getDeviceId();
+//		String deviceId = (deviceIdObj != null) ? deviceIdObj : "";
+//
+//		mav.addObject("currentDeviceId", deviceId);
 		return mav;
 	}
 

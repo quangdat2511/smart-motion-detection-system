@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -20,11 +22,11 @@ public class MotionServiceImpl implements MotionService {
 
 
     @Override
-    public List<MotionSearchResponse> findAll(MotionRequestDTO motionDTO) throws ExecutionException, InterruptedException {
+    public List<MotionSearchResponse> findAll(MotionRequestDTO motionRequestDTO) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
 
         // Tạo đối tượng phân trang: page bắt đầu từ 1, nhưng PageRequest.of() cần index từ 0
-        Pageable pageable = PageRequest.of(motionDTO.getPage() - 1, motionDTO.getMaxPageItems());
+        Pageable pageable = PageRequest.of(motionRequestDTO.getPage() - 1, motionRequestDTO.getMaxPageItems());
         int limit = pageable.getPageSize();          // số phần tử mỗi trang
         int offset = (int) pageable.getOffset();     // vị trí bắt đầu
 
@@ -35,7 +37,7 @@ public class MotionServiceImpl implements MotionService {
         // 4. Bỏ qua offset phần tử đầu
         CollectionReference motionRef = dbFirestore.collection("motion");
         Query query = motionRef
-                .whereEqualTo("deviceId", motionDTO.getDeviceId())
+                .whereEqualTo("deviceId", motionRequestDTO.getDeviceId())
                 .orderBy("time", Query.Direction.DESCENDING)    // Sắp xếp theo time giảm dần
                 .offset(offset)                           // Bỏ qua offset bản ghi đầu
                 .limit(limit);                            // Lấy tối đa limit bản ghi
@@ -75,14 +77,21 @@ public class MotionServiceImpl implements MotionService {
         CollectionReference motionCollection = db.collection("motion");
         DocumentReference docRef = motionCollection.document();
 
+        // Lấy thời gian hiện tại theo giờ Việt Nam
+        ZonedDateTime vnNow = ZonedDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+
+        // Nếu muốn lưu dạng java.util.Date (Firestore hỗ trợ)
+        Date vnDate = Date.from(vnNow.toInstant());
+
         Map<String, Object> data = new HashMap<>();
         data.put("deviceId", motionDTO.getDeviceId());
         data.put("motionType", motionDTO.getMotionType());
         data.put("image", motionDTO.getImage());
-        data.put("time", FieldValue.serverTimestamp()); // server timestamp ngay từ đầu
+        data.put("time", vnDate); // <-- thay vì FieldValue.serverTimestamp()
 
         docRef.set(data).get();
     }
+
 
     @Override
     public List<MotionDTO> getMotionsLastHour(String deviceId) throws ExecutionException, InterruptedException {
@@ -128,41 +137,4 @@ public class MotionServiceImpl implements MotionService {
         return results;
     }
 
-    @Override
-    public List<MotionDTO> getMotions(String deviceId) throws ExecutionException, InterruptedException {
-        Firestore db = FirestoreClient.getFirestore();
-
-        CollectionReference motionCollection = db.collection("motion");
-        ApiFuture<QuerySnapshot> future = motionCollection
-                .whereEqualTo("deviceId", deviceId)
-                .get();
-
-        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        List<MotionDTO> results = new ArrayList<>(documents.size());
-
-        for (QueryDocumentSnapshot doc : documents) {
-            // Thử map trực tiếp sang MotionDTO (yêu cầu MotionDTO có no-arg constructor + getters/setters)
-            MotionDTO motion = doc.toObject(MotionDTO.class);
-
-            // Đảm bảo các field quan trọng được set (fallback nếu toObject không map)
-            if (motion.getDeviceId() == null) {
-                motion.setDeviceId(doc.getString("deviceId"));
-            }
-            // doc.getDate trả java.util.Date nếu field là Firestore Timestamp
-            Date time = doc.getDate("time");
-            if (time != null) {
-                motion.setTime(time);
-            }
-            if (motion.getMotionType() == null) {
-                motion.setMotionType(doc.getString("motionType"));
-            }
-            if (motion.getImage() == null) {
-                motion.setImage(doc.getString("image"));
-            }
-
-            results.add(motion);
-        }
-
-        return results;
-    }
 }

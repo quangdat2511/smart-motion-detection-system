@@ -33,7 +33,8 @@ public class EmailServiceImpl implements EmailService {
 
         // Catch block to handle the exceptions
         catch (Exception e) {
-            System.out.println("Error while Sending Mail");
+            System.out.print("Exception occurred while sending mail: " + e.getMessage());
+//            System.out.println("Error while Sending Mail");
             return false;
         }
     }

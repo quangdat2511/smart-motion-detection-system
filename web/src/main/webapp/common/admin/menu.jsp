@@ -16,12 +16,11 @@
     </li>
     <!-- Nút: Quản lí các chuyển động -->
     <li class="">
-        <a href="${pageContext.request.contextPath}/admin/motion-list?deviceId=1">
+       <a href="${pageContext.request.contextPath}/admin/motion-list">
             <i class="bi bi-person-walking"></i>
-            <span class="menu-text">Danh sách các chuyển động</span>
-        </a>
+        <span class="menu-text">Danh sách các chuyển động</span>
+       </a>
     </li>
-
     <!-- Nút: Quản lý tài khoản (chỉ hiện khi có quyền MANAGER) -->
     <security:authorize access="hasRole('MANAGER')">
         <li class="">

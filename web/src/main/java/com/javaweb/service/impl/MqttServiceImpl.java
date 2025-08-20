@@ -155,8 +155,8 @@ public class MqttServiceImpl implements MqttService {
                         }
                     }
 
-//                    if (pushSaferService.isReceiveMessage() && numberOfPeople > 0)
-//                        pushSaferService.sendPush();
+                    if (pushSaferService.isReceiveMessage() && numberOfPeople > 0)
+                        pushSaferService.sendPush();
                 }
             }
             @Override

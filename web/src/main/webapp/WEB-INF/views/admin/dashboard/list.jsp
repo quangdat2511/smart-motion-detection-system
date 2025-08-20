@@ -163,7 +163,7 @@
     });
     // Gọi ngay khi load trang
     updateLatestImage();
-    // Cập nhật ảnh mỗi 2 giây
+    // Cập nhật ảnh mỗi 1 giây
     setInterval(updateLatestImage, 1000);
     function updateTimeNow() {
         const now = new Date();
