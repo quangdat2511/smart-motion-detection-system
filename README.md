@@ -8,7 +8,7 @@
 
 **Semester:** 2024-2025, Semester 3
 
-**Smart Motion System** is an IoT-based security solution that detects motion, 
+**Smart Motion Detection System** is an IoT-based security solution that detects motion, 
 captures images, and sends real-time alerts. It supports remote alarm control,
 human detection, and web-based monitoring with cloud storage.
 
@@ -80,7 +80,7 @@ Make sure you have the following installed:
   Download version 8.5.34 from:
   [https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/](https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/)
 - **IntelliJ IDEA** (recommended IDE for Java development)
-- **OpenCV(version 4.5.5): https://opencv.org/releases/page/2/
+- **OpenCV(version 4.5.5)**: https://opencv.org/releases/page/2/
 - Firebase account (for motion sensor data storage)
     ### Create a Firebase Project
     - Go to: https://console.firebase.google.com
@@ -140,7 +140,7 @@ smart-motion-system/
 #### 3.1 Clone the repository
 
 ```bash
-git clone https://github.com/quangdat2511/smart-motion-system.git
+git clone https://github.com/quangdat2511/smart-motion-detection-system.git
 ```
 
 #### 3.2 Open the folder web in IntelliJ IDEA
