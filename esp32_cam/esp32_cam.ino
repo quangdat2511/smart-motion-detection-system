@@ -201,7 +201,7 @@ void loop() {
       captureAndSendImage();
     }
     if (msg == "button"){
-      mqttClient.publish("/group7/button/561", "1");
+      mqttClient.publish("/group7/button/561", "pressed");
     }
   }
 

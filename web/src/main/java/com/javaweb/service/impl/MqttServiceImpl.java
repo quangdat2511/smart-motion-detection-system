@@ -109,7 +109,7 @@ public class MqttServiceImpl implements MqttService {
                 Date timestamp = new Date();
 
                 String buttonTopic = BASE_BUTTON_TOPIC + "/" + deviceId;
-                if (topic.equals(buttonTopic) && "1".equals(msg)) {
+                if (topic.equals(buttonTopic) && "pressed".equals(msg)) {
                     System.out.println("Nút bấm được nhấn. Logout tất cả user quản lí deviceId: " + deviceId);
                     sessionService.logoutAllUsers(deviceId);
                 }
