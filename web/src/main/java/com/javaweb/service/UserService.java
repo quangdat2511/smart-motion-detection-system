@@ -24,4 +24,5 @@ public interface UserService {
     Map<Long, String> getStaffs();
     int countTotalItems();
     boolean existsByUserName(String userName);
+    boolean checkPassword(long id, String password);
 }

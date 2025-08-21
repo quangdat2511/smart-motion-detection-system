@@ -90,10 +90,18 @@ public class UserController {
 //		mav.addObject("currentDeviceId", deviceId);
 		return mav;
 	}
+	@RequestMapping(value = "/admin/current-device", method = RequestMethod.GET)
+	public ModelAndView currentDevice(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("admin/user/currentDevice");
+		UserDTO model = userService.findOneByUserName(SecurityUtils.getPrincipal().getUsername());
+		initMessageResponse(mav, request);
+		mav.addObject(SystemConstant.MODEL, model);
+		return mav;
+	}
 
 	private void initMessageResponse(ModelAndView mav, HttpServletRequest request) {
 		String message = request.getParameter("message");
-		if (message != null && StringUtils.isNotEmpty(message)) {
+		if (StringUtils.isNotEmpty(message)) {
 			Map<String, String> messageMap = messageUtil.getMessage(message);
 			mav.addObject(SystemConstant.ALERT, messageMap.get(SystemConstant.ALERT));
 			mav.addObject(SystemConstant.MESSAGE_RESPONSE, messageMap.get(SystemConstant.MESSAGE_RESPONSE));

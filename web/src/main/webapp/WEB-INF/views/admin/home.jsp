@@ -67,18 +67,22 @@
                                 <p>Thay đổi mật khẩu với 3 bước: nhập mật khẩu hiện tại, mật khẩu mới và xác nhận mật khẩu mới.</p>
                             </div>
                         </div>
-
                         <div class="card mb-3">
-                            <div class="card-header bg-info text-white">1.3 Chọn thiết bị</div>
+                            <div class="card-header bg-info text-white">1.3 Xem id của thiết bị hiện tại</div>
                             <div class="card-body">
-                                <p>Chọn thiết bị bạn muốn giám sát và điều khiển(nếu bạn đang điều khiển một thiết bị, id của thiết bị đó sẽ được hiển lên,
-                                    nếu chưa, nó sẽ trống.)
+                                <p>Vui lòng nhập đúng mật khẩu của tài khoản hiện tại để có thể xem id của thiết bị mà tài khoản này đang điều khiển</p>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-header bg-info text-white">1.4 Chọn thiết bị</div>
+                            <div class="card-body">
+                                <p>Chọn thiết bị bạn muốn giám sát và điều khiển
                                     Chỉ một thiết bị có thể được giám sát tại một thời điểm.</p>
                             </div>
                         </div>
 
                         <div class="card mb-3">
-                            <div class="card-header bg-info text-white">1.4 Thoát</div>
+                            <div class="card-header bg-info text-white">1.5 Thoát</div>
                             <div class="card-body">
                                 <p>Đăng xuất khỏi hệ thống bằng nút "Thoát".</p>
                             </div>
@@ -93,7 +97,7 @@
                             <div class="card-header bg-info text-white">2.1 Giám sát và điều khiển</div>
                             <div class="card-body">
                                 <p>Quan sát hình ảnh và thời điểm của chuyển động gần nhất.</p>
-                                <p>Bật/tắt buzzer, hiển thị thông điệp lên LCD, quay servo đến góc mong muốn.</p>
+                                <p>Bật/tắt buzzer, hiển thị thông điệp lên LCD, quay servo đến góc mong muốn, bật tắt thông báo về điện thoại.</p>
                             </div>
                         </div>
 

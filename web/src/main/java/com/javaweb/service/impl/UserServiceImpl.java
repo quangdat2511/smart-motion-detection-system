@@ -98,6 +98,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
+
     @Override
     public int getTotalItems(String searchValue) {
         int totalItem = 0;
@@ -164,6 +166,11 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new MyException(SystemConstant.CHANGE_PASSWORD_FAIL);
         }
+    }
+    @Override
+    public boolean checkPassword(long id, String password) {
+        UserEntity user = userRepository.findById(id).get();
+        return passwordEncoder.matches(password, user.getPassword());
     }
 
     @Override

@@ -8,10 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/device")
@@ -44,5 +41,18 @@ public class DeviceAPI {
         SecurityContextHolder.getContext().setAuthentication(newAuth);
 
         return ResponseEntity.ok("✅ Đã chọn thiết bị có id: " + deviceId);
+    }
+    @GetMapping("/current")
+    public ResponseEntity<String> getCurrentDevice() {
+        // 1. Lấy Authentication hiện tại
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetail currentUser = (MyUserDetail) authentication.getPrincipal();
+
+        // 2. Trả về deviceId hiện tại
+        String deviceId = currentUser.getDeviceId();
+        if (deviceId == null || deviceId.isEmpty()) {
+            return ResponseEntity.badRequest().body("❌ Không có thiết bị nào được chọn");
+        }
+        return ResponseEntity.ok().body("✅ Id của thiết bị hiện tại: " + deviceId);
     }
 }

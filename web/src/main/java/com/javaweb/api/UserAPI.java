@@ -77,4 +77,15 @@ public class UserAPI {
         }
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/check-password/{id}")
+    public ResponseEntity<String> checkPassword(@PathVariable("id") long id, @RequestParam("password") String password){
+
+        // Kiểm tra mật khẩu
+        if (userService.checkPassword(id, password)) {
+            return ResponseEntity.ok("✅ Mật khẩu đúng");
+        } else {
+            return ResponseEntity.badRequest().body("❌ Mật khẩu không đúng");
+        }
+    }
+
 }

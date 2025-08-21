@@ -38,6 +38,12 @@
                         </li>
                         <li class="divider"></li>
                         <li>
+                            <a href="<c:url value='/admin/current-device'/>">
+                                <i class="bi-camera-video"></i>
+                                Xem id thiết bị hiện tại
+                            </a>
+                        </li>
+                        <li>
                             <c:url var="selectDeviceURL" value="/admin/device-choose"/>
                             <a href="${selectDeviceURL}">
                                 <i class="fa fa-exchange"></i>

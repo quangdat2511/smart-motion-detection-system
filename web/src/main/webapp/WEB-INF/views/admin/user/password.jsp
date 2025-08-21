@@ -113,7 +113,7 @@
                     var dataArray = {};
                     $.each(formData, function (i, v) {
                         dataArray["" + v.name + ""] = v.value;
-                    });
+                    })
                     changePassword(dataArray, $('#userId').val());
                 }
             });
