@@ -26,10 +26,10 @@ public class ServoAPI {
             angleValue = Integer.parseInt(angle);
         }
         catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body("❌ Giá trị 'angle' phải là một số nguyên.");
+            return ResponseEntity.badRequest().body("Giá trị 'angle' phải là một số nguyên.");
         }
         if (angleValue < 0 || angleValue > 180) {
-            return ResponseEntity.badRequest().body("❌ Góc phải nằm trong khoảng từ 0 đến 180 độ.");
+            return ResponseEntity.badRequest().body("Góc phải nằm trong khoảng từ 0 đến 180 độ.");
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -38,11 +38,11 @@ public class ServoAPI {
         UserDTO user = userService.findOneByUserNameAndStatus(username, 1);
         String deviceId = user.getDeviceId();
         if (deviceId == null || deviceId.isEmpty()) {
-            return ResponseEntity.badRequest().body("❌ Không tìm thấy thiết bị cho tài khoản này");
+            return ResponseEntity.badRequest().body("Không tìm thấy thiết bị cho tài khoản này");
         }
         // Publish góc quay lên MQTT
         mqttService.publishServoMessage(angle, deviceId);
 
-        return ResponseEntity.ok("✅ Servo đã xoay đến " + angle + " độ.");
+        return ResponseEntity.ok("Servo đã xoay đến " + angle + " độ.");
     }
 }
